@@ -1,0 +1,74 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+      <div class="card shadow-lg rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3">
+          <h3 class="mb-0">Manage Your Profile</h3>
+          <p class="mb-0">Update your personal and address details.</p>
+        </div>
+        <div class="card-body p-4">
+          <form (ngSubmit)="onSaveProfile()">
+            <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ errorMessage }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="errorMessage = null"></button>
+            </div>
+            <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ successMessage }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = null"></button>
+            </div>
+
+            <h5 class="mb-3 text-primary">Personal Details</h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName" [(ngModel)]="profile.firstName" name="firstName" required>
+              </div>
+              <div class="col-md-6">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName" [(ngModel)]="profile.lastName" name="lastName" required>
+              </div>
+              <div class="col-12">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phoneNumber" [(ngModel)]="profile.phoneNumber" name="phoneNumber" required>
+              </div>
+            </div>
+
+            <h5 class="mb-3 text-primary">Primary Address Details</h5>
+            <!-- Access the first address in the array -->
+            <div *ngIf="profile.addresses && profile.addresses.length > 0" class="row g-3 mb-4">
+              <div class="col-12">
+                <label for="street" class="form-label">Street Address</label>
+                <input type="text" class="form-control" id="street" [(ngModel)]="profile.addresses[0].street" name="street" required>
+              </div>
+              <div class="col-md-6">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" [(ngModel)]="profile.addresses[0].city" name="city" required>
+              </div>
+              <div class="col-md-6">
+                <label for="state" class="form-label">State/Province</label>
+                <input type="text" class="form-control" id="state" [(ngModel)]="profile.addresses[0].state" name="state" required>
+              </div>
+              <div class="col-md-6">
+                <label for="postalCode" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="postalCode" [(ngModel)]="profile.addresses[0].postalCode" name="postalCode" required>
+              </div>
+              <div class="col-md-6">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" class="form-control" id="country" [(ngModel)]="profile.addresses[0].country" name="country" required>
+              </div>
+              <!-- Optional: Add a hidden input for address type if you only have one address type -->
+              <input type="hidden" [(ngModel)]="profile.addresses[0].type" name="addressType" value="SHIPPING">
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Save Profile
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

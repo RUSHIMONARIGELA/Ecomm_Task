@@ -1,0 +1,111 @@
+<div class="container mt-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-header bg-dark text-white py-3">
+      <h3 class="mb-0">All Orders </h3>
+    </div>
+    <div class="card-body p-4">
+      <div *ngIf="loadingOrders" class="text-center py-5">
+        <div class="spinner-border text-dark" role="status">
+          <span class="visually-hidden">Loading orders...</span>
+        </div>
+        <p class="mt-2">Loading all orders...</p>
+      </div>
+
+      <div
+        *ngIf="ordersError"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+      >
+        {{ ordersError }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+          (click)="ordersError = null"
+        ></button>
+      </div>
+
+      <div *ngIf="!loadingOrders && !ordersError">
+        <div *ngIf="orders && orders.length > 0; else noOrders">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th scope="col">Order ID</th>
+                  <th scope="col">Customer ID</th>
+                  <th scope="col">Order Date</th>
+                  <th scope="col">Total Amount</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders">
+                  <td>{{ order.id }}</td>
+                  <td>{{ order.customerId }}</td>
+                  <td>{{ order.orderDate | date : "medium" }}</td>
+                  <td>₹{{ order.totalAmount | number : "1.2-2" }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'bg-info':
+                          order.status === 'PENDING' ||
+                          order.status === 'PROCESSING',
+                        'bg-warning text-dark': order.status === 'SHIPPED',
+                        'bg-success': order.status === 'DELIVERED',
+                        'bg-danger':
+                          order.status === 'CANCELLED' ||
+                          order.status === 'RETURNED'
+                      }"
+                      >{{ order.status }}</span
+                    >
+                  </td>
+                  <td>
+                    <!-- Edit Button -->
+                    <button
+                      class="btn btn-outline-secondary btn-sm me-2"
+                      (click)="editOrder(order.id)"
+                    >
+                      <i data-lucide="edit" class="icon-small me-1"></i>Edit
+                    </button>
+                    <!-- Delete Button -->
+                    <button
+                      class="btn btn-outline-danger btn-sm"
+                      (click)="deleteOrder(order.id)"
+                      [disabled]="submitting"
+                    >
+                      <span
+                        *ngIf="submitting"
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <i data-lucide="trash-2" class="icon-small me-1"></i
+                      >Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <ng-template #noOrders>
+          <div class="alert alert-info text-center py-4" role="alert">
+            <h4 class="alert-heading">No orders found in the system.</h4>
+            <p>Once customers start placing orders, they will appear here.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+ 
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons();
+  }
+</script>

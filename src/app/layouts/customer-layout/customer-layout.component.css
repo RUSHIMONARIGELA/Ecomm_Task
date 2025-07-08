@@ -1,0 +1,33 @@
+
+html, body {
+  height: 100%;
+}
+.d-flex.flex-column.min-vh-100 {
+  min-height: 100vh;
+}
+
+header {
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x600/007bff/ffffff?text=E-commerce+Banner'); /* Placeholder image */
+  background-size: cover;
+  background-position: center;
+}
+
+.card-img-top {
+  border-bottom: 1px solid #eee;
+}
+
+
+.card-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.spinner-border {
+  vertical-align: middle;
+  margin-right: 8px;
+}

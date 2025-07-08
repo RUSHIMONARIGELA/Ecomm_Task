@@ -1,0 +1,18 @@
+/* customer-cart.component.css */
+
+.img-thumbnail {
+  border-radius: 0.5rem;
+}
+
+.table-responsive {
+  margin-top: 1rem;
+}
+
+.form-control-sm {
+  max-width: 80px; /* Limit width of quantity input */
+}
+
+.spinner-border {
+  vertical-align: middle;
+  margin-right: 8px;
+}

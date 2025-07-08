@@ -1,0 +1,33 @@
+/* customer-dashboard.component.css */
+
+/* Hero section specific styles */
+
+
+
+header {
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../../../../Assests/bannerimg.jpg'); /* Placeholder image */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Product card image styling */
+.card-img-top {
+  border-bottom: 1px solid #eee;
+}
+
+/* Product card text styling */
+.card-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Spinner alignment */
+.spinner-border {
+  vertical-align: middle;
+  margin-right: 8px;
+}

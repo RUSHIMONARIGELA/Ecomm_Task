@@ -1,0 +1,88 @@
+<div class="container mt-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-header bg-dark text-white py-3">
+      <h3 class="mb-0">{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h3>
+    </div>
+    <div class="card-body p-4">
+
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="errorMessage = null"></button>
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ successMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = null"></button>
+      </div>
+
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Product Name</label>
+          <input type="text" id="name" formControlName="name" class="form-control"
+                 [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+          <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="invalid-feedback">
+            Product name is required.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea id="description" formControlName="description" class="form-control" rows="3"
+                    [class.is-invalid]="productForm.get('description')?.invalid && productForm.get('description')?.touched"></textarea>
+          <div *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" class="invalid-feedback">
+            Description is required.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="price" class="form-label">Price</label>
+          <input type="number" id="price" formControlName="price" class="form-control" step="0.01"
+                 [class.is-invalid]="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+          <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="invalid-feedback">
+            Price is required and must be a positive number.
+          </div>
+        </div>
+
+        <!-- FIXED: Category Dropdown -->
+        <div class="mb-3">
+          <label for="categoryId" class="form-label">Category</label>
+          <select id="categoryId" formControlName="categoryId" class="form-select"
+                  [class.is-invalid]="productForm.get('categoryId')?.invalid && productForm.get('categoryId')?.touched">
+            <option [value]="null" disabled>Select a Category</option>
+            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+          </select>
+          <div *ngIf="productForm.get('categoryId')?.invalid && productForm.get('categoryId')?.touched" class="invalid-feedback">
+            Category is required.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="stockQuantity" class="form-label">Stock Quantity</label>
+          <input type="number" id="stockQuantity" formControlName="stockQuantity" class="form-control"
+                 [class.is-invalid]="productForm.get('stockQuantity')?.invalid && productForm.get('stockQuantity')?.touched">
+          <div *ngIf="productForm.get('stockQuantity')?.invalid && productForm.get('stockQuantity')?.touched" class="invalid-feedback">
+            Stock quantity is required and must be a non-negative integer.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="images" class="form-label">Image URLs (comma-separated)</label>
+          <input type="text" id="images" formControlName="images" class="form-control"
+                 placeholder="e.g., url1.jpg, url2.png"
+                 [class.is-invalid]="productForm.get('images')?.invalid && productForm.get('images')?.touched">
+          <div *ngIf="productForm.get('images')?.invalid && productForm.get('images')?.touched" class="invalid-feedback">
+            At least one image URL is required.
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="submitting || productForm.invalid">
+            <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            {{ isEditMode ? 'Update Product' : 'Add Product' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

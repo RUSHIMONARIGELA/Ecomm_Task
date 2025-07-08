@@ -1,0 +1,108 @@
+/* Admin Dashboard Styles */
+
+.admin-dashboard-container {
+  max-width: 1200px;
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #343a40; /* Dark text */
+}
+
+.dashboard-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 0.75rem; /* More rounded corners */
+  overflow: hidden; /* Ensures shadow looks clean */
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.dashboard-card .card-body {
+  padding: 2rem;
+}
+
+.icon-large {
+  width: 48px; /* Larger icon size */
+  height: 48px;
+  stroke-width: 2.5; /* Thicker icon lines */
+}
+
+.icon-small {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.btn {
+  font-weight: 600;
+  border-radius: 0.5rem; /* Rounded buttons */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom button colors (matching Bootstrap variants) */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #138496;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529; /* Darker text for visibility on warning background */
+}
+.btn-warning:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+}
+
+.list-group-item {
+  border-left: none;
+  border-right: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.list-group-item:last-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}

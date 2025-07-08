@@ -1,0 +1,69 @@
+<div class="container mt-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-header bg-dark text-white py-3">
+      <h3 class="mb-0">All Customers </h3>
+    </div>
+    <div class="card-body p-4">
+      <div *ngIf="loadingCustomers" class="text-center py-5">
+        <div class="spinner-border text-dark" role="status">
+          <span class="visually-hidden">Loading customers...</span>
+        </div>
+        <p class="mt-2">Loading all customer accounts...</p>
+      </div>
+
+      <div *ngIf="customersError" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ customersError }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="customersError = null"></button>
+      </div>
+
+      <div *ngIf="!loadingCustomers && !customersError">
+        <div *ngIf="customers && customers.length > 0; else noCustomers">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th scope="col">Customer ID</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let customer of customers">
+                  <td>{{ customer.id }}</td>
+                  <!-- Use safe navigation for userDetails, as it might be null/undefined -->
+                  <td>{{ customer.userDetails.userName }}</td>
+                  <td>{{ customer.userDetails.email }}</td>
+                  <!-- Use 'profileDetails' and safe navigation, matching the updated DTO -->
+                  <td>{{ customer.profileDetails?.firstName || 'N/A' }}</td>
+                  <td>{{ customer.profileDetails?.lastName || 'N/A' }}</td>
+                  <td>
+                    <button class="btn btn-outline-primary btn-sm me-2" (click)="viewCustomerProfile(customer.id)">View Profile</button>
+                    <button class="btn btn-outline-danger btn-sm" (click)="deleteCustomer(customer.id)" [disabled]="submitting">
+                      <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="6" class="text-center">Total Customers: {{ customers.length }}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <ng-template #noCustomers>
+          <div class="alert alert-info text-center py-4" role="alert">
+            <h4 class="alert-heading">No customer accounts found.</h4>
+            <p>Once users register, their accounts will appear here.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

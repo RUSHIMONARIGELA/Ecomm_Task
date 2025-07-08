@@ -1,0 +1,65 @@
+/* Admin Order Detail Component Styles */
+
+.container {
+  max-width: 900px;                                                                
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-header {
+  background-color: #007bff; /* Primary color */
+  color: white;
+  border-bottom: none;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.form-label.fw-bold {
+  color: #343a40;
+  margin-bottom: 0.25rem;
+}
+
+.form-control-plaintext {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  margin-bottom: 0;
+  line-height: 1.5;
+  color: #495057;
+}
+
+.form-control,
+.form-select,
+.form-control-plaintext {
+  border-radius: 0.375rem; /* Match Bootstrap's default rounded corners */
+}
+
+textarea.form-control {
+  resize: vertical; /* Allow vertical resizing */
+}
+
+.table-responsive {
+  margin-top: 1.5rem;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #f8f9fa; /* Light grey header */
+  border-bottom: 2px solid #dee2e6;
+}
+
+.btn {
+  font-weight: 600;
+  border-radius: 0.5rem;
+}
+
+.icon-small {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}

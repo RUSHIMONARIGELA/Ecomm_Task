@@ -1,0 +1,33 @@
+/* Basic styling for the payment component */
+.container {
+  max-width: 800px;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-header {
+  background-color: #007bff; /* Primary color */
+  color: white;
+  border-bottom: none;
+}
+
+.list-group-item {
+  border-color: #e9ecef;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.alert {
+  border-radius: 0.5rem;
+}

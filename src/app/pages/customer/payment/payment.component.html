@@ -1,0 +1,79 @@
+<div class="container mt-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-header bg-primary text-white py-3">
+      <h3 class="mb-0">Complete Your Payment</h3>
+    </div>
+    <div class="card-body p-4">
+      <!-- Loading state for order details -->
+      <div *ngIf="loadingOrder" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading order...</span>
+        </div>
+        <p class="mt-2">Loading order details for payment...</p>
+      </div>
+
+      <!-- Error message for order loading -->
+      <div *ngIf="orderError" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ orderError }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="orderError = null"></button>
+      </div>
+
+      <!-- Main content when order is loaded -->
+      <div *ngIf="!loadingOrder && !orderError && order">
+        <h4 class="mb-3">Order Summary (Order ID: {{ order.id }})</h4>
+        <ul class="list-group mb-4">
+          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of order.orderItems">
+            <div>
+              <span class="fw-bold">{{ item.productDetails.name }}</span>
+              <span class="text-muted ms-2">x {{ item.quantity }}</span>
+            </div>
+            <span>Rs.{{ (item.quantity * item.price) | number:'1.2-2' }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center bg-light fw-bold">
+            <span>Total Amount:</span>
+            <span class="fs-5 text-success">Rs.{{ order.totalAmount | number:'1.2-2' }}</span>
+          </li>
+        </ul>
+
+        <h4 class="mb-3">Payment Method</h4>
+        <div class="mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" id="razorpay" value="RAZORPAY" [(ngModel)]="selectedPaymentMethod">
+            <label class="form-check-label" for="razorpay">
+              Razorpay (Credit Card / Debit Card / UPI / Netbanking)
+            </label>
+          </div>
+          <!-- You can add other payment methods here if needed -->
+        </div>
+
+        <!-- Payment success/error messages -->
+        <div *ngIf="paymentSuccessMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ paymentSuccessMessage }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="paymentSuccessMessage = null"></button>
+        </div>
+        <div *ngIf="paymentErrorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ paymentErrorMessage }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="paymentErrorMessage = null"></button>
+        </div>
+
+        <!-- Pay Now button -->
+        <div class="d-grid gap-2">
+          <button class="btn btn-success btn-lg"
+                  (click)="processPayment()"
+                  [disabled]="processingPayment || !order || order.status === 'PAID'">
+            <span *ngIf="processingPayment" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Pay Now Rs.{{ order.totalAmount | number:'1.2-2' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Message if no order is found -->
+      <div *ngIf="!loadingOrder && !orderError && !order" class="alert alert-info text-center py-4" role="alert">
+        <h4 class="alert-heading">No order found for payment.</h4>
+        <p>Please ensure you have an active order to proceed with payment.</p>
+        <hr>
+        <a routerLink="/home/cart" class="btn btn-primary">Go to Cart</a>
+      </div>
+    </div>
+  </div>
+</div>
