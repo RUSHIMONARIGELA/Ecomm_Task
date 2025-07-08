@@ -33,31 +33,55 @@
               </div>
             </div>
 
-            <h5 class="mb-3 text-primary">Primary Address Details</h5>
-            <!-- Access the first address in the array -->
-            <div *ngIf="profile.addresses && profile.addresses.length > 0" class="row g-3 mb-4">
-              <div class="col-12">
-                <label for="street" class="form-label">Street Address</label>
-                <input type="text" class="form-control" id="street" [(ngModel)]="profile.addresses[0].street" name="street" required>
+            <h5 class="mb-3 text-primary">Address Details</h5>
+            
+            <!-- Loop through addresses -->
+            <div *ngFor="let address of profile.addresses; let i = index" class="address-block p-3 mb-3 border rounded-3 bg-light">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0 text-secondary">Address #{{ i + 1 }}</h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeAddress(i)" *ngIf="profile.addresses.length > 1">
+                  Remove
+                </button>
               </div>
-              <div class="col-md-6">
-                <label for="city" class="form-label">City</label>
-                <input type="text" class="form-control" id="city" [(ngModel)]="profile.addresses[0].city" name="city" required>
+
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="street-{{i}}" class="form-label">Street Address</label>
+                  <input type="text" class="form-control" id="street-{{i}}" [(ngModel)]="address.street" name="street-{{i}}" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="city-{{i}}" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city-{{i}}" [(ngModel)]="address.city" name="city-{{i}}" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="state-{{i}}" class="form-label">State/Province</label>
+                  <input type="text" class="form-control" id="state-{{i}}" [(ngModel)]="address.state" name="state-{{i}}" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="postalCode-{{i}}" class="form-label">Postal Code</label>
+                  <input type="text" class="form-control" id="postalCode-{{i}}" [(ngModel)]="address.postalCode" name="postalCode-{{i}}" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="country-{{i}}" class="form-label">Country</label>
+                  <input type="text" class="form-control" id="country-{{i}}" [(ngModel)]="address.country" name="country-{{i}}" required>
+                </div>
+                <div class="col-12">
+                  <label for="addressType-{{i}}" class="form-label">Address Type</label>
+                  <select class="form-select" id="addressType-{{i}}" [(ngModel)]="address.type" name="addressType-{{i}}" required>
+                    <option value="SHIPPING">Shipping</option>
+                    <option value="BILLING">Billing</option>
+                    <option value="BOTH">Both</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
               </div>
-              <div class="col-md-6">
-                <label for="state" class="form-label">State/Province</label>
-                <input type="text" class="form-control" id="state" [(ngModel)]="profile.addresses[0].state" name="state" required>
-              </div>
-              <div class="col-md-6">
-                <label for="postalCode" class="form-label">Postal Code</label>
-                <input type="text" class="form-control" id="postalCode" [(ngModel)]="profile.addresses[0].postalCode" name="postalCode" required>
-              </div>
-              <div class="col-md-6">
-                <label for="country" class="form-label">Country</label>
-                <input type="text" class="form-control" id="country" [(ngModel)]="profile.addresses[0].country" name="country" required>
-              </div>
-              <!-- Optional: Add a hidden input for address type if you only have one address type -->
-              <input type="hidden" [(ngModel)]="profile.addresses[0].type" name="addressType" value="SHIPPING">
+            </div>
+
+            <!-- Button to add new address -->
+            <div class="d-flex justify-content-end mb-4">
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="addAddress()">
+                <i data-lucide="plus" class="me-1 icon-small"></i>Add New Address
+              </button>
             </div>
 
             <div class="d-grid gap-2">
@@ -72,3 +96,12 @@
     </div>
   </div>
 </div>
+
+<!-- Script for Lucide icons, if applicable -->
+<script>
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  } else {
+    console.warn('Lucide icons script not loaded. Icons may not render.');
+  }
+</script>

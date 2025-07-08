@@ -76,7 +76,7 @@ label {
   color: #dc3545; /* Bootstrap's danger red */
   font-size: 0.9rem; /* Slightly smaller font for error messages */
   margin-top: 1rem !important; /* Ensure enough space above error */
-  text-align: center; /* Center the error message */
+  text-align: center; 
   width: 100%;
 }
 

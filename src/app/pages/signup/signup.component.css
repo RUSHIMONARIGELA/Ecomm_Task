@@ -1,23 +1,20 @@
-
 .container.mt-5 {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
 
-
 .card.shadow-lg {
-  border-radius: 0.75rem; 
+  border-radius: 0.75rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
-
 .card-header.bg-primary {
-  background-color: #007bff !important; 
+  background-color: #007bff !important;
   color: #fff;
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
-  padding: 1.5rem 1rem; 
+  padding: 1.5rem 1rem;
 }
 
 .card-header h3 {
@@ -30,19 +27,17 @@
   opacity: 0.9;
 }
 
-
 .card-body.p-4 {
-  padding: 2rem !important; 
+  padding: 2rem !important;
 }
 
 h5.text-primary {
-  color: #007bff !important; 
+  color: #007bff !important;
   font-weight: 600;
   margin-bottom: 1.5rem;
   border-bottom: 2px solid #e9ecef;
   padding-bottom: 0.5rem;
 }
-
 
 .form-label {
   font-weight: 500;
@@ -51,7 +46,7 @@ h5.text-primary {
 }
 
 .form-control {
-  border-radius: 0.5rem; 
+  border-radius: 0.5rem;
   border: 1px solid #ced4da;
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -76,7 +71,8 @@ h5.text-primary {
   border-radius: 0.5rem;
   font-weight: 600;
   font-size: 1.15rem;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out,
+    transform 0.1s ease-in-out;
 }
 
 .btn-primary.btn-lg:hover {

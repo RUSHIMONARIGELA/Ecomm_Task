@@ -1,9 +1,5 @@
 import { ProductDTO } from "./product.model";
 
-
-
-
-
 export interface OrderItemDTO {
   id?: number;
   productDetails: ProductDTO; 

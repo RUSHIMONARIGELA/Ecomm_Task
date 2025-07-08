@@ -1,21 +1,23 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service'; 
-import { PaymentDTO } from '../models/payment-models'; 
-import { RazorpayOrderRequestDTO, RazorpayOrderResponseDTO, RazorpayPaymentCaptureRequestDTO } from '../models/razorpay-models';
+import { AuthService } from './auth.service';
+import { PaymentDTO } from '../models/payment-models';
+import {
+  RazorpayOrderRequestDTO,
+  RazorpayOrderResponseDTO,
+  RazorpayPaymentCaptureRequestDTO,
+} from '../models/razorpay-models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PaymentService {
-  private baseUrl = 'http://localhost:8080/api/payments'; 
+  private baseUrl = 'http://localhost:8080/api/payments';
 
-   private http=inject(HttpClient);
-   private authService=inject(AuthService);
-  constructor(
-    
-  ) { }
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  constructor() {}
 
   private getAuthHeaders(): HttpHeaders {
     const accessToken = this.authService.getToken();
@@ -23,33 +25,55 @@ export class PaymentService {
       throw new Error('Access token not found. User not authenticated.');
     }
     return new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     });
   }
 
-  processPayment(orderId: number, paymentDTO: PaymentDTO): Observable<PaymentDTO> {
+  processPayment(
+    orderId: number,
+    paymentDTO: PaymentDTO
+  ): Observable<PaymentDTO> {
     const headers = this.getAuthHeaders();
-    return this.http.post<PaymentDTO>(`${this.baseUrl}/order/${orderId}`, paymentDTO, { headers });
+    return this.http.post<PaymentDTO>(
+      `${this.baseUrl}/order/${orderId}`,
+      paymentDTO,
+      { headers }
+    );
   }
 
-  createRazorpayOrder(amount: number, currency: string, receipt: string): Observable<RazorpayOrderResponseDTO> {
+  createRazorpayOrder(
+    amount: number,
+    currency: string,
+    receipt: string
+  ): Observable<RazorpayOrderResponseDTO> {
     const headers = this.getAuthHeaders();
     const requestBody: RazorpayOrderRequestDTO = { amount, currency, receipt };
-    return this.http.post<RazorpayOrderResponseDTO>(`${this.baseUrl}/razorpay/order`, requestBody, { headers });
+    return this.http.post<RazorpayOrderResponseDTO>(
+      `${this.baseUrl}/razorpay/order`,
+      requestBody,
+      { headers }
+    );
   }
 
-  captureRazorpayPayment(captureRequest: RazorpayPaymentCaptureRequestDTO): Observable<PaymentDTO> {
+  captureRazorpayPayment(
+    captureRequest: RazorpayPaymentCaptureRequestDTO
+  ): Observable<PaymentDTO> {
     const headers = this.getAuthHeaders();
-    return this.http.post<PaymentDTO>(`${this.baseUrl}/razorpay/capture`, captureRequest, { headers });
+    return this.http.post<PaymentDTO>(
+      `${this.baseUrl}/razorpay/capture`,
+      captureRequest,
+      { headers }
+    );
   }
 
   getPaymentById(paymentId: number): Observable<PaymentDTO> {
     const headers = this.getAuthHeaders();
-    return this.http.get<PaymentDTO>(`${this.baseUrl}/${paymentId}`, { headers });
+    return this.http.get<PaymentDTO>(`${this.baseUrl}/${paymentId}`, {
+      headers,
+    });
   }
 
-  
   getAllPayments(): Observable<PaymentDTO[]> {
     const headers = this.getAuthHeaders();
     return this.http.get<PaymentDTO[]>(this.baseUrl, { headers });
@@ -57,6 +81,8 @@ export class PaymentService {
 
   getPaymentsByOrderId(orderId: number): Observable<PaymentDTO[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<PaymentDTO[]>(`${this.baseUrl}/order/${orderId}`, { headers });
+    return this.http.get<PaymentDTO[]>(`${this.baseUrl}/order/${orderId}`, {
+      headers,
+    });
   }
 }

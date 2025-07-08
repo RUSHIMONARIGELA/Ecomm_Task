@@ -5,11 +5,13 @@ export interface UserDetailsDTO {
   password?: string; 
 }
 
+
 export interface CustomerDTO {
   id?: number; 
   userDetails: UserDetailsDTO; 
   profileDetails?: ProfileDTO; 
 }
+
 
 export interface AddressDTO {
   id?: number; 
