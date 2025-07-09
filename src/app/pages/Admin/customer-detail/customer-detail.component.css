@@ -1,4 +1,3 @@
-/* Admin Customer Detail Component Styles */
 
 .container {
   max-width: 900px;
@@ -10,7 +9,7 @@
 }
 
 .card-header {
-  background-color: #007bff; /* Primary color */
+  background-color: #007bff; 
   color: white;
   border-bottom: none;
   border-top-left-radius: 0.75rem;

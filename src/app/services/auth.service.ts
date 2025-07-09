@@ -34,7 +34,6 @@ export class AuthService {
         this.saveToken(response.token);
         this.saveRefreshToken(response.refreshToken);
         localStorage.setItem(this.usernameKey, credentials.userName);
-
         const decodedToken: any = jwtDecode(response.token);
         if (decodedToken) {
           

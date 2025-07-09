@@ -1,4 +1,3 @@
-/* admin-order-list.component.css */
 
 .spinner-border {
   vertical-align: middle;
@@ -6,5 +5,5 @@
 }
 
 .badge {
-  min-width: 80px; /* Ensure consistent width for badges */
+  min-width: 80px; 
 }

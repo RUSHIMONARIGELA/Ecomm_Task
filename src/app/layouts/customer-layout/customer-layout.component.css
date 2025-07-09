@@ -7,7 +7,7 @@ html, body {
 }
 
 header {
-  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x600/007bff/ffffff?text=E-commerce+Banner'); /* Placeholder image */
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x600/007bff/ffffff?text=E-commerce+Banner'); 
   background-size: cover;
   background-position: center;
 }

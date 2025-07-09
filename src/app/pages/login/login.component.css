@@ -1,86 +1,78 @@
-/* Overall container for the login form */
 .container.mt-5 {
-  max-width: 450px; /* Limit width for better readability on large screens */
-  margin-top: 5rem !important; /* Adjust top margin to center vertically a bit more */
-  margin-bottom: 5rem !important; /* Adjust bottom margin */
-  padding: 2rem; /* Add some padding inside the container */
-  background-color: #ffffff; /* White background for the form card */
-  border-radius: 0.75rem; /* Rounded corners for the container */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  max-width: 450px; 
+  margin-top: 5rem !important; 
+  margin-bottom: 5rem !important; 
+  padding: 2rem; 
+  background-color: #ffffff; 
+  border-radius: 0.75rem; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center content horizontally */
+  align-items: center; 
 }
 
-/* Heading for the login form */
 h2 {
-  color: #343a40; /* Dark text for heading */
-  margin-bottom: 1.5rem; /* Space below the heading */
-  font-weight: 600; /* Make heading a bit bolder */
+  color: #343a40; 
+  margin-bottom: 1.5rem; 
+  font-weight: 600;
 }
 
-/* Styling for form groups (label + input) */
 .mb-3 {
-  width: 100%; /* Ensure form elements take full width */
-  margin-bottom: 1.5rem !important; /* Consistent spacing between fields */
+  width: 100%; 
+  margin-bottom: 1.5rem !important; 
 }
 
-/* Labels for form inputs */
 label {
-  font-weight: 500; /* Slightly bolder labels */
-  color: #495057; /* Darker grey for labels */
-  margin-bottom: 0.5rem; /* Space between label and input */
-  display: block; /* Ensure label is on its own line */
+  font-weight: 500; 
+  color: #495057;
+  margin-bottom: 0.5rem; 
+  display: block; 
 }
 
-/* Input field styling */
 .form-control {
-  border-radius: 0.5rem; /* Rounded corners for inputs */
-  border: 1px solid #ced4da; /* Light grey border */
-  padding: 0.75rem 1rem; /* Comfortable padding */
-  font-size: 1rem; /* Standard font size */
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transitions */
+  border-radius: 0.5rem;
+  border: 1px solid #ced4da; 
+  padding: 0.75rem 1rem; 
+  font-size: 1rem; 
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
 }
 
 .form-control:focus {
-  border-color: #007bff; /* Primary color border on focus */
-  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Soft blue shadow on focus */
-  outline: none; /* Remove default outline */
+  border-color: #007bff; 
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); 
+  outline: none; 
 }
 
-/* Submit button styling */
 .btn-primary {
-  background-color: #007bff; /* Primary blue background */
-  border-color: #007bff; /* Matching border color */
-  color: #fff; /* White text */
-  padding: 0.75rem 1.5rem; /* Generous padding */
-  border-radius: 0.5rem; /* Rounded corners */
-  font-weight: 600; /* Bold text */
-  font-size: 1.1rem; /* Slightly larger font */
-  width: 100%; /* Full width button */
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* Smooth transitions */
+  background-color: #007bff;
+  border-color: #007bff; 
+  color: #fff; 
+  padding: 0.75rem 1.5rem; 
+  border-radius: 0.5rem; 
+  font-weight: 600; 
+  font-size: 1.1rem; 
+  width: 100%; 
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out; 
 }
 
 .btn-primary:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3;
   border-color: #0056b3;
-  transform: translateY(-1px); /* Slight lift effect on hover */
+  transform: translateY(-1px); 
 }
 
 .btn-primary:active {
-  transform: translateY(0); /* Reset lift on click */
+  transform: translateY(0); 
 }
 
-/* Error message styling */
 .text-danger.mt-2 {
-  color: #dc3545; /* Bootstrap's danger red */
-  font-size: 0.9rem; /* Slightly smaller font for error messages */
-  margin-top: 1rem !important; /* Ensure enough space above error */
+  color: #dc3545; 
+  font-size: 0.9rem; 
+  margin-top: 1rem !important;
   text-align: center; 
   width: 100%;
 }
 
-/* Responsive adjustments */
 @media (max-width: 576px) {
   .container.mt-5 {
     padding: 1.5rem;

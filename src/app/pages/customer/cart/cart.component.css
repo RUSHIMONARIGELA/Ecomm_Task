@@ -1,4 +1,3 @@
-/* customer-cart.component.css */
 
 .img-thumbnail {
   border-radius: 0.5rem;
@@ -9,7 +8,7 @@
 }
 
 .form-control-sm {
-  max-width: 80px; /* Limit width of quantity input */
+  max-width: 80px; 
 }
 
 .spinner-border {
