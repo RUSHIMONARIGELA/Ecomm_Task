@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
@@ -57,7 +56,6 @@ export class ProfileComponent implements OnInit {
       this.customerService.getCustomerProfile(this.customerId).subscribe({
         next: (data: ProfileDTO) => {
           this.profile = data;
-          // Ensure addresses array is not empty if loaded profile has none
           if (!this.profile.addresses || this.profile.addresses.length === 0) {
             this.profile.addresses = [
               {
@@ -75,7 +73,6 @@ export class ProfileComponent implements OnInit {
         error: (error: HttpErrorResponse) => {
           if (error.status === 404) {
             this.errorMessage = 'No existing profile found. Please create one.';
-            // Ensure a blank address is ready for creation if no profile exists
             if (
               !this.profile.addresses ||
               this.profile.addresses.length === 0
@@ -109,7 +106,6 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    // Basic validation for the first address in the array
     if (
       !this.profile.firstName ||
       !this.profile.lastName ||
@@ -135,7 +131,7 @@ export class ProfileComponent implements OnInit {
           this.successMessage = 'Profile and address saved successfully!';
           this.loading = false;
           console.log('Profile saved:', response);
-          this.router.navigate(['/home']); // Redirect to home or dashboard
+          this.router.navigate(['/home']);
         },
         error: (error: HttpErrorResponse) => {
           this.loading = false;
@@ -149,7 +145,6 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  // Optional: Method to add more addresses if you want to support multiple addresses
   addAddress(): void {
     this.profile.addresses.push({
       street: '',
@@ -157,14 +152,12 @@ export class ProfileComponent implements OnInit {
       state: '',
       postalCode: '',
       country: '',
-      type: 'BILLING', // Default to BILLING for additional
+      type: 'BILLING',
     });
   }
 
-  // Optional: Method to remove an address
   removeAddress(index: number): void {
     if (this.profile.addresses.length > 1) {
-      // Prevent removing the last address
       this.profile.addresses.splice(index, 1);
     } else {
       this.errorMessage = 'At least one address is required.';

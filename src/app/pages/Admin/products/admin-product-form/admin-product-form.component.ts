@@ -1,5 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core'; // Added OnInit
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../../../services/product.service';
 
@@ -17,12 +23,13 @@ import { ProductDTO } from '../../../../models/product.model';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule // Keep FormsModule if you mix template-driven with reactive or use ngModel directly
+    FormsModule, // Keep FormsModule if you mix template-driven with reactive or use ngModel directly
   ],
   templateUrl: './admin-product-form.component.html',
-  styleUrl: './admin-product-form.component.css'
+  styleUrl: './admin-product-form.component.css',
 })
-export class AdminProductFormComponent implements OnInit { // Implement OnInit
+export class AdminProductFormComponent implements OnInit {
+  // Implement OnInit
 
   productForm!: FormGroup;
   isEditMode = false;
@@ -45,7 +52,7 @@ export class AdminProductFormComponent implements OnInit { // Implement OnInit
   ngOnInit(): void {
     this.fetchCategories();
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
         this.isEditMode = true;
@@ -60,42 +67,49 @@ export class AdminProductFormComponent implements OnInit { // Implement OnInit
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: [null, [Validators.required, Validators.min(0.01)]],
-  
+
       categoryId: [null, Validators.required],
-      stockQuantity: [null, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
-      images: ['', Validators.required]
+      stockQuantity: [
+        null,
+        [
+          Validators.required,
+          Validators.min(0),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
+      images: ['', Validators.required],
     });
   }
 
   fetchCategories(): void {
     this.categoryService.getAllCategories().subscribe({
-      next: (data: CategoryDTO[]) => { 
+      next: (data: CategoryDTO[]) => {
         this.categories = data;
         console.log('Categories loaded:', this.categories);
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error fetching categories:', error);
         this.errorMessage = 'Failed to load categories. Please try again.';
-      }
+      },
     });
   }
 
   loadProduct(id: number): void {
     this.productService.getProductById(id).subscribe({
-      next: (product: ProductDTO) => { 
+      next: (product: ProductDTO) => {
         this.productForm.patchValue({
           name: product.name,
           description: product.description,
           price: product.price,
           categoryId: product.categoryId,
           stockQuantity: product.stockQuantity,
-          images: product.images ? product.images.join(',') : ''
+          images: product.images ? product.images.join(',') : '',
         });
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage = 'Failed to load product details.';
         console.error('Error loading product:', error);
-      }
+      },
     });
   }
 
@@ -111,11 +125,13 @@ export class AdminProductFormComponent implements OnInit { // Implement OnInit
       return;
     }
 
- 
     const productData: ProductDTO = {
       ...this.productForm.value,
-      images: (this.productForm.value.images as string).split(',').map(s => s.trim()).filter(s => s.length > 0),
-      categoryName: '' 
+      images: (this.productForm.value.images as string)
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0),
+      categoryName: '',
     };
 
     if (this.isEditMode && this.productId !== null) {
@@ -129,14 +145,19 @@ export class AdminProductFormComponent implements OnInit { // Implement OnInit
           this.errorMessage = 'Failed to update product.';
           this.submitting = false;
           console.error('Error updating product:', error);
-          if (error.status === 400 && error.error && typeof error.error === 'string') { // Backend might send plain string for bad request
+          if (
+            error.status === 400 &&
+            error.error &&
+            typeof error.error === 'string'
+          ) {
+            // Backend might send plain string for bad request
             this.errorMessage = `Failed to update product: ${error.error}`;
           } else if (error.error && error.error.message) {
             this.errorMessage = `Failed to update product: ${error.error.message}`;
           } else {
             this.errorMessage = `Failed to update product: An unexpected error occurred.`;
           }
-        }
+        },
       });
     } else {
       this.productService.createProduct(productData).subscribe({
@@ -149,14 +170,19 @@ export class AdminProductFormComponent implements OnInit { // Implement OnInit
           this.errorMessage = 'Failed to create product.';
           this.submitting = false;
           console.error('Error creating product:', error);
-          if (error.status === 400 && error.error && typeof error.error === 'string') { // Backend might send plain string for bad request
+          if (
+            error.status === 400 &&
+            error.error &&
+            typeof error.error === 'string'
+          ) {
+            // Backend might send plain string for bad request
             this.errorMessage = `Failed to create product: ${error.error}`;
           } else if (error.error && error.error.message) {
             this.errorMessage = `Failed to create product: ${error.error.message}`;
           } else {
             this.errorMessage = `Failed to create product: An unexpected error occurred.`;
           }
-        }
+        },
       });
     }
   }

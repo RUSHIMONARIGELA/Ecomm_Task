@@ -1,16 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule, NgIf, NgFor, DecimalPipe, SlicePipe } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
-import { HttpClientModule, HttpErrorResponse } from '@angular/common/http'; // Import HttpErrorResponse
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http'; 
 import { AuthService } from '../../../services/auth.service';
 import { ProductService } from '../../../services/product.service';
 import { ProductDTO } from '../../../models/product.model';
- // NEW: Import ProductDTO from models
 
 
 @Component({
-  selector: 'app-home', // This might be 'app-customer-dashboard' based on your routing
+  selector: 'app-home', 
   standalone: true,
   imports: [
     CommonModule,
@@ -18,12 +17,12 @@ import { ProductDTO } from '../../../models/product.model';
     RouterOutlet,
     HttpClientModule,
   ],
-  templateUrl: './home.component.html', // Assuming this is the correct path
-  styleUrls: ['./home.component.css'] // Assuming this is the correct path
+  templateUrl: './home.component.html', 
+  styleUrls: ['./home.component.css'] 
 })
-export class HomeComponent implements OnInit { // Renamed from HomeComponent for clarity
+export class HomeComponent implements OnInit {
   username: string | null = null;
-  featuredProducts: ProductDTO[] = []; // FIXED: Use ProductDTO
+  featuredProducts: ProductDTO[] = []; 
   loadingProducts = true;
   productsError: string | null = null;
 
@@ -43,11 +42,11 @@ export class HomeComponent implements OnInit { // Renamed from HomeComponent for
     this.productsError = null;
     
     this.productService.getAllProducts().subscribe({
-      next: (products: ProductDTO[]) => { // FIXED: Use ProductDTO
+      next: (products: ProductDTO[]) => { 
         this.featuredProducts = products.slice(0, 4);
         this.loadingProducts = false;
       },
-      error: (error: HttpErrorResponse) => { // Catch HttpErrorResponse
+      error: (error: HttpErrorResponse) => { 
         this.productsError = 'Failed to load products. Please try again later.';
         this.loadingProducts = false;
         console.error('Error fetching featured products for customer home:', error);

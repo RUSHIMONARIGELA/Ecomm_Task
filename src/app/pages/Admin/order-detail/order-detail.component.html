@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <div class="card shadow-lg rounded-3">
     <div class="card-header bg-primary text-white py-3">
-      <h3 class="mb-0">Order Details </h3>
+      <h3 class="mb-0">Order Details</h3>
     </div>
     <div class="card-body p-4">
       <div *ngIf="loading" class="text-center py-5">
@@ -11,9 +11,19 @@
         <p class="mt-2">Loading order details...</p>
       </div>
 
-      <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <div
+        *ngIf="error"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+      >
         {{ error }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="error = null"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+          (click)="error = null"
+        ></button>
       </div>
 
       <div *ngIf="order && !loading && !error">
@@ -24,36 +34,70 @@
               <p id="orderId" class="form-control-plaintext">{{ order.id }}</p>
             </div>
             <div class="col-md-6">
-              <label for="customerId" class="form-label fw-bold">Customer ID:</label>
-              <p id="customerId" class="form-control-plaintext">{{ order.customerId }}</p>
+              <label for="customerId" class="form-label fw-bold"
+                >Customer ID:</label
+              >
+              <p id="customerId" class="form-control-plaintext">
+                {{ order.customerId }}
+              </p>
             </div>
           </div>
 
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="orderDate" class="form-label fw-bold">Order Date:</label>
-              <p id="orderDate" class="form-control-plaintext">{{ order.orderDate | date:'medium' }}</p>
+              <label for="orderDate" class="form-label fw-bold"
+                >Order Date:</label
+              >
+              <p id="orderDate" class="form-control-plaintext">
+                {{ order.orderDate | date : "medium" }}
+              </p>
             </div>
             <div class="col-md-6">
-              <label for="totalAmount" class="form-label fw-bold">Total Amount:</label>
-              <p id="totalAmount" class="form-control-plaintext">Rs.{{ order.totalAmount | number:'1.2-2' }}</p>
+              <label for="totalAmount" class="form-label fw-bold"
+                >Total Amount:</label
+              >
+              <p id="totalAmount" class="form-control-plaintext">
+                Rs.{{ order.totalAmount | number : "1.2-2" }}
+              </p>
             </div>
           </div>
 
           <div class="mb-3">
-            <label for="shippingAddress" class="form-label fw-bold">Shipping Address:</label>
-            <textarea id="shippingAddress" class="form-control" [(ngModel)]="order.shippingAddress" name="shippingAddress" rows="3"></textarea>
+            <label for="shippingAddress" class="form-label fw-bold"
+              >Shipping Address:</label
+            >
+            <textarea
+              id="shippingAddress"
+              class="form-control"
+              [(ngModel)]="order.shippingAddress"
+              name="shippingAddress"
+              rows="3"
+            ></textarea>
           </div>
 
           <div class="mb-4">
-            <label for="orderStatus" class="form-label fw-bold">Order Status:</label>
-            <select id="orderStatus" class="form-select" [(ngModel)]="order.status" name="orderStatus">
-              <option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</option>
+            <label for="orderStatus" class="form-label fw-bold"
+              >Order Status:</label
+            >
+            <select
+              id="orderStatus"
+              class="form-select"
+              [(ngModel)]="order.status"
+              name="orderStatus"
+            >
+              <option *ngFor="let status of orderStatuses" [value]="status">
+                {{ status }}
+              </option>
             </select>
           </div>
 
           <h5 class="mb-3 text-primary">Order Items</h5>
-          <div *ngIf="order.orderItems && order.orderItems.length > 0; else noOrderItems">
+          <div
+            *ngIf="
+              order.orderItems && order.orderItems.length > 0;
+              else noOrderItems
+            "
+          >
             <div class="table-responsive mb-4">
               <table class="table table-bordered table-striped align-middle">
                 <thead>
@@ -70,23 +114,41 @@
                     <td>{{ item.productDetails.id }}</td>
                     <td>{{ item.productDetails.name }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>₹{{ item.price | number:'1.2-2' }}</td>
-                    <td>₹{{ (item.price * item.quantity!) | number:'1.2-2' }}</td>
+                    <td>₹{{ item.price | number : "1.2-2" }}</td>
+                    <td>
+                      ₹{{ item.price * item.quantity! | number : "1.2-2" }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
           <ng-template #noOrderItems>
-            <div class="alert alert-warning">No items found for this order.</div>
+            <div class="alert alert-warning">
+              No items found for this order.
+            </div>
           </ng-template>
 
           <div class="d-flex justify-content-end gap-2">
-            <button type="button" class="btn btn-outline-secondary" routerLink="/admin/orders">
-              <i data-lucide="arrow-left" class="icon-small me-1"></i>Back to Orders
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              routerLink="/admin/orders"
+            >
+              <i data-lucide="arrow-left" class="icon-small me-1"></i>Back to
+              Orders
             </button>
-            <button type="submit" class="btn btn-primary" [disabled]="submitting">
-              <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="submitting"
+            >
+              <span
+                *ngIf="submitting"
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
               <i data-lucide="save" class="icon-small me-1"></i>Save Changes
             </button>
           </div>
@@ -98,7 +160,7 @@
 
 <!-- Script to initialize Lucide icons (ensure lucide.min.js is loaded in index.html) -->
 <script>
-  if (typeof lucide !== 'undefined') {
+  if (typeof lucide !== "undefined") {
     lucide.createIcons();
   }
 </script>

@@ -8,20 +8,16 @@ import { ProductDTO } from '../../models/product.model';
 
 @Component({
   selector: 'app-public-products-list',
-  imports: [CommonModule,
-    RouterLink,
-    HttpClientModule, 
-    DecimalPipe  ],
+  imports: [CommonModule, RouterLink, HttpClientModule, DecimalPipe],
   templateUrl: './public-products-list.component.html',
-  styleUrl: './public-products-list.component.css'
+  styleUrl: './public-products-list.component.css',
 })
 export class PublicProductsListComponent {
-
   products: ProductDTO[] = [];
   loading = true;
   error: string | null = null;
 
-  private productService=inject(ProductService);
+  private productService = inject(ProductService);
   constructor() {}
 
   ngOnInit(): void {
@@ -44,9 +40,7 @@ export class PublicProductsListComponent {
         if (err.error && err.error.message) {
           this.error = `Failed to load products: ${err.error.message}`;
         }
-      }
+      },
     });
   }
 }
-
-

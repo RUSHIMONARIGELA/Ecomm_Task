@@ -8,9 +8,7 @@ import { ProductDTO } from '../../../../models/product.model';
 
 @Component({
   selector: 'app-admin-product-list',
-  imports: [CommonModule,
-    FormsModule,
-    ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-product-list.component.html',
   styleUrl: './admin-product-list.component.css',
 })
@@ -22,10 +20,10 @@ export class AdminProductListComponent {
   pageSize = 5;
   totalPages = 1;
   errorMessage = '';
-  successMessage ='';
+  successMessage = '';
 
-  private productService=inject(ProductService);
-  private router=inject(Router);
+  private productService = inject(ProductService);
+  private router = inject(Router);
   constructor() {}
 
   ngOnInit(): void {
@@ -68,8 +66,8 @@ export class AdminProductListComponent {
     this.router.navigate(['/admin/products/edit', product.id]);
   }
 
- deleteProduct(id: number | undefined): void { 
-    if (id === undefined) { 
+  deleteProduct(id: number | undefined): void {
+    if (id === undefined) {
       console.warn('Cannot delete product: Product ID is undefined.');
       this.errorMessage = 'Cannot delete product: ID is missing.';
       return;
@@ -79,7 +77,7 @@ export class AdminProductListComponent {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
           this.successMessage = 'Product deleted successfully!';
-          this.loadProducts(); 
+          this.loadProducts();
         },
         error: (error: HttpErrorResponse) => {
           this.errorMessage = 'Failed to delete product.';
@@ -87,7 +85,7 @@ export class AdminProductListComponent {
           if (error.error && error.error.message) {
             this.errorMessage = `Failed to delete product: ${error.error.message}`;
           }
-        }
+        },
       });
     }
   }

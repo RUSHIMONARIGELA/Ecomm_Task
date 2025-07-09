@@ -1,108 +1,195 @@
 /* Admin Dashboard Styles */
 
+/* Overall Container */
 .admin-dashboard-container {
   max-width: 1200px;
+  margin-top: 4rem !important; /* Adjust spacing from top */
+  margin-bottom: 4rem !important; /* Adjust spacing from bottom */
 }
 
+/* Dashboard Title */
 .dashboard-title {
-  font-size: 2.5rem;
+  font-size: 2.8rem; /* Slightly larger title */
   font-weight: 700;
-  color: #343a40; /* Dark text */
+  color: #212529; /* Darker, more prominent text */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
 }
 
+/* Sub-heading/Welcome text */
+.text-muted.mb-5 {
+  font-size: 1.1rem;
+  color: #6c757d !important;
+}
+
+/* Dashboard Cards */
 .dashboard-card {
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  border-radius: 0.75rem; /* More rounded corners */
-  overflow: hidden; /* Ensures shadow looks clean */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smoother transitions */
+  border-radius: 1rem; /* More pronounced rounded corners */
+  overflow: hidden;
+  background-color: #ffffff; /* Explicit white background */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Softer, larger initial shadow */
+  display: flex; /* Ensure card content is centered vertically */
+  flex-direction: column;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-8px); /* More noticeable lift on hover */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
 }
 
 .dashboard-card .card-body {
-  padding: 2rem;
+  padding: 2.5rem; /* More padding inside cards */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-grow: 1; /* Allows card body to expand */
 }
 
+/* Icons */
 .icon-large {
-  width: 48px; /* Larger icon size */
-  height: 48px;
-  stroke-width: 2.5; /* Thicker icon lines */
+  width: 60px; /* Even larger icon size */
+  height: 60px;
+  stroke-width: 2.5;
+  margin-bottom: 1.5rem; /* More space below icon */
+  color: #007bff; /* Default icon color, overridden by text-primary/success etc. */
 }
 
 .icon-small {
-  width: 18px;
-  height: 18px;
+  width: 20px; /* Slightly larger small icon */
+  height: 20px;
   vertical-align: middle;
+  margin-right: 0.5rem; /* Space between icon and text in button */
 }
 
+/* Card Titles */
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.75rem; /* Larger card title */
+  font-weight: 700; /* Bolder */
+  color: #343a40; /* Darker text for titles */
   margin-bottom: 0.75rem;
 }
 
+/* Card Text */
 .card-text {
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 1rem; /* Standard font size */
+  line-height: 1.6;
+  color: #6c757d;
+  margin-bottom: 2rem; /* More space before button */
 }
 
+/* Buttons */
 .btn {
   font-weight: 600;
-  border-radius: 0.5rem; /* Rounded buttons */
-  transition: all 0.2s ease-in-out;
+  border-radius: 0.6rem; /* Slightly more rounded buttons */
+  padding: 0.8rem 1.5rem; /* More generous button padding */
+  font-size: 1.05rem; /* Slightly larger font for buttons */
+  transition: all 0.2s ease-in-out, transform 0.1s ease-in-out; /* Smoother transitions including transform */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle button shadow */
 }
 
-/* Custom button colors (matching Bootstrap variants) */
+.btn:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+.btn:active {
+  transform: translateY(0); /* Reset lift on click */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Smaller shadow on click */
+}
+
+/* Custom button colors with subtle gradients */
 .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+  background: linear-gradient(45deg, #007bff, #0056b3); /* Blue gradient */
+  border: none;
 }
 .btn-primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background: linear-gradient(45deg, #0056b3, #003f7f);
 }
 
 .btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
+  background: linear-gradient(45deg, #28a745, #218838); /* Green gradient */
+  border: none;
 }
 .btn-success:hover {
-  background-color: #218838;
-  border-color: #218838;
+  background: linear-gradient(45deg, #218838, #1e7e34);
 }
 
 .btn-info {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
+  background: linear-gradient(45deg, #17a2b8, #138496); /* Info blue gradient */
+  border: none;
 }
 .btn-info:hover {
-  background-color: #138496;
-  border-color: #138496;
+  background: linear-gradient(45deg, #138496, #117a8b);
 }
 
 .btn-warning {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #212529; /* Darker text for visibility on warning background */
+  background: linear-gradient(45deg, #ffc107, #e0a800); /* Warning yellow gradient */
+  border: none;
+  color: #343a40; /* Darker text for visibility on warning background */
 }
 .btn-warning:hover {
-  background-color: #e0a800;
-  border-color: #e0a800;
+  background: linear-gradient(45deg, #e0a800, #c69500);
 }
 
-.list-group-item {
-  border-left: none;
-  border-right: none;
-  padding-left: 0;
-  padding-right: 0;
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .dashboard-title {
+    font-size: 2.2rem;
+  }
+  .dashboard-card .card-body {
+    padding: 2rem;
+  }
+  .icon-large {
+    width: 50px;
+    height: 50px;
+  }
+  .card-title {
+    font-size: 1.4rem;
+  }
+  .btn {
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+  }
 }
 
-.list-group-item:first-child {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+@media (max-width: 768px) {
+  .admin-dashboard-container {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+  .dashboard-title {
+    font-size: 2rem;
+  }
+  .dashboard-card .card-body {
+    padding: 1.5rem;
+  }
+  .icon-large {
+    width: 40px;
+    height: 40px;
+  }
+  .card-title {
+    font-size: 1.2rem;
+  }
+  .card-text {
+    font-size: 0.9rem;
+  }
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
 }
-.list-group-item:last-child {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+
+@media (max-width: 576px) {
+  .dashboard-title {
+    font-size: 1.8rem;
+  }
+  .col-md-6.col-lg-4 {
+    flex: 0 0 100%; /* Make cards stack vertically on small screens */
+    max-width: 100%;
+  }
+  .dashboard-card .card-body {
+    padding: 1.2rem;
+  }
 }

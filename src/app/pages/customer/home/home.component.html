@@ -1,17 +1,28 @@
 <div class="d-flex flex-column min-vh-100">
-
   <!-- Navbar for Authenticated Customer -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
-      <a class="navbar-brand text-primary fw-bold" routerLink="/home">E-commerce App</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand text-primary fw-bold" routerLink="/home"
+        >E-commerce App</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
             <!-- Link to the Customer Dashboard Component,  -->
-            <a class="nav-link active" aria-current="page" routerLink="/home">Dashboard</a>
+            <a class="nav-link active" aria-current="page" routerLink="/home"
+              >Dashboard</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/home/cart">My Cart</a>
@@ -20,14 +31,27 @@
             <a class="nav-link" routerLink="/home/orders">My Orders</a>
           </li>
           <li class="nav-item dropdown">
-            
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Welcome, {{ username || 'Customer' }}
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Welcome, {{ username || "Customer" }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" routerLink="/home/profile">Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="navbarDropdown"
+            >
+              <li>
+                <a class="dropdown-item" routerLink="/home/profile">Profile</a>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <button class="dropdown-item" (click)="logout()">Logout</button>
+              </li>
             </ul>
           </li>
         </ul>
@@ -42,6 +66,9 @@
   <!-- Footer -->
   <footer class="bg-dark text-white text-center p-4 mt-auto">
     <p class="mb-0">&copy; 2025 E-commerce App. All rights reserved.</p>
-    <p class="mb-0"><a href="#" class="text-white-50">Privacy Policy</a> | <a href="#" class="text-white-50">Terms of Service</a></p>
+    <p class="mb-0">
+      <a href="#" class="text-white-50">Privacy Policy</a> |
+      <a href="#" class="text-white-50">Terms of Service</a>
+    </p>
   </footer>
 </div>

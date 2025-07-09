@@ -8,29 +8,31 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-order-detail',
-  imports: [CommonModule,
-    FormsModule,
-    RouterLink,
-    DecimalPipe,
-    DatePipe],
+  imports: [CommonModule, FormsModule, RouterLink, DecimalPipe, DatePipe],
   templateUrl: './order-detail.component.html',
-  styleUrl: './order-detail.component.css'
+  styleUrl: './order-detail.component.css',
 })
 export class OrderDetailComponent {
-
-orderId: number | null = null;
+  orderId: number | null = null;
   order: OrderDTO | null = null;
   loading = true;
   error: string | null = null;
   submitting = false;
 
-  orderStatuses: string[] = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'RETURNED'];
+  orderStatuses: string[] = [
+    'PENDING',
+    'PROCESSING',
+    'SHIPPED',
+    'DELIVERED',
+    'CANCELLED',
+    'RETURNED',
+  ];
 
-   private route=inject(ActivatedRoute);
-    private router=inject(Router);
-    private orderService=inject(OrderService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private orderService = inject(OrderService);
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.orderId = Number(this.route.snapshot.paramMap.get('id'));
@@ -61,7 +63,7 @@ orderId: number | null = null;
         } else if (err.error && err.error.message) {
           this.error = `Failed to load order: ${err.error.message}`;
         }
-      }
+      },
     });
   }
 
@@ -88,8 +90,7 @@ orderId: number | null = null;
         if (err.error && err.error.message) {
           this.error = `Failed to update order: ${err.error.message}`;
         }
-      }
+      },
     });
   }
 }
-

@@ -12,7 +12,9 @@
       />
     </div>
     <div class="col-md-6 text-end">
-      <button class="btn btn-primary" (click)="navigateToCreate()">Add Product</button>
+      <button class="btn btn-primary" (click)="navigateToCreate()">
+        Add Product
+      </button>
     </div>
   </div>
 
@@ -35,8 +37,18 @@
         <td>{{ product.categoryName }}</td>
         <td>{{ product.stockQuantity }}</td>
         <td>
-          <button class="btn btn-sm btn-warning me-2" (click)="editProduct(product)">Edit</button>
-          <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+          <button
+            class="btn btn-sm btn-warning me-2"
+            (click)="editProduct(product)"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="deleteProduct(product.id)"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>

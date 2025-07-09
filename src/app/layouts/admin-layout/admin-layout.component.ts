@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-admin-layout',
   imports: [CommonModule,
-    RouterOutlet, // Needed for <router-outlet>
-    RouterLink,   // Needed for routerLink directive
+    RouterOutlet, 
+    RouterLink,   
     RouterLinkActive],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.css'

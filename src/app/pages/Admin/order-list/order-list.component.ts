@@ -5,15 +5,11 @@ import { Router, RouterLink } from '@angular/router';
 import { OrderDTO } from '../../../models/order-models';
 import { OrderService } from '../../../services/order.service';
 
-
 @Component({
   selector: 'app-order-list',
-  imports: [ CommonModule,
-    
-    HttpClientModule,
-    DecimalPipe ],
+  imports: [CommonModule, HttpClientModule, DecimalPipe],
   templateUrl: './order-list.component.html',
-  styleUrl: './order-list.component.css'
+  styleUrl: './order-list.component.css',
 })
 export class OrderListComponent {
   orders: OrderDTO[] = [];
@@ -21,8 +17,8 @@ export class OrderListComponent {
   ordersError: string | null = null;
   submitting = false;
 
-   private orderService=inject(OrderService);
-    private router=inject(Router)
+  private orderService = inject(OrderService);
+  private router = inject(Router);
 
   constructor() {}
 
@@ -41,28 +37,28 @@ export class OrderListComponent {
       error: (error: HttpErrorResponse) => {
         this.ordersError = 'Failed to load orders. Please try again.';
         this.loadingOrders = false;
-        console.error('AdminOrderListComponent: Error fetching all orders:', error);
+        console.error(
+          'AdminOrderListComponent: Error fetching all orders:',
+          error
+        );
         if (error.error && error.error.message) {
           this.ordersError = `Failed to load orders: ${error.error.message}`;
         }
-      }
+      },
     });
   }
 
-  
   editOrder(orderId: number | undefined): void {
     if (orderId !== undefined) {
-     
       this.router.navigate(['/admin/orders/edit', orderId]);
     } else {
       console.warn('Cannot edit order: Order ID is undefined.');
     }
   }
 
-  
   viewOrderDetails(orderId: number | undefined): void {
     if (orderId !== undefined) {
-      this.router.navigate(['/admin/orders', orderId]); 
+      this.router.navigate(['/admin/orders', orderId]);
     } else {
       console.warn('Cannot view order details: Order ID is undefined.');
     }
@@ -75,7 +71,11 @@ export class OrderListComponent {
       return;
     }
 
-    if (!confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
+    if (
+      !confirm(
+        'Are you sure you want to delete this order? This action cannot be undone.'
+      )
+    ) {
       return;
     }
 
@@ -86,7 +86,7 @@ export class OrderListComponent {
       next: () => {
         console.log('Order deleted successfully:', orderId);
         this.submitting = false;
-        this.loadAllOrders(); 
+        this.loadAllOrders();
       },
       error: (error: HttpErrorResponse) => {
         this.ordersError = 'Failed to delete order.';
@@ -95,7 +95,7 @@ export class OrderListComponent {
         if (error.error && error.error.message) {
           this.ordersError = `Failed to delete order: ${error.error.message}`;
         }
-      }
+      },
     });
   }
 }

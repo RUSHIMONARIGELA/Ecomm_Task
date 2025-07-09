@@ -5,34 +5,28 @@ import { Router, RouterLink } from '@angular/router';
 import { CustomerDTO } from '../../../models/customer-models';
 import { CustomerService } from '../../../services/customer.service';
 
-
 @Component({
   selector: 'app-customer-list',
-  imports: [ CommonModule,
-   
-    HttpClientModule],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './customer-list.component.html',
-  styleUrl: './customer-list.component.css'
+  styleUrl: './customer-list.component.css',
 })
 export class CustomerListComponent {
-customers: CustomerDTO[] = [];
+  customers: CustomerDTO[] = [];
   loadingCustomers = true;
   customersError: string | null = null;
-  submitting = false; 
+  submitting = false;
 
   private customerService = inject(CustomerService);
   private router = inject(Router);
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.loadCustomers();
-    
   }
 
-  ngOnDestroy(): void {
-    
-  }
+  ngOnDestroy(): void {}
 
   loadCustomers(): void {
     this.loadingCustomers = true;
@@ -49,7 +43,7 @@ customers: CustomerDTO[] = [];
         if (err.error && err.error.message) {
           this.customersError = `Failed to load customers: ${err.error.message}`;
         }
-      }
+      },
     });
   }
 
@@ -69,7 +63,11 @@ customers: CustomerDTO[] = [];
       return;
     }
 
-    if (!confirm('Are you sure you want to delete this customer? This action cannot be undone.')) {
+    if (
+      !confirm(
+        'Are you sure you want to delete this customer? This action cannot be undone.'
+      )
+    ) {
       return;
     }
 
@@ -80,25 +78,27 @@ customers: CustomerDTO[] = [];
       next: () => {
         console.log('Customer deleted successfully:', customerId);
         this.submitting = false;
-        this.loadCustomers(); 
-        
+        this.loadCustomers();
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
         console.error('CustomerListComponent: Error deleting customer:', err);
 
-        if (err.status === 409) { 
-          this.customersError = err.error || 'Deletion failed: Customer has active orders or other related data.';
-        } else if (err.status === 404) { 
+        if (err.status === 409) {
+          this.customersError =
+            err.error ||
+            'Deletion failed: Customer has active orders or other related data.';
+        } else if (err.status === 404) {
           this.customersError = 'Deletion failed: Customer not found.';
-        } else if (err.error && typeof err.error === 'string') { 
+        } else if (err.error && typeof err.error === 'string') {
           this.customersError = `Deletion failed: ${err.error}`;
-        } else if (err.error && err.error.message) { 
+        } else if (err.error && err.error.message) {
           this.customersError = `Deletion failed: ${err.error.message}`;
         } else {
-          this.customersError = 'Deletion failed due to an unexpected error. Please try again.';
+          this.customersError =
+            'Deletion failed due to an unexpected error. Please try again.';
         }
-      }
+      },
     });
   }
 }
