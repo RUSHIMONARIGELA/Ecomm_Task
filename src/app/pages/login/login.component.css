@@ -1,82 +1,147 @@
+/* Container for the background image */
+.login-background {
+  min-height: 100vh; /* Make it take full viewport height */
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  background-image: url('../../../Assests/v796-nunny-03b.jpg'); /* Placeholder image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  position: relative; /* Needed for overlay */
+  overflow: hidden; /* Hide any overflow */
+}
+
+/* Add a semi-transparent overlay for better text readability */
+.login-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45); /* Slightly darker overlay for better contrast */
+  z-index: 0; /* Ensure it's behind the form */
+}
+
+/* Overall container for the login form (now inside login-background) */
 .container.mt-5 {
-  max-width: 450px; 
-  margin-top: 5rem !important; 
-  margin-bottom: 5rem !important; 
-  padding: 2rem; 
-  background-color: #ffffff; 
-  border-radius: 0.75rem; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  max-width: 450px;
+  padding: 2.5rem; /* Increased padding */
+  
+  /* FIXED: Glossy effect properties */
+  background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white for frosted glass */
+  backdrop-filter: blur(10px); /* Blur the content behind the element */
+  -webkit-backdrop-filter: blur(10px); /* For Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle light border */
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Stronger, diffused shadow */
+  
+  /* Optional: Very subtle gradient for a light reflection effect */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+
+
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
+  position: relative; /* Bring form to front of overlay */
+  z-index: 1; /* Ensure form is above the overlay */
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
+/* Heading for the login form */
 h2 {
-  color: #343a40; 
-  margin-bottom: 1.5rem; 
-  font-weight: 600;
+  color: #fff; /* White for better contrast */
+  margin-bottom: 1.8rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8); /* Stronger text shadow for readability */
 }
 
+/* Styling for form groups (label + input) */
 .mb-3 {
-  width: 100%; 
-  margin-bottom: 1.5rem !important; 
+  width: 100%;
+  margin-bottom: 1.5rem !important;
 }
 
+/* Labels for form inputs */
 label {
-  font-weight: 500; 
-  color: #495057;
-  margin-bottom: 0.5rem; 
-  display: block; 
+  font-weight: 500;
+  color: #e0e0e0; /* Lighter grey/white for better contrast */
+  margin-bottom: 0.6rem;
+  display: block;
+  text-shadow: 0 0 3px rgba(0,0,0,0.7); /* Stronger subtle shadow for readability */
 }
 
+/* Input field styling */
 .form-control {
   border-radius: 0.5rem;
-  border: 1px solid #ced4da; 
-  padding: 0.75rem 1rem; 
-  font-size: 1rem; 
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Lighter border for transparent form */
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent input background */
+  color: #fff; /* White text in inputs */
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.form-control::placeholder { /* Style placeholder text */
+  color: rgba(255, 255, 255, 0.6); /* Slightly darker placeholder */
 }
 
 .form-control:focus {
-  border-color: #007bff; 
-  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); 
-  outline: none; 
+  border-color: #007bff;
+  background-color: rgba(255, 255, 255, 0.2); /* More opaque on focus */
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+  outline: none;
+  color: #fff;
 }
 
+/* Submit button styling */
 .btn-primary {
   background-color: #007bff;
-  border-color: #007bff; 
-  color: #fff; 
-  padding: 0.75rem 1.5rem; 
-  border-radius: 0.5rem; 
-  font-weight: 600; 
-  font-size: 1.1rem; 
-  width: 100%; 
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out; 
+  border-color: #007bff;
+  color: #fff;
+  padding: 0.85rem 1.8rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  width: 100%;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
 .btn-primary:hover {
   background-color: #0056b3;
   border-color: #0056b3;
-  transform: translateY(-1px); 
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
 }
 
 .btn-primary:active {
-  transform: translateY(0); 
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
+/* Error message styling */
 .text-danger.mt-2 {
-  color: #dc3545; 
-  font-size: 0.9rem; 
-  margin-top: 1rem !important;
-  text-align: center; 
+  color: #ffcccc; /* Lighter red for better visibility on dark background */
+  font-size: 0.9rem;
+  margin-top: 1.2rem !important;
+  text-align: center;
   width: 100%;
+  text-shadow: 0 0 3px rgba(0,0,0,0.7); /* Stronger subtle shadow for readability */
 }
 
+/* Responsive adjustments */
 @media (max-width: 576px) {
   .container.mt-5 {
-    padding: 1.5rem;
-    margin-top: 2rem !important;
-    margin-bottom: 2rem !important;
+    padding: 1.8rem;
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+  .btn-primary {
+    padding: 0.75rem 1.2rem;
+    font-size: 1rem;
   }
 }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-
 import { AuthService } from '../../services/auth.service';
 import { CustomerService } from '../../services/customer.service';
 import { CustomerDTO } from '../../models/customer-models';
@@ -70,28 +69,57 @@ export class SignupComponent {
     const profileDetails = this.customerRegistration.profileDetails;
     const primaryAddress = profileDetails?.addresses?.[0];
 
-    if (
-      !userDetails.userName ||
-      !userDetails.email ||
-      !userDetails.password ||
-      !this.confirmPassword ||
-      !profileDetails?.firstName ||
-      !profileDetails.lastName ||
-      !profileDetails.phoneNumber ||
-      !primaryAddress?.street ||
-      !primaryAddress.city ||
-      !primaryAddress.state ||
-      !primaryAddress.postalCode ||
-      !primaryAddress.country
-    ) {
-      this.errorMessage = 'All fields are required.';
+ 
+    if(userDetails.userName === '' || userDetails.userName.length < 3){
+      this.errorMessage = 'Username should Not be Null ';
       return;
     }
-
+    if(userDetails.email ==='' || userDetails.email === undefined){
+      this.errorMessage = 'Email is required Cannot be kept empty.';
+      return;
+    }
+    if(userDetails.password === ''){
+      this.errorMessage = 'Password is required.';
+      return;
+    }
+    
     if (userDetails.password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
       return;
     }
+    if(profileDetails?.firstName === ''){
+      this.errorMessage = 'Firstname is required ';
+      return;
+    }
+    if(profileDetails?.lastName === ''){
+      this.errorMessage = 'Lastname is required.';
+      return;
+    }
+    if(profileDetails?.phoneNumber === ''){
+      this.errorMessage = 'Phonenumber is required.';
+      return;
+    }
+    if(primaryAddress?.street === ''){
+      this.errorMessage = 'Street Address is required.';
+      return;
+    }
+    if(primaryAddress?.city === '') {
+      this.errorMessage = 'City Cannot be empty';
+      return;
+    }
+    if(primaryAddress?.country === '') {
+      this.errorMessage = 'Country cannot be empty.';
+      return;
+    }
+    if(primaryAddress?.postalCode === ''){
+      this.errorMessage = 'Postal code cannot be empty';
+      return;
+    }
+    if(primaryAddress?.state === ''){
+      this.errorMessage = 'State  field cannot be empty';
+      return;
+    }
+
 
     this.loading = true;
 

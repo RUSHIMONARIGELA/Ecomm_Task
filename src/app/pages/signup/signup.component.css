@@ -1,20 +1,65 @@
-.container.mt-5 {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+/* Container for the background image */
+.register-background {
+  min-height: 100vh; /* Make it take full viewport height */
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  background-image: url('../../../Assests/bannerimg.jpg'); /* Placeholder image */
+  background-size:cover; /* Cover the entire container */
+  background-position: center center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  position: relative; /* Needed for overlay */
+  overflow: hidden; /* Hide any overflow */
 }
 
+/* Add a semi-transparent overlay for better text readability */
+.register-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45); /* Dark semi-transparent overlay */
+  z-index: 0; /* Ensure it's behind the form */
+}
+
+/* Overall container for the registration form (now inside register-background) */
+.container.mt-5 {
+  /* Remove fixed margins as flexbox handles centering */
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 2rem; /* Adjusted padding */
+  padding-bottom: 2rem;
+  position: relative; /* Bring form to front of overlay */
+  z-index: 1; /* Ensure form is above the overlay */
+}
+
+/* Card styling - apply glossy effect here */
 .card.shadow-lg {
   border-radius: 0.75rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Stronger, diffused shadow */
+  
+  /* FIXED: Glossy effect properties */
+  background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white for frosted glass */
+  backdrop-filter: blur(10px); /* Blur the content behind the element */
+  -webkit-backdrop-filter: blur(10px); /* For Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle light border */
+  
+  /* Optional: Very subtle gradient for a light reflection effect */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+  
   overflow: hidden;
 }
 
+/* Card Header - Adjust text colors for contrast */
 .card-header.bg-primary {
-  background-color: #007bff !important;
+  background-color: rgba(0, 123, 255, 0.7) !important; /* Slightly transparent primary color */
   color: #fff;
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
   padding: 1.5rem 1rem;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Text shadow for readability */
 }
 
 .card-header h3 {
@@ -27,42 +72,58 @@
   opacity: 0.9;
 }
 
+/* Card Body */
 .card-body.p-4 {
   padding: 2rem !important;
 }
 
+/* Section Headings - Adjust text colors for contrast */
 h5.text-primary {
-  color: #007bff !important;
+  color: #e0e0e0 !important; /* Lighter color for contrast */
   font-weight: 600;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Lighter border */
   padding-bottom: 0.5rem;
+  text-shadow: 0 0 3px rgba(0,0,0,0.7); /* Text shadow for readability */
 }
 
+/* Form Labels - Adjust text colors for contrast */
 .form-label {
   font-weight: 500;
-  color: #495057;
+  color: #f8f9fa; /* Lighter grey/white for better contrast */
   margin-bottom: 0.4rem;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5); /* Subtle shadow for readability */
 }
 
-.form-control {
+/* Form Controls (Inputs) - Adjust for transparency */
+.form-control, .form-select {
   border-radius: 0.5rem;
-  border: 1px solid #ced4da;
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Lighter border */
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent input background */
+  color: #fff; /* White text in inputs */
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-.form-control:focus {
+.form-control::placeholder { /* Style placeholder text */
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-control:focus, .form-select:focus {
   border-color: #007bff;
+  background-color: rgba(255, 255, 255, 0.2); /* More opaque on focus */
   box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
   outline: none;
+  color: #fff;
 }
 
+/* Spacing for rows in the form */
 .row.g-3.mb-4 {
   margin-bottom: 1.5rem !important;
 }
 
+/* Submit Button */
 .btn-primary.btn-lg {
   background-color: #007bff;
   border-color: #007bff;
@@ -71,20 +132,23 @@ h5.text-primary {
   border-radius: 0.5rem;
   font-weight: 600;
   font-size: 1.15rem;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out,
-    transform 0.1s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
 .btn-primary.btn-lg:hover {
   background-color: #0056b3;
   border-color: #0056b3;
   transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
 }
 
 .btn-primary.btn-lg:active {
   transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
+/* Spinner for loading state */
 .spinner-border-sm {
   width: 1rem;
   height: 1rem;
@@ -97,15 +161,15 @@ h5.text-primary {
 }
 
 .alert-danger {
-  background-color: #f8d7da;
+  background-color: rgba(248, 215, 218, 0.8); /* Slightly transparent */
   color: #721c24;
-  border-color: #f5c6cb;
+  border-color: rgba(245, 198, 203, 0.8);
 }
 
 .alert-success {
-  background-color: #d4edda;
+  background-color: rgba(212, 237, 218, 0.8); /* Slightly transparent */
   color: #155724;
-  border-color: #c3e6cb;
+  border-color: rgba(195, 230, 203, 0.8);
 }
 
 .alert .btn-close {
@@ -114,9 +178,13 @@ h5.text-primary {
 }
 
 .text-center.mt-3 a {
-  color: #007bff;
+  color: #f0f3f5; 
   text-decoration: none;
   font-weight: 500;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5); 
+}
+.text-center.mt-3{
+  color: whitesmoke;
 }
 
 .text-center.mt-3 a:hover {
