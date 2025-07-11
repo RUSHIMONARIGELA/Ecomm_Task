@@ -35,8 +35,8 @@
     </div>
   </header>
 
-  <div class="row mb-4 align-items-center">
-    <div class="col-md-4">
+  <div class="row mb-4 align-items-end"> 
+    <div class="col-md-6 mb-3 mb-md-0"> 
       <label for="categoryFilter" class="form-label fw-bold"
         >Filter by Category:</label
       >
@@ -52,7 +52,21 @@
         </option>
       </select>
     </div>
-    <div class="col-md-8 text-end"></div>
+    <div class="col-md-6"> 
+      <label for="sortOrder" class="form-label fw-bold">Sort By:</label>
+      <select
+        id="sortOrder"
+        class="form-select"
+        [(ngModel)]="currentSortOption"
+        (change)="sortProducts()"
+      >
+        <option value="default">Default (No Sort)</option>
+        <option value="nameAsc">Name (A-Z)</option>
+        <option value="nameDesc">Name (Z-A)</option>
+        <option value="priceAsc">Price (Low to High)</option>
+        <option value="priceDesc">Price (High to Low)</option>
+      </select>
+    </div>
   </div>
 
   <div
@@ -113,28 +127,35 @@
             </span>
           </div>
           <div class="d-grid mt-3">
-            <button
-              class="btn btn-primary"
-              (click)="addToCart(product.id)"
-              [disabled]="
-                product.stockQuantity === 0 ||
-                addingToCartProductId === product.id
-              "
-            >
-              <span
-                *ngIf="addingToCartProductId === product.id"
-                class="spinner-border spinner-border-sm me-2"
-                role="status"
-                aria-hidden="true"
-              ></span>
-              {{
-                product.stockQuantity === 0
-                  ? "Out of Stock"
-                  : addingToCartProductId === product.id
-                  ? "Adding..."
-                  : "Add to Cart"
-              }}
-            </button>
+            <ng-container *ngIf="authService.isLoggedIn(); else loginToAdd">
+              <button
+                class="btn btn-primary"
+                (click)="addToCart(product.id)"
+                [disabled]="
+                  product.stockQuantity === 0 ||
+                  addingToCartProductId === product.id
+                "
+              >
+                <span
+                  *ngIf="addingToCartProductId === product.id"
+                  class="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                {{
+                  product.stockQuantity === 0
+                    ? "Out of Stock"
+                    : addingToCartProductId === product.id
+                    ? "Adding..."
+                    : "Add to Cart"
+                }}
+              </button>
+            </ng-container>
+            <ng-template #loginToAdd>
+              <a routerLink="/login" class="btn btn-outline-primary"
+                >Login to Add to Cart</a
+              >
+            </ng-template>
           </div>
         </div>
       </div>
