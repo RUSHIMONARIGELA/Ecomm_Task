@@ -31,8 +31,7 @@ export class SignupComponent {
       firstName: '',
       lastName: '',
       phoneNumber: '',
-      addresses: [
-        {
+      addresses: [        {
           street: '',
           city: '',
           state: '',
@@ -129,6 +128,7 @@ export class SignupComponent {
         next: (response) => {
           this.successMessage = 'Registration successful! You can now log in.';
           console.log('Full signup successful:', response);
+          alert("Registration successful! You can now log in.");
           this.loading = false;
           this.router.navigate(['/login']);
         },

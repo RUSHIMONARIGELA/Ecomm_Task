@@ -8,6 +8,7 @@ import { ProductDTO } from '../models/product.model';
   providedIn: 'root',
 })
 export class ProductService {
+  
   private baseUrl = 'http://localhost:8080/api/products';
 
   private http = inject(HttpClient);
@@ -31,8 +32,8 @@ export class ProductService {
   }
 
   getProductById(id: number): Observable<ProductDTO> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<ProductDTO>(`${this.baseUrl}/${id}`, { headers });
+   
+    return this.http.get<ProductDTO>(`${this.baseUrl}/${id}` );
   }
 
   createProduct(product: ProductDTO): Observable<ProductDTO> {
@@ -53,8 +54,21 @@ export class ProductService {
   }
 
   getProductsByCategoryId(categoryId: number): Observable<ProductDTO[]> {
+
     return this.http.get<ProductDTO[]>(
       `${this.baseUrl}/category/${categoryId}`
     );
   }
+
+
+  uploadProductsCsv(formData: FormData): Observable<string>{
+    // const headers=this.getAuthHeaders();
+    return this.http.post(`${this.baseUrl}/upload-csv`, formData,{ responseType:'text'});
+  }
+
+  creareMultipleProducts(products: ProductDTO[]): Observable<ProductDTO[]> {
+    const headers=this.getAuthHeaders();
+    return this.http.post<ProductDTO[]>(`${this.baseUrl}/batch`, products,{headers});
+  }
+
 }

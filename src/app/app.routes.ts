@@ -24,6 +24,7 @@ import { PublicProductsListComponent } from './layouts/public-products-list/publ
 import { OrderDetailComponent } from './pages/Admin/order-detail/order-detail.component';
 import { CustomerDetailComponent } from './pages/Admin/customer-detail/customer-detail.component';
 import { AdminCategoryComponent } from './pages/Admin/admin-category/admin-category.component';
+import { AdminProductBulkUploadComponent } from './pages/Admin/admin-product-bulk-upload/admin-product-bulk-upload.component';
 
 export const routes: Routes = [
   
@@ -51,6 +52,7 @@ export const routes: Routes = [
       { path: 'products', component: AdminProductListComponent },
       { path: 'products/create', component: AdminProductFormComponent },
       { path: 'products/edit/:id', component: AdminProductFormComponent },
+      { path: 'products/bulk-upload', component: AdminProductBulkUploadComponent },
       { path: 'orders', component: OrderListComponent },
       { path: 'orders/edit/:id', component: OrderDetailComponent },
       { path: 'customers', component: CustomerListComponent },

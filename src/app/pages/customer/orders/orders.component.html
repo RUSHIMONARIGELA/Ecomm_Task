@@ -49,7 +49,7 @@
                   <span
                     class="badge ms-3"
                     [ngClass]="{
-                      'bg-info': order.status === 'PENDING',
+                      'bg-info': order.status === 'PENDING'||'bg-info : order.status === PAID',
                       'bg-warning text-dark': order.status === 'SHIPPED',
                       'bg-success': order.status === 'DELIVERED',
                       'bg-danger': order.status === 'CANCELLED'

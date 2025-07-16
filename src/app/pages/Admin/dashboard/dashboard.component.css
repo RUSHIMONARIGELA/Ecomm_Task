@@ -1,34 +1,99 @@
+/* Admin Dashboard Styles */
+
+/* Overall Container */
 .admin-dashboard-container {
   max-width: 1200px;
   margin-top: 4rem !important;
   margin-bottom: 4rem !important;
+  font-family: 'Inter', sans-serif; /* Consistent font */
 }
 
+/* Dashboard Title */
 .dashboard-title {
-  font-size: 2.8rem;
-  font-weight: 700;
+  font-size: 3rem; /* Larger, more impactful title */
+  font-weight: 800; /* Extra bold */
   color: #212529;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* More pronounced text shadow */
 }
 
-.text-muted.mb-5 {
-  font-size: 1.1rem;
-  color: #6c757d !important;
+/* Lead Text */
+.lead-text {
+  font-size: 1.25rem; /* Larger lead text */
+  color: #6c757d;
+  margin-bottom: 3rem !important; /* More space below lead text */
 }
 
-.dashboard-card {
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+/* Section Headings */
+.section-heading {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 2rem !important;
+  position: relative;
+}
+
+.section-heading::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #007bff; /* Primary color underline */
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* Quick Stats Section */
+.quick-stats-section {
+  margin-bottom: 4rem;
+}
+
+.stat-card {
   border-radius: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: #ffffff;
+  border: 1px solid #e9ecef; /* Subtle border */
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  stroke-width: 2.5;
+  margin-bottom: 1rem;
+}
+
+.stat-card .card-subtitle {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+.stat-card .card-title {
+  font-size: 1.8rem;
+  margin-top: 0.5rem;
+  font-weight: 700;
+}
+
+/* Management Action Cards */
+.dashboard-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  border-radius: 1.2rem; /* More pronounced rounded corners */
   overflow: hidden;
   background-color: #ffffff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Deeper, softer initial shadow */
   display: flex;
   flex-direction: column;
+  border: none; /* Remove default border */
 }
 
 .dashboard-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px); /* More noticeable lift on hover */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25); /* Even deeper shadow on hover */
+  background-color: #f8f9fa; /* Slight background change on hover */
 }
 
 .dashboard-card .card-body {
@@ -41,12 +106,13 @@
   flex-grow: 1;
 }
 
+/* Icons for Management Cards */
 .icon-large {
-  width: 60px;
-  height: 60px;
+  width: 64px; /* Even larger icon size */
+  height: 64px;
   stroke-width: 2.5;
   margin-bottom: 1.5rem;
-  color: #007bff;
+  /* Default icon color, overridden by Bootstrap text-colors */
 }
 
 .icon-small {
@@ -56,39 +122,43 @@
   margin-right: 0.5rem;
 }
 
-.card-title {
-  font-size: 1.75rem;
+/* Card Titles for Management Cards */
+.dashboard-card .card-title {
+  font-size: 1.8rem; /* Larger card title */
   font-weight: 700;
   color: #343a40;
   margin-bottom: 0.75rem;
 }
 
-.card-text {
+/* Card Text for Management Cards */
+.dashboard-card .card-text {
   font-size: 1rem;
   line-height: 1.6;
   color: #6c757d;
   margin-bottom: 2rem;
 }
 
+/* Buttons */
 .btn {
   font-weight: 600;
   border-radius: 0.6rem;
-  padding: 0.8rem 1.5rem;
+  padding: 0.85rem 1.8rem; /* More generous button padding */
   font-size: 1.05rem;
   transition: all 0.2s ease-in-out, transform 0.1s ease-in-out;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Enhanced button shadow */
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px); /* More pronounced lift on hover */
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
 }
 
 .btn:active {
   transform: translateY(0);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Custom button colors with subtle gradients */
 .btn-primary {
   background: linear-gradient(45deg, #007bff, #0056b3);
   border: none;
@@ -122,23 +192,37 @@
   background: linear-gradient(45deg, #e0a800, #c69500);
 }
 
+/* Responsive adjustments */
 @media (max-width: 992px) {
   .dashboard-title {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
+  }
+  .lead-text {
+    font-size: 1.1rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
   }
   .dashboard-card .card-body {
     padding: 2rem;
   }
   .icon-large {
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
   }
-  .card-title {
-    font-size: 1.4rem;
+  .dashboard-card .card-title {
+    font-size: 1.5rem;
   }
   .btn {
     font-size: 1rem;
-    padding: 0.7rem 1.2rem;
+    padding: 0.7rem 1.5rem;
+  }
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .stat-card .card-title {
+    font-size: 1.5rem;
   }
 }
 
@@ -148,24 +232,43 @@
     margin-bottom: 2rem !important;
   }
   .dashboard-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
+  }
+  .lead-text {
+    font-size: 1rem;
+  }
+  .section-heading {
+    font-size: 1.4rem;
   }
   .dashboard-card .card-body {
     padding: 1.5rem;
   }
   .icon-large {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
   }
-  .card-title {
-    font-size: 1.2rem;
+  .dashboard-card .card-title {
+    font-size: 1.3rem;
   }
   .card-text {
     font-size: 0.9rem;
   }
   .btn {
     font-size: 0.9rem;
-    padding: 0.6rem 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+  .stat-card .card-body {
+    padding: 1.5rem;
+  }
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .stat-card .card-title {
+    font-size: 1.3rem;
+  }
+  .stat-card .card-subtitle {
+    font-size: 0.85rem;
   }
 }
 
@@ -173,11 +276,20 @@
   .dashboard-title {
     font-size: 1.8rem;
   }
-  .col-md-6.col-lg-4 {
+  .lead-text {
+    font-size: 0.9rem;
+  }
+  .col-md-6.col-lg-4, .col-md-6.col-lg-3 {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .dashboard-card .card-body {
+  .dashboard-card, .stat-card {
+    border-radius: 0.75rem;
+  }
+  .dashboard-card .card-body, .stat-card .card-body {
     padding: 1.2rem;
+  }
+  .btn {
+    width: 100%; /* Full width buttons on very small screens */
   }
 }

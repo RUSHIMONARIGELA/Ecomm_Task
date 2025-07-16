@@ -1,18 +1,16 @@
-/* Container for the background image */
 .register-background {
-  min-height: 100vh; /* Make it take full viewport height */
-  display: flex; /* Use flexbox to center content */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  background-image: url('../../../Assests/bannerimg.jpg'); /* Placeholder image */
-  background-size:cover; /* Cover the entire container */
-  background-position: center center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  position: relative; /* Needed for overlay */
-  overflow: hidden; /* Hide any overflow */
+  min-height: 100vh; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  background-image: url('../../../Assests/bannerimg.jpg'); 
+  background-size:cover; 
+  background-position: center center; 
+  background-repeat: no-repeat; 
+  position: relative; 
+  overflow: hidden; 
 }
 
-/* Add a semi-transparent overlay for better text readability */
 .register-background::before {
   content: '';
   position: absolute;
@@ -20,46 +18,40 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.45); /* Dark semi-transparent overlay */
-  z-index: 0; /* Ensure it's behind the form */
+  background-color: rgba(0, 0, 0, 0.45); 
+  z-index: 0; 
 }
 
-/* Overall container for the registration form (now inside register-background) */
 .container.mt-5 {
-  /* Remove fixed margins as flexbox handles centering */
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: 2rem; /* Adjusted padding */
+  padding-top: 2rem; 
   padding-bottom: 2rem;
-  position: relative; /* Bring form to front of overlay */
-  z-index: 1; /* Ensure form is above the overlay */
+  position: relative; 
+  z-index: 1; 
 }
 
-/* Card styling - apply glossy effect here */
 .card.shadow-lg {
   border-radius: 0.75rem;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Stronger, diffused shadow */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); 
   
-  /* FIXED: Glossy effect properties */
-  background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white for frosted glass */
-  backdrop-filter: blur(10px); /* Blur the content behind the element */
-  -webkit-backdrop-filter: blur(10px); /* For Safari support */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle light border */
+  background-color: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px); 
+  border: 1px solid rgba(255, 255, 255, 0.3); 
   
-  /* Optional: Very subtle gradient for a light reflection effect */
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
   
   overflow: hidden;
 }
 
-/* Card Header - Adjust text colors for contrast */
 .card-header.bg-primary {
-  background-color: rgba(0, 123, 255, 0.7) !important; /* Slightly transparent primary color */
+  background-color: rgba(0, 123, 255, 0.7) !important; 
   color: #fff;
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
   padding: 1.5rem 1rem;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Text shadow for readability */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7); 
 }
 
 .card-header h3 {
@@ -72,58 +64,55 @@
   opacity: 0.9;
 }
 
-/* Card Body */
 .card-body.p-4 {
   padding: 2rem !important;
 }
 
-/* Section Headings - Adjust text colors for contrast */
+
 h5.text-primary {
-  color: #e0e0e0 !important; /* Lighter color for contrast */
+  color: #e0e0e0 !important; 
   font-weight: 600;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Lighter border */
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2); 
   padding-bottom: 0.5rem;
-  text-shadow: 0 0 3px rgba(0,0,0,0.7); /* Text shadow for readability */
+  text-shadow: 0 0 3px rgba(0,0,0,0.7); 
 }
 
-/* Form Labels - Adjust text colors for contrast */
 .form-label {
   font-weight: 500;
-  color: #f8f9fa; /* Lighter grey/white for better contrast */
+  color: #f8f9fa; 
   margin-bottom: 0.4rem;
-  text-shadow: 0 0 2px rgba(0,0,0,0.5); /* Subtle shadow for readability */
+  text-shadow: 0 0 2px rgba(0,0,0,0.5); 
 }
 
-/* Form Controls (Inputs) - Adjust for transparency */
 .form-control, .form-select {
   border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.4); /* Lighter border */
-  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent input background */
-  color: #fff; /* White text in inputs */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.1); 
+  color: #fff; 
   padding: 0.75rem 1rem;
   font-size: 1rem;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-.form-control::placeholder { /* Style placeholder text */
+.form-control::placeholder { 
   color: rgba(255, 255, 255, 0.6);
 }
 
 .form-control:focus, .form-select:focus {
   border-color: #007bff;
-  background-color: rgba(255, 255, 255, 0.2); /* More opaque on focus */
+  background-color: rgba(255, 255, 255, 0.2); 
   box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
   outline: none;
   color: #fff;
 }
 
-/* Spacing for rows in the form */
+
 .row.g-3.mb-4 {
   margin-bottom: 1.5rem !important;
 }
 
-/* Submit Button */
+
 .btn-primary.btn-lg {
   background-color: #007bff;
   border-color: #007bff;
@@ -148,7 +137,7 @@ h5.text-primary {
   box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
-/* Spinner for loading state */
+
 .spinner-border-sm {
   width: 1rem;
   height: 1rem;
@@ -161,13 +150,13 @@ h5.text-primary {
 }
 
 .alert-danger {
-  background-color: rgba(248, 215, 218, 0.8); /* Slightly transparent */
+  background-color: rgba(248, 215, 218, 0.8); 
   color: #721c24;
   border-color: rgba(245, 198, 203, 0.8);
 }
 
 .alert-success {
-  background-color: rgba(212, 237, 218, 0.8); /* Slightly transparent */
+  background-color: rgba(212, 237, 218, 0.8); 
   color: #155724;
   border-color: rgba(195, 230, 203, 0.8);
 }
