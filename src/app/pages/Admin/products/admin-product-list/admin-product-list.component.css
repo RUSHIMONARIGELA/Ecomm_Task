@@ -3,6 +3,11 @@
   padding-bottom: 2rem;
   
 }
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+
+}
 
 h3 {
   font-size: 2rem;

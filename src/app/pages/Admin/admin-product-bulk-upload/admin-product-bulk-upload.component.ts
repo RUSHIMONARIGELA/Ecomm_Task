@@ -99,7 +99,6 @@ export class AdminProductBulkUploadComponent {
         }else{
           this.errorMessage=`unexpected error occured while upload....`;
         }
-        
       }
     });
 

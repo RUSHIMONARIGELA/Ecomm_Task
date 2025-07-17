@@ -30,7 +30,7 @@ export class CustomerproductsComponent implements OnInit {
 
   username : string | null = null;
   products: ProductDTO[] = [];
-  originalProducts: ProductDTO[] = []; // To store the original fetched list
+  originalProducts: ProductDTO[] = [];
   loading = true;
   error: string | null = null;
   addingToCartProductId: number | null = null;
@@ -123,19 +123,10 @@ export class CustomerproductsComponent implements OnInit {
         break;
       case 'default':
       default:
-        // If default, re-apply the original order (or the order after category filter)
-        // This is tricky if category filter changes the order.
-        // A simpler approach for 'default' is to just keep the current order,
-        // or re-fetch if 'default' truly means "unsorted from backend".
-        // For now, let's assume 'default' means no additional sorting on top of what loadProducts provides.
-        // If you need truly original order, you'd need to store the initial fetched list before any filtering/sorting.
-        // For this implementation, `this.products` will be updated by `loadProducts` and then sorted.
-        // If you want to revert to the initial load order, you'd need to re-assign `this.products = [...this.originalProducts]`
-        // and then apply the category filter again if one is selected.
-        // For simplicity, `default` will just retain the current order.
+        
         break;
     }
-    this.products = productsToSort; // Update the displayed products
+    this.products = productsToSort; 
   }
 
   addToCart(productId: number | undefined): void {
@@ -161,6 +152,7 @@ export class CustomerproductsComponent implements OnInit {
     this.cartService.addProductToCart(customerId, { productId: productId, quantity: quantity }).subscribe({
       next: (data) => {
         console.log('Product added to cart:', data);
+        alert('Product added to cart Successfully...')
         this.addingToCartProductId = null;
         this.cartUpdateService.notifyCartChanged();
       },

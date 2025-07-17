@@ -15,7 +15,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = ''"></button>
       </div>
 
-      <div class="d-flex justify-content-end mb-4">
+      <div class="d-flex">
+
+        <button class="btn btn-primary" routerLink="/admin/products/create">
+          <i data-lucide="upload" class="me-2 icon-small"></i>Add Single Product
+        </button>
+
         <!-- FIXED: Changed routerLink to navigate to the bulk upload form -->
         <button class="btn btn-primary" routerLink="/admin/products/bulk-upload">
           <i data-lucide="upload" class="me-2 icon-small"></i>Bulk Upload Products (CSV)

@@ -1,7 +1,9 @@
 /* Admin Dashboard Styles */
 
 /* Overall Container */
+
 .admin-dashboard-container {
+  
   max-width: 1200px;
   margin-top: 4rem !important;
   margin-bottom: 4rem !important;
