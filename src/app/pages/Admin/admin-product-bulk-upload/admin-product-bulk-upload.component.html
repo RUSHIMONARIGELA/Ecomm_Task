@@ -3,72 +3,42 @@
     <div class="card-header bg-dark text-white py-3">
       <h3 class="mb-0">Bulk Upload Products (CSV)</h3>
     </div>
-
     <div class="card-body p-4">
-      <div
-        *ngIf="errorMessage"
-        class="alert alert-danger alert-dismissible fade show"
-        role="alert"
-      >
+
+      <!-- Error Message Display -->
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ errorMessage }}
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-          (click)="errorMessage = null"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="errorMessage = null"></button>
       </div>
-      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show " role="alert">
-        {{successMessage}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = null "></button>
+
+      <!-- Success Message Display -->
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ successMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = null"></button>
       </div>
+
       <div class="mb-4">
-        <h5 class="text-primary mb-3">Upload CSV File</h5>
-        <p class="text-muted">
-            Please Upload a CSV file containing product details.The file should have the fllowing headers:
-            <code class="d-block bg-light p-2 my-2 rounded">
-                name,description,price,categoryId,stockQuantity,images
-            </code>
-            <small class="d-block mt-2">
-                * <code class="'fw-bold"> images</code> should be a comma-seperated string of image URLs (e.g., <code>url1.jpg,url2.png</code>).
-                <br>
-                * <code class="fw-bold">categoryId</code> should be the numeric ID of the category. Available categories:
-            <span *ngIf="categories.length > 0; else noCategories">
-              <span class="badge bg-secondary me-1" *ngFor="let cat of categories">{{cat.name}} (ID: {{cat.id}})</span>
-            </span>
-            <ng-template #noCategories>
-              <span class="text-warning">No categories found. Please add categories first.</span>
-            </ng-template>
-          </small>
-        </p>
-
-        <div class="input-group mb-3">
-          <input
-            type="file"
-            class="form-control"
-            id="csvFile"
-            accept=".csv"
-            (change)="onFileSelected($event)"
-            [disabled]="loading"
-          >
-          <label class="input-group-text" for="csvFile">Choose File</label>
+        <label for="csvFile" class="form-label">Select CSV File:</label>
+        <input type="file" id="csvFile" class="form-control" (change)="onFileSelected($event)" accept=".csv" />
+        <div class="form-text mt-2">
+          Upload a CSV file containing product data. The file should have columns:
+          <code>name,description,price,categoryId,stockQuantity,images</code>.
+          <br>
+          Example Category IDs: {{ categoryNames }}.
+          <br>
+          Images should be comma-separated URLs (optional).
         </div>
+      </div>
 
-        <div class="d-grid gap-2">
-          <button
-            type="button"
-            class="btn btn-primary btn-lg"
-            (click)="onUpload()"
-            [disabled]="!selectedFile || loading"
-          >
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            Upload Products
-          </button>
-        </div>
+      <button class="btn btn-primary w-100 py-2" (click)="onUpload()" [disabled]="!selectedFile || loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        {{ loading ? 'Uploading...' : 'Upload CSV' }}
+      </button>
+
+      <div class="mt-4 text-center">
+        <a routerLink="/admin/products" class="btn btn-outline-secondary">Back to Product List</a>
       </div>
 
     </div>
   </div>
 </div>
-

@@ -7,6 +7,14 @@ import { ProductService } from '../../../services/product.service';
 import { CategoryService } from '../../../services/category.service';
 import { Router } from '@angular/router';
 
+interface BulkUploadResultDTO {
+  totalProcessed: number;
+  addedCount: number;
+  skippedCount: number;
+  message: string;
+}
+
+
 @Component({
   selector: 'app-admin-product-bulk-upload',
   imports: [
@@ -79,25 +87,28 @@ export class AdminProductBulkUploadComponent {
     formData.append('file',this.selectedFile, this.selectedFile.name);
 
     this.productService.uploadProductsCsv(formData).subscribe({
-      next:( _response) => {
-        this.successMessage= 'Products uploaded successfully';
-        alert("product upload successful");
-        this.loading=false;
-        this.selectedFile=null;
-
+      next: (result: BulkUploadResultDTO) => { 
+        this.successMessage = result.message; 
+        this.loading = false;
+        this.selectedFile = null;
         setTimeout(() => {
-          this.router.navigate(['admin/products']);
-        }, 200);
+          this.router.navigate(['/admin/products']);
+        }, 3000); 
+        alert(this.successMessage)
       },
       error: (error : HttpErrorResponse) => {
         this.loading=false;
         console.error('Bulk upload failed',error);
-        if(error.error && typeof error.error ==='string'){
-          this.errorMessage =`upload failed : ${error.error}`;
-        }else if (error.error && error.error.message){
-          this.errorMessage=`upload failed : ${error.error.message}`;
-        }else{
-          this.errorMessage=`unexpected error occured while upload....`;
+
+         if (error.error && typeof error.error === 'object' && 'message' in error.error) {
+          const errorResult: BulkUploadResultDTO = error.error;
+          this.errorMessage = `Upload failed: ${errorResult.message}`;
+        } else if (error.error && typeof error.error === 'string') {
+          this.errorMessage = `Upload failed: ${error.error}`;
+        } else if (error.error && error.error.message) {
+          this.errorMessage = `Upload failed: ${error.error.message}`;
+        } else {
+          this.errorMessage = 'An unknown error occurred during upload.';
         }
       }
     });

@@ -4,13 +4,19 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ProductDTO } from '../models/product.model';
 
+interface BulkUploadResultDTO {
+  totalProcessed: number;
+  addedCount: number;
+  skippedCount: number;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   
   private baseUrl = 'http://localhost:8080/api/products';
-
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
@@ -32,7 +38,6 @@ export class ProductService {
   }
 
   getProductById(id: number): Observable<ProductDTO> {
-   
     return this.http.get<ProductDTO>(`${this.baseUrl}/${id}` );
   }
 
@@ -54,16 +59,14 @@ export class ProductService {
   }
 
   getProductsByCategoryId(categoryId: number): Observable<ProductDTO[]> {
-
     return this.http.get<ProductDTO[]>(
       `${this.baseUrl}/category/${categoryId}`
     );
   }
 
 
-  uploadProductsCsv(formData: FormData): Observable<string>{
-    // const headers=this.getAuthHeaders();
-    return this.http.post(`${this.baseUrl}/upload-csv`, formData,{ responseType:'text'});
+  uploadProductsCsv(formData: FormData): Observable<BulkUploadResultDTO>{
+    return this.http.post<BulkUploadResultDTO>(`${this.baseUrl}/upload-csv`, formData);
   }
 
   creareMultipleProducts(products: ProductDTO[]): Observable<ProductDTO[]> {
