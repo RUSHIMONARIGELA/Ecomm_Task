@@ -31,6 +31,10 @@ export class CartComponent implements OnInit, OnDestroy {
   submitting = false;
   processingCheckout = false;
 
+  couponCode: string = '';
+  couponError: string | null = null; 
+  successMessage: string | null = null; 
+
   private cartUpdateSubscription: Subscription | undefined;
 
   private cartService = inject(CartService);
@@ -60,21 +64,25 @@ export class CartComponent implements OnInit, OnDestroy {
   loadCart(): void {
     this.loadingCart = true;
     this.cartError = null;
+    this.couponError = null; 
+    this.successMessage = null; 
     const customerId = this.authService.getCurrentCustomerId();
 
     if (customerId) {
-      this.cartService.getOrCreateCart(customerId).subscribe({
+      this.cartService.getCartByCustomerId(customerId).subscribe({
         next: (data: CartDTO) => {
           this.cart = data;
           this.loadingCart = false;
+          if (this.cart.couponCode) {
+            this.couponCode = this.cart.couponCode;
+          }
         },
         error: (error: HttpErrorResponse) => {
           this.cartError = 'Failed to load cart. Please try again.';
           this.loadingCart = false;
           console.error('CustomerCartComponent: Error fetching cart:', error);
           if (error.status === 404) {
-            this.cartError =
-              'Cart not found. It might be created on first item addition.';
+            this.cartError = 'Cart not found. It might be created on first item addition.';
           } else if (error.error && error.error.message) {
             this.cartError = `Failed to load cart: ${error.error.message}`;
           }
@@ -83,9 +91,7 @@ export class CartComponent implements OnInit, OnDestroy {
     } else {
       this.cartError = 'Customer ID not available. Please log in.';
       this.loadingCart = false;
-      console.warn(
-        'CustomerCartComponent: No customer ID found from AuthService. Cannot load cart.'
-      );
+      console.warn('CustomerCartComponent: No customer ID found from AuthService. Cannot load cart.');
       this.router.navigate(['/login']);
     }
   }
@@ -100,12 +106,11 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     const oldQuantity = item.quantity;
-    item.quantity = newQuantity;
-
-    this.calculateLocalCartTotal();
-
-    if (oldQuantity !== newQuantity) {
+    if (item.productDetails?.id !== undefined) {
       this.updateItemQuantity(item.productDetails.id, newQuantity, oldQuantity);
+    } else {
+      console.error('Product ID is undefined for quantity change.');
+      this.cartError = 'Error: Product ID missing for quantity update.';
     }
   }
 
@@ -120,26 +125,27 @@ export class CartComponent implements OnInit, OnDestroy {
       );
       this.cartError = 'Error updating item: Missing ID.';
       const itemToRevert = this.cart?.cartItems.find(
-        (i) => i.productDetails.id === productId
+        (i) => i.productDetails?.id === productId 
       );
       if (itemToRevert) {
         itemToRevert.quantity = oldQuantity;
-        this.calculateLocalCartTotal();
       }
       return;
     }
 
     this.submitting = true;
     this.cartError = null;
+    this.couponError = null; 
+    this.successMessage = null; 
 
     this.cartService
       .updateProductQuantityInCart(this.cart.customerId, productId, newQuantity)
       .subscribe({
         next: (data: CartDTO) => {
-          this.cart = data; 
+          this.cart = data;
           this.submitting = false;
           console.log('Quantity updated successfully:', data);
-          this.cartUpdateService.notifyCartChanged();
+          this.cartUpdateService.notifyCartChanged(); 
         },
         error: (error: HttpErrorResponse) => {
           this.cartError = 'Failed to update quantity. Please try again.';
@@ -149,11 +155,10 @@ export class CartComponent implements OnInit, OnDestroy {
             error
           );
           const itemToRevert = this.cart?.cartItems.find(
-            (i) => i.productDetails.id === productId
+            (i) => i.productDetails?.id === productId 
           );
           if (itemToRevert) {
             itemToRevert.quantity = oldQuantity;
-            this.calculateLocalCartTotal();
           }
           if (error.error && error.error.message) {
             this.cartError = `Failed to update quantity: ${error.error.message}`;
@@ -177,6 +182,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
     this.submitting = true;
     this.cartError = null;
+    this.couponError = null; 
+    this.successMessage = null; 
 
     this.cartService
       .removeProductFromCart(this.cart.customerId, productId)
@@ -185,7 +192,7 @@ export class CartComponent implements OnInit, OnDestroy {
           this.cart = data;
           this.submitting = false;
           console.log('Item removed successfully:', data);
-          this.cartUpdateService.notifyCartChanged();
+          this.cartUpdateService.notifyCartChanged(); 
         },
         error: (error: HttpErrorResponse) => {
           this.cartError = 'Failed to remove item. Please try again.';
@@ -211,16 +218,21 @@ export class CartComponent implements OnInit, OnDestroy {
 
     this.submitting = true;
     this.cartError = null;
+    this.couponError = null; 
+    this.successMessage = null; 
 
     this.cartService.clearCart(this.cart.customerId).subscribe({
       next: () => {
         if (this.cart) {
           this.cart.cartItems = [];
-          this.cart.totalPrice = 0;
+          this.cart.totalAmount = 0; 
+          this.cart.couponCode = undefined; 
+          this.cart.discountAmount = undefined; 
         }
         this.submitting = false;
+        this.couponCode = ''; 
         console.log('Cart cleared successfully.');
-        this.cartUpdateService.notifyCartChanged();
+        this.cartUpdateService.notifyCartChanged(); 
       },
       error: (error: HttpErrorResponse) => {
         this.cartError = 'Failed to clear cart. Please try again.';
@@ -236,6 +248,8 @@ export class CartComponent implements OnInit, OnDestroy {
   checkout(): void {
     this.cartError = null;
     this.processingCheckout = true;
+    this.couponError = null; 
+    this.successMessage = null; 
 
     if (
       !this.cart ||
@@ -260,9 +274,9 @@ export class CartComponent implements OnInit, OnDestroy {
       next: (order: OrderDTO) => {
         console.log('Order created successfully from cart:', order);
         this.processingCheckout = false;
-        this.cartUpdateService.notifyCartChanged();
+        this.cartUpdateService.notifyCartChanged(); 
 
-        this.router.navigate(['/home/checkout', order.id]);
+        this.router.navigate(['/home/checkout', order.id]); 
       },
       error: (error: HttpErrorResponse) => {
         this.processingCheckout = false;
@@ -301,19 +315,74 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  get calculatedTotalPrice(): number {
+
+  getCartSubtotal(): number {
     if (!this.cart || !this.cart.cartItems) {
       return 0;
     }
-    return this.cart.cartItems.reduce(
-      (sum, item) => sum + item.quantity * item.price,
-      0
-    );
+    return this.cart.cartItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
   }
 
-  private calculateLocalCartTotal(): void {
-    if (this.cart) {
-      this.cart.totalPrice = this.calculatedTotalPrice;
+ 
+  applyCoupon(): void {
+    if (!this.cart || !this.cart.customerId) {
+      this.couponError = 'Cart not loaded or customer ID missing.';
+      return;
     }
+    if (!this.couponCode) {
+      this.couponError = 'Please enter a coupon code.';
+      return;
+    }
+
+    this.couponError = null; 
+    this.cartError = null; 
+    this.successMessage = null; 
+    this.submitting = true; 
+
+    this.cartService.applyCouponToCart(this.cart.customerId, this.couponCode).subscribe({
+      next: (data: CartDTO) => {
+        this.cart = data;
+        this.couponError = null;
+        this.successMessage = 'Coupon applied successfully!';
+        this.submitting = false;
+        this.cartUpdateService.notifyCartChanged(); 
+      },
+      error: (error: HttpErrorResponse) => {
+        this.submitting = false;
+        console.error('Error applying coupon:', error);
+        this.couponError = error.error?.message || 'Failed to apply coupon. Please check the code and try again.';
+        this.successMessage = null;
+      }
+    });
   }
+
+  removeCoupon(): void {
+    if (!this.cart || !this.cart.customerId) {
+      this.couponError = 'Cart not loaded or customer ID missing.';
+      return;
+    }
+
+    this.couponError = null; 
+    this.cartError = null; 
+    this.successMessage = null; 
+    this.submitting = true; 
+
+    this.cartService.removeCouponFromCart(this.cart.customerId).subscribe({
+      next: (data: CartDTO) => {
+        this.cart = data;
+        this.couponCode = ''; 
+        this.couponError = null;
+        this.successMessage = 'Coupon removed successfully!';
+        this.submitting = false;
+        this.cartUpdateService.notifyCartChanged(); 
+      },
+      error: (error: HttpErrorResponse) => {
+        this.submitting = false;
+        console.error('Error removing coupon:', error);
+        this.couponError = error.error?.message || 'Failed to remove coupon.';
+        this.successMessage = null;
+      }
+    });
+  }
+
 }

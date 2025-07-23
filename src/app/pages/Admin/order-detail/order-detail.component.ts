@@ -26,6 +26,7 @@ export class OrderDetailComponent {
     'DELIVERED',
     'CANCELLED',
     'RETURNED',
+    'PAID'
   ];
 
   private route = inject(ActivatedRoute);

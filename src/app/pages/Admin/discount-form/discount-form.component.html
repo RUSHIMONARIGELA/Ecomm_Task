@@ -1,0 +1,70 @@
+<div class="container my-5">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-header bg-dark text-white py-3">
+      <h3 class="mb-0">{{ isEditMode ? 'Edit Discount' : 'Create New Discount' }}</h3>
+    </div>
+    <div class="card-body p-4">
+
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="errorMessage = null"></button>
+      </div>
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ successMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = null"></button>
+      </div>
+
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="code" class="form-label">Code:</label>
+          <input type="text" id="code" class="form-control" [(ngModel)]="discount.code" name="code" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="type" class="form-label">Type:</label>
+          <select id="type" class="form-select" [(ngModel)]="discount.type" name="type" required>
+            <option value="PERCENTAGE">Percentage</option>
+            <option value="FIXED_AMOUNT">Fixed Amount</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="value" class="form-label">Value:</label>
+          <input type="number" id="value" class="form-control" [(ngModel)]="discount.value" name="value" required step="0.01">
+        </div>
+
+        <div class="mb-3">
+          <label for="minOrderAmount" class="form-label">Minimum Order Amount (Optional):</label>
+          <input type="number" id="minOrderAmount" class="form-control" [(ngModel)]="discount.minOrderAmount" name="minOrderAmount" step="0.01">
+        </div>
+
+        <div class="mb-3">
+          <label for="startDate" class="form-label">Start Date:</label>
+          <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="discount.startDate" name="startDate" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="endDate" class="form-label">End Date:</label>
+          <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="discount.endDate" name="endDate" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="usageLimit" class="form-label">Usage Limit (Optional):</label>
+          <input type="number" id="usageLimit" class="form-control" [(ngModel)]="discount.usageLimit" name="usageLimit">
+        </div>
+
+        <div class="form-check mb-3">
+          <input type="checkbox" id="active" class="form-check-input" [(ngModel)]="discount.active" name="active">
+          <label class="form-check-label" for="active">Active</label>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-primary btn-lg">
+            {{ isEditMode ? 'Update Discount' : 'Create Discount' }}
+          </button>
+          <button type="button" class="btn btn-outline-secondary" routerLink="/admin/discounts">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,10 @@ interface AddItemToCartRequestDTO {
   quantity: number;
 }
 
+interface ApplyCouponRequest {
+  couponCode: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -91,5 +95,29 @@ export class CartService {
     return this.http.get<CartDTO>(`${this.baseUrl}/customer/${customerId}`, {
       headers,
     });
+  }
+
+  applyCouponToCart(
+    customerId: number,
+    couponCode: string
+  ): Observable<CartDTO> {
+    const headers = this.getAuthHeaders();
+
+    const requestBody: ApplyCouponRequest = { couponCode: couponCode };
+    return this.http.post<CartDTO>(
+      `http://localhost:8080/api/discounts/apply-coupon/${customerId}`,
+      requestBody,
+      { headers }
+    );
+  }
+
+  removeCouponFromCart(customerId: number): Observable<CartDTO> {
+    const headers = this.getAuthHeaders();
+
+    return this.http.post<CartDTO>(
+      `http://localhost:8080/api/discounts/remove-coupon/${customerId}`,
+      {},
+      { headers }
+    );
   }
 }

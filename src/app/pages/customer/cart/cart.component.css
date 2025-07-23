@@ -1,17 +1,98 @@
+/* src/app/pages/cart/cart.component.css */
+
+.container {
+  max-width: 960px; /* Optional: Constrain max width for better readability on large screens */
+}
+
+.card-header {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
 
 .img-thumbnail {
-  border-radius: 0.5rem;
+  border-radius: 0.5rem; /* Rounded corners for images */
+  border: 1px solid #dee2e6;
+  padding: 0.25rem;
+  background-color: #fff;
 }
 
 .table-responsive {
-  margin-top: 1rem;
+  margin-top: 1rem; /* Spacing above the table */
+}
+
+.table th,
+.table td {
+  vertical-align: middle; /* Vertically align content in table cells */
 }
 
 .form-control-sm {
-  max-width: 80px; 
+  max-width: 80px; /* Constrain width for quantity input */
+  text-align: center; /* Center text in quantity input */
+}
+
+.input-group-sm .form-control {
+  height: calc(1.5em + 0.5rem + 2px); /* Adjust height for small inputs */
 }
 
 .spinner-border {
   vertical-align: middle;
-  margin-right: 8px;
+  margin-right: 8px; /* Spacing for spinner next to text */
+}
+
+.alert {
+  margin-top: 1rem;
+}
+
+.list-group-item {
+  font-size: 1.1rem;
+}
+
+.list-group-item.fw-bold {
+  font-size: 1.25rem;
+  background-color: #f8f9fa; /* Light background for total row */
+}
+
+/* Specific styles for coupon section */
+.card-header h5 {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+}
+
+.input-group {
+  margin-bottom: 0; /* Remove default margin-bottom from input-group if not needed */
+}
+
+.alert-info strong {
+  color: #0c5460; /* Darker text for coupon code in info alert */
+}
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+@media (max-width: 767.98px) {
+  .col-md-6 {
+    margin-bottom: 1.5rem; 
+  }
 }

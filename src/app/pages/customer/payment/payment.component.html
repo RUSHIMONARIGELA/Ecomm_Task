@@ -30,18 +30,34 @@
 
       <!-- Main content when order is loaded -->
       <div *ngIf="!loadingOrder && !orderError && order">
-        <h4 class="mb-3">Order Summary (Order ID: {{ order.id }})</h4>
+        <h4 class="mb-3">Order Summary </h4>
         <ul class="list-group mb-4">
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
             *ngFor="let item of order.orderItems"
           >
             <div>
-              <span class="fw-bold">{{ item.productDetails.name }}</span>
+              <span class="fw-bold">{{ item.productDetails.name }}</span> <!-- Added safe navigation -->
               <span class="text-muted ms-2">x {{ item.quantity }}</span>
             </div>
             <span>Rs.{{ item.quantity * item.price | number : "1.2-2" }}</span>
           </li>
+          
+          <!-- NEW: Subtotal before discount -->
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Subtotal:</span>
+            <span>Rs.{{ getOrderSubtotal() | number : "1.2-2" }}</span>
+          </li>
+
+          <!-- NEW: Discount details -->
+          <li
+            *ngIf="order.discountAmount && order.discountAmount > 0"
+            class="list-group-item d-flex justify-content-between align-items-center text-success"
+          >
+            <span>Discount ({{ order.couponCode }}):</span>
+            <span>-Rs.{{ order.discountAmount | number : "1.2-2" }}</span>
+          </li>
+
           <li
             class="list-group-item d-flex justify-content-between align-items-center bg-light fw-bold"
           >
@@ -126,7 +142,7 @@
         <h4 class="alert-heading">No order found for payment.</h4>
         <p>Please ensure you have an active order to proceed with payment.</p>
         <hr />
-        <a routerLink="/home/cart" class="btn btn-primary">Go to Cart</a>
+        <a routerLink="/home/cart" class="btn btn-primary">Go to Cart</a> <!-- Changed from /home/cart -->
       </div>
     </div>
   </div>

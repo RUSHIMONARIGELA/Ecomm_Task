@@ -1,0 +1,66 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Discount Codes</h2>
+    <button class="btn btn-primary" routerLink="/admin/discounts/new">Create New Discount</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="errorMessage = null"></button>
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ successMessage }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = null"></button>
+  </div>
+
+  <div *ngIf="discounts && discounts.length > 0; else noDiscounts">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Type</th>
+            <th scope="col">Value</th>
+            <th scope="col">Min Order</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Usage Limit</th>
+            <th scope="col">Used Count</th>
+            <th scope="col">Active</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let discount of discounts">
+            <td>{{ discount.code }}</td>
+            <td>{{ discount.type }}</td>
+            <td>
+              <span *ngIf="discount.type === 'PERCENTAGE'">{{ discount.value }}%</span>
+              <span *ngIf="discount.type === 'FIXED_AMOUNT'">{{ discount.value | currency:'INR':'symbol':'1.2-2' }}</span>
+            </td>
+            <td>{{ discount.minOrderAmount | currency:'INR':'symbol':'1.2-2' }}</td>
+            <td>{{ discount.startDate | date:'shortDate' }}</td>
+            <td>{{ discount.endDate | date:'shortDate' }}</td>
+            <td>{{ discount.usageLimit || 'N/A' }}</td>
+            <td>{{ discount.usedCount }}</td>
+            <td>
+              <span class="badge" [ngClass]="{'bg-success': discount.active, 'bg-danger': !discount.active}">
+                {{ discount.active ? 'Yes' : 'No' }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-info btn-sm me-2" [routerLink]="['/admin/discounts/edit', discount.id]">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteDiscount(discount.id!)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #noDiscounts>
+    <div class="alert alert-info text-center">
+      No discount codes found.
+    </div>
+  </ng-template>
+</div>

@@ -52,7 +52,7 @@
                       [ngClass]="{
                         'bg-info':
                           order.status === 'PENDING' ||
-                          order.status === 'PROCESSING',
+                          order.status === 'PROCESSING' || order.status === 'PAID',
                         'bg-warning text-dark': order.status === 'SHIPPED',
                         'bg-success': order.status === 'DELIVERED',
                         'bg-danger':

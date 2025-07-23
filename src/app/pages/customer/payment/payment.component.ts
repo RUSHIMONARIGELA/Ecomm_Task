@@ -50,7 +50,7 @@ export class PaymentComponent {
         console.error(
           'PaymentComponent: No orderId found in route parameters.'
         );
-        this.router.navigate(['/home/cart']);
+        this.router.navigate(['/cart']); // Changed from /home/cart
       }
     });
   }
@@ -75,7 +75,7 @@ export class PaymentComponent {
         if (this.order.customerId !== currentCustomerId && !isAdmin) {
           this.orderError = 'You do not have permission to view this order.';
           this.order = null;
-          this.router.navigate(['/home/orders']);
+          this.router.navigate(['/orders']); // Changed from /home/orders
         } else if (this.order.status === 'PAID') {
           this.paymentSuccessMessage = 'This order has already been paid.';
           this.processingPayment = false;
@@ -97,12 +97,21 @@ export class PaymentComponent {
     });
   }
 
+  // NEW: Method to calculate subtotal of order items
+  getOrderSubtotal(): number {
+    if (!this.order || !this.order.orderItems) {
+      return 0;
+    }
+    return this.order.orderItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
+  }
+
+
   processPayment(): void {
     this.processingPayment = true;
     this.paymentSuccessMessage = null;
     this.paymentErrorMessage = null;
 
-    if (!this.orderId || !this.order || !this.order.totalAmount) {
+    if (!this.orderId || !this.order || this.order.totalAmount === undefined || this.order.totalAmount === null) {
       this.paymentErrorMessage =
         'Order details are missing or incomplete. Cannot process payment.';
       this.processingPayment = false;
@@ -119,7 +128,7 @@ export class PaymentComponent {
   }
 
   private initiateRazorpayPayment(): void {
-    if (!this.order || !this.order.id || this.order.totalAmount === undefined) {
+    if (!this.order || !this.order.id || this.order.totalAmount === undefined || this.order.totalAmount === null) {
       this.paymentErrorMessage =
         'Order details incomplete for Razorpay payment.';
       this.processingPayment = false;
@@ -214,7 +223,7 @@ export class PaymentComponent {
   }
 
   private captureRazorpayPayment(response: any): void {
-    if (!this.orderId || !this.order || !this.order.totalAmount) {
+    if (!this.orderId || !this.order || this.order.totalAmount === undefined || this.order.totalAmount === null) {
       this.paymentErrorMessage =
         'Internal order details missing for payment capture. Please reload the page.';
       this.processingPayment = false;
@@ -238,7 +247,7 @@ export class PaymentComponent {
             payment
           );
           setTimeout(() => {
-            this.router.navigate(['/home/orders', this.orderId]);
+            this.router.navigate(['/home/orders', this.orderId]); // Changed from /home/orders
           }, 3000);
         },
         error: (error: HttpErrorResponse) => {

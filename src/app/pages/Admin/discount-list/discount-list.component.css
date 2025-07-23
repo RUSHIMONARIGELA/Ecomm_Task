@@ -1,0 +1,141 @@
+/* src/app/pages/Admin/admin-discount-list/admin-discount-list.component.css */
+
+.container {
+  max-width: 1200px; /* Adjust max-width as needed for table content */
+}
+
+h2 {
+  color: #343a40; /* Darker heading color */
+  font-weight: 600;
+}
+
+.d-flex.justify-content-between.align-items-center.mb-4 {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef; /* Subtle separator below header */
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-1px); /* Slight lift effect on hover */
+}
+
+.alert {
+  margin-top: 1rem;
+  border-radius: 0.375rem;
+}
+
+.table-responsive {
+  margin-top: 1.5rem; /* Spacing above the table */
+  border: 1px solid #dee2e6; /* Light border around the table */
+  border-radius: 0.5rem; /* Rounded corners for the table container */
+  overflow-x: auto; /* Ensure horizontal scrolling on small screens */
+}
+
+.table {
+  margin-bottom: 0; /* Remove default table margin */
+  border-collapse: separate; /* Required for border-radius on table */
+  border-spacing: 0;
+}
+
+.table thead th {
+  background-color: #343a40; /* Dark header background */
+  color: white;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  white-space: nowrap; /* Prevent header text wrapping */
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa; /* Light hover effect for rows */
+}
+
+.table tbody td {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #dee2e6;
+  white-space: nowrap; /* Prevent cell content wrapping if possible */
+}
+
+/* Specific styling for the last row of the table to ensure rounded corners */
+.table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+
+.table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+
+.badge {
+  padding: 0.4em 0.7em;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.3rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-info:hover {
+  background-color: #117a8b;
+  border-color: #117a8b;
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.3rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.alert-info {
+  margin-top: 2rem;
+  background-color: #e2f3f8;
+  border-color: #b8dae4;
+  color: #0c5460;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .table-responsive {
+    border-radius: 0; /* Remove rounded corners on small screens for full width */
+  }
+}
