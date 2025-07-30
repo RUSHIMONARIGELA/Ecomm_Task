@@ -43,7 +43,7 @@ export class CustomerDetailComponent {
       next: (data: CustomerDTO) => {
         this.customer = data;
         if (!this.customer.userDetails) {
-          this.customer.userDetails = { userName: '', email: '' };
+          this.customer.userDetails = { username: '', email: '' };
         }
         if (!this.customer.profileDetails) {
           this.customer.profileDetails = {

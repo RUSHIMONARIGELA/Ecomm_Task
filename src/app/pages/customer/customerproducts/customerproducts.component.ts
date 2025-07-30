@@ -136,7 +136,7 @@ export class CustomerproductsComponent implements OnInit {
       return;
     }
 
-    const customerId = this.authService.getCurrentCustomerId();
+    const customerId = this.authService.getCurrentUserId();
     if (customerId === null) {
       this.error = 'Customer ID not available. Please log in to add items to cart.';
       console.warn('CustomerProductsComponent: No customer ID found from AuthService. Cannot add to cart.');

@@ -23,7 +23,7 @@ import { CustomerDTO } from '../../models/customer-models';
 export class SignupComponent {
   customerRegistration: CustomerDTO = {
     userDetails: {
-      userName: '',
+      username: '',
       email: '',
       password: '',
     },
@@ -69,7 +69,7 @@ export class SignupComponent {
     const primaryAddress = profileDetails?.addresses?.[0];
 
  
-    if(userDetails.userName === '' || userDetails.userName.length < 3){
+    if(userDetails.username === '' || userDetails.username.length < 3){
       this.errorMessage = 'Username should Not be Null ';
       return;
     }

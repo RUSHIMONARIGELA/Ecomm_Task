@@ -1,14 +1,41 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'; // NEW: Import HttpResponse
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 interface AuthResponse {
   token: string;
   refreshToken: string;
   message?: string;
+}
+
+interface TwoFactorRequiredResponse {
+  message: string;
+  username: string;
+}
+
+interface CustomerRegisterPayload {
+  userDetails: {
+    username: string;
+    email: string;
+    password: string;
+    phoneNumber?: string;
+  };
+  profileDetails?: {
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    addresses?: any[];
+  };
+}
+
+interface AdminRegisterPayload {
+  username: string;
+  email: string;
+  password: string;
+  phoneNumber?: string;
 }
 
 @Injectable({
@@ -20,50 +47,102 @@ export class AuthService {
   private tokenKey = 'accessToken';
   private refreshTokenKey = 'refreshToken';
   private usernameKey = 'username';
-  private customerIdKey = 'customerId';
+  private userIdKey = 'userId';
   private userEmailKey = 'userEmail';
+  private userRolesKey = 'userRoles';
+
+  private pending2FaUsername: string | null = null;
 
   private http = inject(HttpClient);
   private router = inject(Router);
 
   constructor() {}
 
-  login(credentials: { userName: string; password: string }): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.API_URL}/login`, credentials).pipe(
+  // FIX: Changed return type to include HttpResponse
+  login(credentials: { username: string; password: string }): Observable<HttpResponse<AuthResponse | TwoFactorRequiredResponse>> {
+    return this.http.post<AuthResponse | TwoFactorRequiredResponse>(`${this.API_URL}/login`, credentials, { observe: 'response' }).pipe(
       tap(response => {
-        this.saveToken(response.token);
-        this.saveRefreshToken(response.refreshToken);
-        localStorage.setItem(this.usernameKey, credentials.userName);
-        const decodedToken: any = jwtDecode(response.token);
+        if (response.status === 202) {
+          const body = response.body as TwoFactorRequiredResponse;
+          this.pending2FaUsername = body.username;
+          console.log('AuthService: 2FA required for user:', body.username);
+          return;
+        }
+
+        const authResponse = response.body as AuthResponse;
+        this.saveToken(authResponse.token);
+        this.saveRefreshToken(authResponse.refreshToken);
+        localStorage.setItem(this.usernameKey, credentials.username);
+
+        const decodedToken: any = jwtDecode(authResponse.token);
         if (decodedToken) {
-          
           if (decodedToken.id) {
-            localStorage.setItem(this.customerIdKey, decodedToken.id.toString());
+            localStorage.setItem(this.userIdKey, decodedToken.id.toString());
           }
           if (decodedToken.email) {
             localStorage.setItem(this.userEmailKey, decodedToken.email);
           }
-         
           if (decodedToken.roles) {
-            localStorage.setItem('userRoles', decodedToken.roles); 
+            localStorage.setItem(this.userRolesKey, decodedToken.roles);
           }
         } else {
           console.warn('AuthService: No decoded token or claims found after login.');
         }
 
-        console.log('AuthService: Login successful. Stored username:', credentials.userName);
-        console.log('AuthService: Stored accessToken:', response.token ? 'YES' : 'NO');
-        console.log('AuthService: Stored refreshToken:', response.refreshToken ? 'YES' : 'NO');
-        console.log('AuthService: Stored customerId:', localStorage.getItem(this.customerIdKey));
+        console.log('AuthService: Login successful. Stored username:', credentials.username);
+        console.log('AuthService: Stored accessToken:', authResponse.token ? 'YES' : 'NO');
+        console.log('AuthService: Stored refreshToken:', authResponse.refreshToken ? 'YES' : 'NO');
+        console.log('AuthService: Stored userId:', localStorage.getItem(this.userIdKey));
         console.log('AuthService: Stored userEmail:', localStorage.getItem(this.userEmailKey));
-        console.log('AuthService: Stored userRoles:', localStorage.getItem('userRoles'));
+        console.log('AuthService: Stored userRoles:', localStorage.getItem(this.userRolesKey));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('AuthService: Login HTTP Error:', error);
+        return throwError(() => error);
       })
     );
   }
 
+  verify2FACode(username: string, code: string): Observable<AuthResponse> {
+    const payload = { username, twoFactorCode: code };
+    return this.http.post<AuthResponse>(`${this.API_URL}/verify-2fa`, payload).pipe(
+      tap(response => {
+        this.saveToken(response.token);
+        this.saveRefreshToken(response.refreshToken);
+        localStorage.setItem(this.usernameKey, username);
 
-  register(userName: string, email: string, password: string, role: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/register`, { userName, email, password, role });
+        const decodedToken: any = jwtDecode(response.token);
+        if (decodedToken) {
+          if (decodedToken.id) {
+            localStorage.setItem(this.userIdKey, decodedToken.id.toString());
+          }
+          if (decodedToken.email) {
+            localStorage.setItem(this.userEmailKey, decodedToken.email);
+          }
+          if (decodedToken.roles) {
+            localStorage.setItem(this.userRolesKey, decodedToken.roles);
+          }
+        } else {
+          console.warn('AuthService: No decoded token or claims found after 2FA verification.');
+        }
+
+        this.pending2FaUsername = null;
+
+        console.log('AuthService: 2FA verification successful. Tokens saved.');
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('AuthService: 2FA Verification HTTP Error:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  registerCustomer(payload: CustomerRegisterPayload): Observable<any> {
+    return this.http.post(`${this.API_URL}/register`, payload);
+  }
+
+  registerAdmin(payload: AdminRegisterPayload): Observable<any> {
+    return this.http.post(`${this.API_URL}/register-admin`, payload);
   }
 
   saveToken(token: string) {
@@ -83,18 +162,17 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.clear(); 
+    localStorage.clear();
+    this.pending2FaUsername = null;
     console.log('AuthService: User logged out. Local storage cleared.');
     this.router.navigate(['/login']);
   }
 
-  
-  getUserRole(): string | null {
+  getUserRoleForDisplay(): string | null {
     const roles = this.getUserRoles();
-    if (roles.length > 0) {
-    
-      return roles[0].replace('ROLE_', '');
-    }
+    if (roles.includes('SUPER_ADMIN')) return 'SUPER_ADMIN';
+    if (roles.includes('ADMIN')) return 'ADMIN';
+    if (roles.includes('CUSTOMER')) return 'CUSTOMER';
     return null;
   }
 
@@ -120,13 +198,13 @@ export class AuthService {
         const decodedToken: any = jwtDecode(response.token);
         if (decodedToken) {
           if (decodedToken.id) {
-            localStorage.setItem(this.customerIdKey, decodedToken.id.toString());
+            localStorage.setItem(this.userIdKey, decodedToken.id.toString());
           }
           if (decodedToken.email) {
             localStorage.setItem(this.userEmailKey, decodedToken.email);
           }
           if (decodedToken.roles) {
-            localStorage.setItem('userRoles', decodedToken.roles); 
+            localStorage.setItem(this.userRolesKey, decodedToken.roles);
           }
         } else {
           console.warn('AuthService: No decoded token or claims found after refresh.');
@@ -134,9 +212,9 @@ export class AuthService {
 
         console.log('AuthService: Token refreshed. Stored new accessToken:', response.token ? 'YES' : 'NO');
         console.log('AuthService: Stored new refreshToken:', response.refreshToken ? 'YES' : 'NO');
-        console.log('AuthService: Stored customerId after refresh:', localStorage.getItem(this.customerIdKey));
+        console.log('AuthService: Stored userId after refresh:', localStorage.getItem(this.userIdKey));
         console.log('AuthService: Stored userEmail after refresh:', localStorage.getItem(this.userEmailKey));
-        console.log('AuthService: Stored userRoles after refresh:', localStorage.getItem('userRoles'));
+        console.log('AuthService: Stored userRoles after refresh:', localStorage.getItem(this.userRolesKey));
       })
     );
   }
@@ -147,9 +225,9 @@ export class AuthService {
     return username;
   }
 
-  getCurrentCustomerId(): number | null {
-    const customerId = localStorage.getItem(this.customerIdKey);
-    return customerId ? +customerId : null;
+  getCurrentUserId(): number | null {
+    const userId = localStorage.getItem(this.userIdKey);
+    return userId ? +userId : null;
   }
 
   getCurrentUserEmail(): string | null {
@@ -158,31 +236,30 @@ export class AuthService {
     return email;
   }
 
-  
   getUserRoles(): string[] {
-    const token = this.getToken();
-    if (!token) {
+    const rolesString = localStorage.getItem(this.userRolesKey);
+    if (!rolesString) {
       return [];
     }
     try {
-      const decodedToken: any = jwtDecode(token);
-      if (decodedToken && decodedToken.roles) {
-        
-        return decodedToken.roles.split(',').map((role: string) => role.trim().replace('ROLE_', ''));
-      }
-      return [];
+      return rolesString.split(',').map((role: string) => role.trim().replace('ROLE_', ''));
     } catch (error) {
-      console.error('Error decoding JWT or extracting roles:', error);
+      console.error('Error parsing user roles from localStorage:', error);
       return [];
     }
   }
 
   isAdmin(): boolean {
     const roles = this.getUserRoles();
-    return roles.includes('ADMIN'); 
+    return roles.includes('ADMIN');
   }
 
-   isTokenExpired(token: string): boolean {
+  isSuperAdmin(): boolean {
+    const roles = this.getUserRoles();
+    return roles.includes('SUPER_ADMIN');
+  }
+
+  isTokenExpired(token: string): boolean {
     try {
       const decoded: any = jwtDecode(token);
       if (decoded.exp === undefined) {
@@ -198,7 +275,15 @@ export class AuthService {
       return isExpired;
     } catch (error) {
       console.error('AuthService: Error checking token expiration (malformed token?):', error);
-      return true; 
+      return true;
     }
+  }
+
+  getPending2FaUsername(): string | null {
+    return this.pending2FaUsername;
+  }
+
+  clearPending2FaUsername(): void {
+    this.pending2FaUsername = null;
   }
 }

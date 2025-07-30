@@ -68,7 +68,7 @@ export class PaymentComponent {
           this.order
         );
 
-        const currentCustomerId = this.authService.getCurrentCustomerId();
+        const currentCustomerId = this.authService.getCurrentUserId();
         const userRoles = this.authService.getUserRoles();
         const isAdmin = userRoles.includes('ROLE_ADMIN');
 

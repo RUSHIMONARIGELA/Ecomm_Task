@@ -1,98 +1,110 @@
-/* src/app/pages/cart/cart.component.css */
-
+/* General container padding and background */
 .container {
-  max-width: 960px; /* Optional: Constrain max width for better readability on large screens */
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
+/* Card styling for consistent look */
+.card {
+  border: none; /* Remove default card border if shadow is enough */
+  margin-bottom: 20px; /* Space between cards */
+}
+
+/* Card header styling */
 .card-header {
-  background-color: #007bff; /* Bootstrap primary color */
-  color: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  font-weight: bold;
 }
 
-.card-body {
-  padding: 1.5rem;
-}
-
-.img-thumbnail {
-  border-radius: 0.5rem; /* Rounded corners for images */
-  border: 1px solid #dee2e6;
-  padding: 0.25rem;
-  background-color: #fff;
-}
-
-.table-responsive {
-  margin-top: 1rem; /* Spacing above the table */
-}
-
-.table th,
-.table td {
-  vertical-align: middle; /* Vertically align content in table cells */
-}
-
-.form-control-sm {
-  max-width: 80px; /* Constrain width for quantity input */
-  text-align: center; /* Center text in quantity input */
-}
-
-.input-group-sm .form-control {
-  height: calc(1.5em + 0.5rem + 2px); /* Adjust height for small inputs */
-}
-
-.spinner-border {
-  vertical-align: middle;
-  margin-right: 8px; /* Spacing for spinner next to text */
-}
-
-.alert {
-  margin-top: 1rem;
-}
-
-.list-group-item {
-  font-size: 1.1rem;
-}
-
-.list-group-item.fw-bold {
-  font-size: 1.25rem;
-  background-color: #f8f9fa; /* Light background for total row */
-}
-
-/* Specific styles for coupon section */
-.card-header h5 {
+.card-header h3, .card-header h5 {
   margin-bottom: 0;
-  font-size: 1.1rem;
 }
 
-.input-group {
-  margin-bottom: 0; /* Remove default margin-bottom from input-group if not needed */
+/* Table styling for cart items */
+.table-responsive {
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
-.alert-info strong {
-  color: #0c5460; /* Darker text for coupon code in info alert */
+.table th, .table td {
+  vertical-align: middle; /* Vertically align content in table cells */
+  padding: 12px; /* Add more padding for readability */
 }
 
-.btn-outline-danger {
-  border-color: #dc3545;
-  color: #dc3545;
+.table thead th {
+  background-color: #f8f9fa; /* Light background for table header */
+  border-bottom: 2px solid #dee2e6;
 }
 
-.btn-outline-danger:hover {
-  background-color: #dc3545;
-  color: white;
+/* Image thumbnail in cart */
+.img-thumbnail {
+  border-radius: 0.5rem; /* Slightly rounded corners */
 }
 
-.btn-outline-primary {
-  border-color: #007bff;
-  color: #007bff;
+/* Quantity input group adjustments */
+.input-group-sm .form-control {
+  height: calc(1.8125rem + 2px); /* Match button height */
 }
 
-.btn-outline-primary:hover {
-  background-color: #007bff;
-  color: white;
+/* Coupon section styling */
+.card.shadow-sm .card-header.bg-dark {
+  background-color: #343a40 !important; /* Ensure dark background */
+  color: #fff;
 }
 
+.card.shadow-sm .card-header.bg-info {
+  background-color: #17a2b8 !important; /* Ensure info background */
+  color: #fff;
+}
+
+/* Available Coupons list styling */
+.list-group-item {
+  border-color: rgba(0, 0, 0, 0.05); /* Lighter border for list items */
+}
+
+.list-group-item:last-child {
+  border-bottom: none; /* No bottom border for the last item */
+}
+
+/* Specific styling for coupon details */
+.list-group-item small {
+  display: block; /* Ensure small text breaks line */
+  color: #6c757d; /* Muted color for details */
+  margin-top: 4px;
+}
+
+/* Button styling within coupon list */
+.list-group-item .btn-sm {
+  min-width: 75px; /* Ensure buttons have consistent width */
+  text-align: center;
+}
+
+/* Alert messages for success/error */
+.alert {
+  margin-bottom: 1rem;
+}
+
+/* Spinner styling */
+.spinner-border {
+  vertical-align: -0.125em; /* Align spinner vertically */
+}
+
+/* Responsive adjustments */
 @media (max-width: 767.98px) {
-  .col-md-6 {
-    margin-bottom: 1.5rem; 
+  .card-body {
+    padding: 15px;
+  }
+  .table th, .table td {
+    padding: 8px;
+    font-size: 0.875rem;
+  }
+  .input-group-sm {
+    width: 100% !important; /* Full width for quantity on small screens */
+  }
+  .input-group-sm .btn {
+    flex-shrink: 0; /* Prevent buttons from shrinking too much */
+  }
+  .d-grid.gap-2 {
+    gap: 10px !important; /* Adjust gap for smaller screens */
   }
 }

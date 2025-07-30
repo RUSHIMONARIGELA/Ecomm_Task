@@ -43,7 +43,7 @@
               <tbody>
                 <tr *ngFor="let customer of customers">
                   <td>{{ customer.id }}</td>
-                  <td>{{ customer.userDetails.userName }}</td>
+                  <td>{{ customer.userDetails.username }}</td>
                   <td>{{ customer.userDetails.email }}</td>
                   <td>{{ customer.profileDetails?.firstName || "N/A" }}</td>
                   <td>{{ customer.profileDetails?.lastName || "N/A" }}</td>

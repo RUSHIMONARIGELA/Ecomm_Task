@@ -2,8 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" routerLink="/admin">
-        <i data-lucide="shield-check" class="me-2 icon-small"></i>Admin
-        Dashboard
+        <i data-lucide="shield-check" class="me-2 icon-small"></i>Admin Dashboard
       </a>
       <button
         class="navbar-toggler"
@@ -28,11 +27,10 @@
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
             >
-              <i data-lucide="layout-dashboard" class="me-1 icon-small"></i
-              >Dashboard
+              <i data-lucide="layout-dashboard" class="me-1 icon-small"></i>Dashboard
             </a>
           </li>
-          
+
           <li class="nav-item">
             <a
               class="nav-link"
@@ -59,12 +57,26 @@
               routerLink="/admin/categories"
               routerLinkActive="active"
             >
-              <i data-lucide="categories" class="me-1 icon-small"></i>Categories
+              <i data-lucide="tag" class="me-1 icon-small"></i>Categories
             </a>
           </li>
 
-           <li class="nav-item"><a class="nav-link" routerLink="/admin/discounts" routerLinkActive="active">Manage Discounts</a></li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/discounts" routerLinkActive="active">
+              <i data-lucide="percent" class="me-1 icon-small"></i>Discounts
+            </a>
+          </li>
 
+          <!-- NEW: Super Admin Specific Link -->
+          <li class="nav-item" *ngIf="isSuperAdmin">
+            <a
+              class="nav-link"
+              routerLink="/admin/user-management"
+              routerLinkActive="active"
+            >
+              <i data-lucide="shield" class="me-1 icon-small"></i>User Management
+            </a>
+          </li>
 
           <li class="nav-item dropdown">
             <a
@@ -97,12 +109,17 @@
                   >Add Product</a
                 >
               </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/admin/products/bulk-upload"
+                  routerLinkActive="active"
+                  >Bulk Upload Products</a
+                >
+              </li>
             </ul>
           </li>
-
-
         </ul>
-        
 
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
@@ -114,8 +131,8 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <i data-lucide="user-circle" class="me-1 icon-small"></i>Welcome,
-              Admin
+              <i data-lucide="user-circle" class="me-1 icon-small"></i>
+              Welcome, {{ currentUsername }} ({{ currentUserRole }}) <!-- DYNAMIC USER INFO -->
             </a>
             <ul
               class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
@@ -145,10 +162,3 @@
     <p class="mb-0">&copy; 2025 E-commerce Admin. All rights reserved.</p>
   </footer>
 </div>
-
-<script>
-  
-  if (typeof lucide !== "undefined") {
-    lucide.createIcons();
-  }
-</script>

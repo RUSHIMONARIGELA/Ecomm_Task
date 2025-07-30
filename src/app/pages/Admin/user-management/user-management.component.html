@@ -1,0 +1,111 @@
+<div class="user-management-container container my-5">
+  <h2 class="text-center mb-4 dashboard-title">User Management</h2>
+  <p class="text-center text-muted mb-5 lead-text">View and manage user accounts and their assigned roles.</p>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading users...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error && users.length > 0">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow-sm rounded-3 overflow-hidden">
+        <thead class="bg-dark text-white">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Roles</th>
+            <th scope="col">Active</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span *ngIf="user.roles && user.roles.length > 0">
+                <span *ngFor="let role of user.roles" class="badge bg-primary me-1">{{ role }}</span>
+              </span>
+              <span *ngIf="!user.roles || user.roles.length === 0" class="text-muted">No Roles</span>
+            </td>
+            <td>
+              <span *ngIf="user.active" class="badge bg-success">Active</span>
+              <span *ngIf="!user.active" class="badge bg-danger">Inactive</span>
+            </td>
+            <td>
+              <button
+                class="btn btn-sm btn-outline-primary"
+                (click)="openRoleModal(user)"
+                [disabled]="user.id === currentUserId"
+                title="{{ user.id === currentUserId ? 'You cannot change your own roles' : 'Edit Roles' }}"
+              >
+                <i data-lucide="edit" class="icon-small"></i> Edit Roles
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && users.length === 0" class="alert alert-info text-center my-5">
+    No users found in the system.
+  </div>
+</div>
+
+<!-- Role Management Modal -->
+<div class="modal" [class.show]="showRoleModal" [style.display]="showRoleModal ? 'block' : 'none'" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="roleModalLabel">Manage Roles for {{ selectedUser?.username }}</h5>
+        <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="closeRoleModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedUser">
+          <p>Current Roles:
+            <span *ngIf="selectedUser.roles && selectedUser.roles.length > 0">
+              <span *ngFor="let role of selectedUser.roles" class="badge bg-secondary me-1">{{ role }}</span>
+            </span>
+            <span *ngIf="!selectedUser.roles || selectedUser.roles.length === 0" class="text-muted">None</span>
+          </p>
+          <hr>
+          <h6>Select New Roles:</h6>
+          <div class="form-check" *ngFor="let roleWithoutPrefix of availableRoles"> <!-- Renamed loop variable -->
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [id]="'role-' + roleWithoutPrefix"
+              [value]="roleWithoutPrefix"
+              [checked]="selectedRoles.includes('ROLE_' + roleWithoutPrefix)" 
+              (change)="onRoleChange(roleWithoutPrefix, $event)"
+              [disabled]="roleWithoutPrefix === 'SUPER_ADMIN' && selectedUser.id === currentUserId"
+            >
+            <label class="form-check-label" [for]="'role-' + roleWithoutPrefix">
+              {{ roleWithoutPrefix }}
+            </label>
+          </div>
+        </div>
+        <div *ngIf="error" class="alert alert-danger mt-3" role="alert">
+          {{ error }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeRoleModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserRoles()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop fade" [class.show]="showRoleModal" *ngIf="showRoleModal"></div>

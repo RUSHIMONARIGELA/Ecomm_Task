@@ -32,7 +32,7 @@ export class OrdersComponent implements OnInit {
   loadOrders(): void {
     this.loadingOrders = true;
     this.ordersError = null;
-    const customerId = this.authService.getCurrentCustomerId();
+    const customerId = this.authService.getCurrentUserId();
 
     if (customerId) {
       this.orderService.getOrdersByCustomerId(customerId).subscribe({

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { CartDTO } from '../models/cart-models';
+import { DiscountDTO } from '../models/discount-models'; // Import DiscountDTO
 
 interface AddItemToCartRequestDTO {
   productId: number;
@@ -18,6 +19,7 @@ interface ApplyCouponRequest {
 })
 export class CartService {
   private baseUrl = 'http://localhost:8080/api/carts';
+  private discountApiUrl = 'http://localhost:8080/api/discounts'; // Base URL for discount-related endpoints
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);
@@ -105,7 +107,7 @@ export class CartService {
 
     const requestBody: ApplyCouponRequest = { couponCode: couponCode };
     return this.http.post<CartDTO>(
-      `http://localhost:8080/api/discounts/apply-coupon/${customerId}`,
+      `${this.discountApiUrl}/apply-coupon/${customerId}`,
       requestBody,
       { headers }
     );
@@ -115,9 +117,21 @@ export class CartService {
     const headers = this.getAuthHeaders();
 
     return this.http.post<CartDTO>(
-      `http://localhost:8080/api/discounts/remove-coupon/${customerId}`,
+      `${this.discountApiUrl}/remove-coupon/${customerId}`,
       {},
       { headers }
     );
+  }
+
+  /**
+   * Fetches a list of available coupons for a given customer.
+   * This method calls your backend API.
+   * @param customerId The ID of the customer.
+   * @returns An Observable of an array of DiscountDTO.
+   */
+  getAvailableCoupons(customerId: number): Observable<DiscountDTO[]> {
+    const headers = this.getAuthHeaders();
+    // Assuming your backend has an endpoint like /api/discounts/available-for-customer/{customerId}
+    return this.http.get<DiscountDTO[]>(`${this.discountApiUrl}/available-for-customer/${customerId}`, { headers });
   }
 }

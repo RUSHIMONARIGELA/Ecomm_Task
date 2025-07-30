@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.customerId = this.authService.getCurrentCustomerId();
+    this.customerId = this.authService.getCurrentUserId();
     if (!this.customerId) {
       this.errorMessage = 'Customer not identified. Please log in.';
       this.router.navigate(['/login']);
