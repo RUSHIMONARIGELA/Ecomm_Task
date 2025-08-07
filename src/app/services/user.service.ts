@@ -8,7 +8,7 @@ import { UserDetailsDTO } from '../models/customer-models';
   providedIn: 'root'
 })
 export class UserService {
-  private readonly API_URL = 'http://localhost:8080/api/admin/users';
+  private readonly API_URL = 'http://localhost:8081/api/admin/users';
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);

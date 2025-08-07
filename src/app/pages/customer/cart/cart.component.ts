@@ -19,6 +19,7 @@ import { OrderService } from '../../../services/order.service';
 @Component({
   selector: 'app-customer-cart',
   standalone: true,
+  
   imports: [
     CommonModule,
     RouterLink,
@@ -85,6 +86,11 @@ export class CartComponent implements OnInit, OnDestroy {
         next: (data: CartDTO) => {
           this.cart = data;
           this.loadingCart = false;
+
+          // LOG FOR DEBUGGING: Check the values from the backend
+          console.log('Cart loaded successfully. Subtotal (totalPrice):', this.cart.totalPrice);
+          console.log('Final Total (totalAmount):', this.cart.totalAmount);
+
           // If a coupon is already applied, pre-fill the input field
           if (this.cart.couponCode) {
             this.couponCode = this.cart.couponCode;
@@ -366,19 +372,14 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Adjusted to use cart.totalPrice for subtotal, as per your CartDTO
   getCartSubtotal(): number {
     if (!this.cart) {
       return 0;
     }
-    return this.cart.totalPrice; // Use totalPrice from CartDTO as subtotal
+    return this.cart.totalPrice ?? 0;
   }
 
-  /**
-   * Applies the entered coupon code to the cart.
-   * Can be called directly or by clicking an "Apply" button next to a listed coupon.
-   * @param code Optional: The coupon code to apply. If not provided, uses this.couponCode.
-   */
+  
   applyCoupon(code?: string): void {
     const couponToApply = code || this.couponCode.trim();
 

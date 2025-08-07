@@ -18,8 +18,8 @@ interface ApplyCouponRequest {
   providedIn: 'root',
 })
 export class CartService {
-  private baseUrl = 'http://localhost:8080/api/carts';
-  private discountApiUrl = 'http://localhost:8080/api/discounts'; // Base URL for discount-related endpoints
+  private baseUrl = 'http://localhost:8081/api/carts';
+  private discountApiUrl = 'http://localhost:8081/api/discounts'; // Base URL for discount-related endpoints
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);

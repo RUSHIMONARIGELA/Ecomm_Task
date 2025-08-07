@@ -1,19 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core'; // Added OnInit
 import { FormsModule } from '@angular/forms';
 import { CategoryDTO } from '../../../models/category-models';
 import { ProductService } from '../../../services/product.service';
 import { CategoryService } from '../../../services/category.service';
 import { Router } from '@angular/router';
 
-interface BulkUploadResultDTO {
-  totalProcessed: number;
-  addedCount: number;
-  skippedCount: number;
-  message: string;
-}
-
+// Removed BulkUploadResultDTO interface as backend now returns string
 
 @Component({
   selector: 'app-admin-product-bulk-upload',
@@ -25,97 +19,92 @@ interface BulkUploadResultDTO {
   templateUrl: './admin-product-bulk-upload.component.html',
   styleUrl: './admin-product-bulk-upload.component.css'
 })
-export class AdminProductBulkUploadComponent {
+export class AdminProductBulkUploadComponent implements OnInit { // Implemented OnInit
   selectedFile: File | null = null;
-  loading= false;
+  loading = false; // Renamed from 'uploading' for consistency with common loading patterns
   errorMessage: string | null = null;
   successMessage: string | null = null;
-  categories : CategoryDTO[] = [];
+  categories: CategoryDTO[] = [];
 
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
   private router = inject(Router);
 
-  ngOnInIt() : void {
-
+  ngOnInit(): void { // Corrected typo from ngOnInIt to ngOnInit
     this.fetchCategories();
   }
 
-  fetchCategories() : void {
+  fetchCategories(): void {
     this.categoryService.getAllCategories().subscribe(
       {
-        next: (data : CategoryDTO[]) => {
-           this.categories = data;
+        next: (data: CategoryDTO[]) => {
+          this.categories = data;
         },
-        error:(error : HttpErrorResponse) => {
-
-          console.log('Error fetching categories for bulk  upload: ' , error);
-          this.errorMessage='Failed to load categories .check console. ';
-
+        error: (error: HttpErrorResponse) => {
+          console.error('Error fetching categories for bulk upload:', error); // Changed to console.error
+          this.errorMessage = 'Failed to load categories. Check console for details.'; // More user-friendly message
         }
-
       }
     );
   }
 
-  onFileSelected(event : Event): void {
-    const input= event.target as HTMLInputElement;
-    if(input.files && input.files.length > 0){
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
       this.errorMessage = null;
       this.successMessage = null;
     } else {
-      this.selectedFile= null;
+      this.selectedFile = null;
     }
   }
+
   onUpload(): void {
-    if(!this.selectedFile){
-      this.errorMessage = 'Please select a CSV file to upload...';
+    if (!this.selectedFile) {
+      this.errorMessage = 'Please select a CSV file to upload.';
       return;
     }
-    if(this.selectedFile.type !== 'text/csv' && !this.selectedFile.name.endsWith('.csv')){
-      this.errorMessage='Invalid file type. Please select a CSV File...';
+    if (this.selectedFile.type !== 'text/csv' && !this.selectedFile.name.endsWith('.csv')) {
+      this.errorMessage = 'Invalid file type. Please select a CSV File.'; // Removed extra dots
       this.selectedFile = null;
       return;
     }
 
-    this.loading=true;
+    this.loading = true;
     this.errorMessage = null;
     this.successMessage = null;
 
     const formData = new FormData();
-    formData.append('file',this.selectedFile, this.selectedFile.name);
+    formData.append('file', this.selectedFile, this.selectedFile.name);
 
+    // Backend endpoint now returns a string
     this.productService.uploadProductsCsv(formData).subscribe({
-      next: (result: BulkUploadResultDTO) => { 
-        this.successMessage = result.message; 
+      next: (response: string) => { // Expecting a string response
+        this.successMessage = response; // Directly use the string message
         this.loading = false;
         this.selectedFile = null;
+        // Removed alert() as per instructions
         setTimeout(() => {
           this.router.navigate(['/admin/products']);
-        }, 3000); 
-        alert(this.successMessage)
+        }, 3000);
       },
-      error: (error : HttpErrorResponse) => {
-        this.loading=false;
-        console.error('Bulk upload failed',error);
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        console.error('Bulk upload failed', error);
 
-         if (error.error && typeof error.error === 'object' && 'message' in error.error) {
-          const errorResult: BulkUploadResultDTO = error.error;
-          this.errorMessage = `Upload failed: ${errorResult.message}`;
-        } else if (error.error && typeof error.error === 'string') {
+        // Adjusted error handling to expect a string message from backend
+        if (error.error && typeof error.error === 'string') {
           this.errorMessage = `Upload failed: ${error.error}`;
         } else if (error.error && error.error.message) {
           this.errorMessage = `Upload failed: ${error.error.message}`;
         } else {
-          this.errorMessage = 'An unknown error occurred during upload.';
+          this.errorMessage = 'An unknown error occurred during upload. Check console for details.';
         }
       }
     });
-
   }
-  get categoryNames(): string{
+
+  get categoryNames(): string {
     return this.categories.map(cat => cat.name).join(', ');
   }
-
 }

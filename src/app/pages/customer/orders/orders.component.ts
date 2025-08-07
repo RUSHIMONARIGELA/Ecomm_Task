@@ -23,6 +23,7 @@ export class OrdersComponent implements OnInit {
   private orderService = inject(OrderService);
   private authService = inject(AuthService);
   private router = inject(Router);
+
   constructor() {}
 
   ngOnInit(): void {
@@ -67,5 +68,25 @@ export class OrdersComponent implements OnInit {
     } else {
       console.warn('Cannot view order details: Order ID is undefined.');
     }
+  }
+
+  /**
+   * Helper function to safely convert a date string or array into a Date object.
+   * This handles the specific array format coming from the backend without @JsonFormat.
+   * @param dateInput The date value received from the backend (string or array).
+   * @returns A new Date object or null if the input is invalid.
+   */
+  transformDate(dateInput: any): Date | null {
+    if (typeof dateInput === 'string') {
+      // If the backend is sending a proper string (after the fix), this will work
+      return new Date(dateInput);
+    } else if (Array.isArray(dateInput) && dateInput.length >= 3) {
+      // If the backend is still sending the array, convert it manually
+      // The array format is [year, month, day, hour, minute, second, nanosecond]
+      // Note: Month in JavaScript is 0-indexed, so we subtract 1.
+      return new Date(dateInput[0], dateInput[1] - 1, dateInput[2], dateInput[3], dateInput[4], dateInput[5]);
+    }
+    console.warn('Invalid date format received:', dateInput);
+    return null;
   }
 }

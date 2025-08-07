@@ -8,7 +8,7 @@ import { OrderDTO } from '../models/order-models';
   providedIn: 'root',
 })
 export class OrderService {
-  private baseUrl = 'http://localhost:8080/api/orders';
+  private baseUrl = 'http://localhost:8081/api/orders';
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);

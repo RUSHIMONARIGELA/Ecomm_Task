@@ -13,7 +13,7 @@ import {
   providedIn: 'root',
 })
 export class PaymentService {
-  private baseUrl = 'http://localhost:8080/api/payments';
+  private baseUrl = 'http://localhost:8081/api/payments';
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);
@@ -42,13 +42,20 @@ export class PaymentService {
     );
   }
 
+  // FIX: Added internalOrderId as a parameter and included it in the request body
   createRazorpayOrder(
     amount: number,
     currency: string,
-    receipt: string
+    receipt: string,
+    internalOrderId: number
   ): Observable<RazorpayOrderResponseDTO> {
     const headers = this.getAuthHeaders();
-    const requestBody: RazorpayOrderRequestDTO = { amount, currency, receipt };
+    const requestBody: RazorpayOrderRequestDTO = {
+      amount,
+      currency,
+      receipt,
+      internalOrderId,
+    };
     return this.http.post<RazorpayOrderResponseDTO>(
       `${this.baseUrl}/razorpay/order`,
       requestBody,

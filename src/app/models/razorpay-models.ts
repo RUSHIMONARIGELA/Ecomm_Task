@@ -2,7 +2,8 @@
 export interface RazorpayOrderRequestDTO {
   amount: number; 
   currency: string; 
-  receipt: string; 
+  receipt: string;
+  internalOrderId: number; 
 }
 
 export interface RazorpayOrderResponseDTO {

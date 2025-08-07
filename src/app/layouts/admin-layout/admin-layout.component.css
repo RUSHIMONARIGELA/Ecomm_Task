@@ -1,8 +1,72 @@
+/* Ensure html and body take full viewport height */
 html, body {
   height: 100%;
   margin: 0;
-  color: white;
 }
-.navlink{
-  color: white;
+
+/* Make the main container a flex column taking full height */
+.d-flex.flex-column.min-vh-100 {
+  height: 100vh; /* Ensure it takes full viewport height */
+}
+
+/* Fixed Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030; /* Bootstrap's default z-index for fixed navbars */
+  /* You might want to set a specific height if it's not consistent */
+  height: 60px; /* Example height, adjust if your navbar is taller/shorter */
+}
+
+/* Fixed Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1030; /* Ensure it stays above other content */
+  /* You might want to set a specific height for the footer too */
+  height: 50px; /* Example height, adjust as needed */
+}
+
+/* Main Content Area */
+.container.my-4.flex-grow-1 {
+  /* Adjust margin-top to push content below the fixed navbar */
+  margin-top: 60px; /* Equal to navbar height */
+  /* Adjust margin-bottom to ensure content doesn't go under the fixed footer */
+  margin-bottom: 50px; /* Equal to footer height */
+  
+  /* Enable vertical scrolling for the main content */
+  overflow-y: auto;
+  
+  /* Calculate the available height for the scrollable content */
+  /* 100vh - (navbar height + footer height) */
+  height: calc(100vh - 60px - 50px); 
+  
+  /* Ensure content takes available width */
+  width: 100%;
+  max-width: 100%; /* Override Bootstrap's max-width if necessary */
+  padding-left: 15px; /* Add padding to match Bootstrap container */
+  padding-right: 15px; /* Add padding to match Bootstrap container */
+}
+
+/* Small screen adjustments for navbar toggler */
+@media (max-width: 991.98px) { /* Bootstrap's 'lg' breakpoint */
+  .navbar-collapse {
+    position: fixed;
+    top: 60px; /* Below the fixed navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--bs-dark); /* Match navbar background */
+    z-index: 1029;
+    overflow-y: auto;
+    height: calc(100vh - 60px); /* Take remaining height */
+  }
+}
+
+/* Adjust icon size if needed, based on your 'icon-small' class */
+.icon-small {
+    width: 18px;
+    height: 18px;
+    vertical-align: -0.25em; /* Align with text */
 }

@@ -19,7 +19,7 @@ export interface DiscountDTO {
   providedIn: 'root'
 })
 export class DiscountService {
-  private apiUrl = 'http://localhost:8080/api/discounts';
+  private apiUrl = 'http://localhost:8081/api/discounts';
 
   constructor(private http: HttpClient) { }
 

@@ -43,7 +43,7 @@ interface AdminRegisterPayload {
 })
 export class AuthService {
 
-  private readonly API_URL = 'http://localhost:8080/api/auth';
+  private readonly API_URL = 'http://localhost:8081/api/auth';
   private tokenKey = 'accessToken';
   private refreshTokenKey = 'refreshToken';
   private usernameKey = 'username';

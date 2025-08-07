@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'; // Import HttpParams
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'; 
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ProductDTO } from '../models/product.model';
@@ -16,7 +16,7 @@ interface BulkUploadResultDTO {
 })
 export class ProductService {
   
-  private baseUrl = 'http://localhost:8080/api/products';
+  private baseUrl = 'http://localhost:8081/api/products';
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
@@ -65,8 +65,9 @@ export class ProductService {
   }
 
 
-  uploadProductsCsv(formData: FormData): Observable<BulkUploadResultDTO>{
-    return this.http.post<BulkUploadResultDTO>(`${this.baseUrl}/upload-csv`, formData);
+   // UPDATED: Explicitly set responseType to 'text'
+  uploadProductsCsv(formData: FormData): Observable<string> {
+    return this.http.post(`${this.baseUrl}/upload-csv`, formData, { responseType: 'text' });
   }
 
   creareMultipleProducts(products: ProductDTO[]): Observable<ProductDTO[]> {

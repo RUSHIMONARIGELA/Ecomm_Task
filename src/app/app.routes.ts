@@ -6,7 +6,6 @@ import { authGuard } from './guard/auth.guard'; // Ensure this path is correct
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AdminProductFormComponent } from './pages/Admin/products/admin-product-form/admin-product-form.component';
 import { AdminProductListComponent } from './pages/Admin/products/admin-product-list/admin-product-list.component';
-
 import { DashboardComponent } from './pages/Admin/dashboard/dashboard.component';
 import { ProfileComponent } from './pages/customer/profile/profile.component';
 
@@ -63,7 +62,6 @@ export const routes: Routes = [
       { path: 'discounts', component: DiscountListComponent },
       { path: 'discounts/new', component: DiscountFormComponent },
       { path: 'discounts/edit/:id', component: DiscountFormComponent },
-      
       { path: 'user-management', component: UserManagementComponent }
     ],
   },

@@ -13,9 +13,10 @@ export interface CartDTO {
   customerId: number;
   createdAt?: string; 
   updatedAt?: string; 
+  
   totalAmount: number;
   cartItems: CartItemDTO[];
-  totalPrice: number;
+  totalPrice?: number;
   couponCode?: string;
   discountAmount?: number;
 }

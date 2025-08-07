@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DiscountDTO, DiscountService } from '../../../services/discount.service';
@@ -8,20 +8,22 @@ import { DiscountDTO, DiscountService } from '../../../services/discount.service
 @Component({
   selector: 'app-discount-form',
   imports: [CommonModule, FormsModule, RouterLink],
+  standalone: true,
   templateUrl: './discount-form.component.html',
   styleUrl: './discount-form.component.css'
 })
-export class DiscountFormComponent {
-discount: DiscountDTO = {
+export class DiscountFormComponent implements OnInit {
+  // Initialize with formatted strings for the HTML input
+  discount: DiscountDTO = {
     code: '',
     type: 'PERCENTAGE', // Default type
     value: 0,
-    startDate: this.formatDateForInput(new Date()), // Default to current date/time
-    endDate: this.formatDateForInput(new Date(new Date().setFullYear(new Date().getFullYear() + 1))), // Default to 1 year from now
+    startDate: this.formatDateForInput(new Date()),
+    endDate: this.formatDateForInput(new Date(new Date().setFullYear(new Date().getFullYear() + 1))),
     active: true,
-    minOrderAmount: undefined, // Optional
-    usageLimit: undefined, // Optional
-    usedCount: 0 // Will be set by backend, but initialize for DTO
+    minOrderAmount: undefined,
+    usageLimit: undefined,
+    usedCount: 0
   };
   isEditMode: boolean = false;
   errorMessage: string | null = null;
@@ -37,11 +39,15 @@ discount: DiscountDTO = {
       this.isEditMode = true;
       this.discountService.getDiscountById(Number(id)).subscribe({
         next: (data: DiscountDTO) => {
+          // Check if the dates are in the array format and convert them
+          const startDate = Array.isArray(data.startDate) ? this.parseDateArray(data.startDate) : new Date(data.startDate as string);
+          const endDate = Array.isArray(data.endDate) ? this.parseDateArray(data.endDate) : new Date(data.endDate as string);
+          
           this.discount = {
             ...data,
-            // Format dates for datetime-local input
-            startDate: this.formatDateForInput(new Date(data.startDate)),
-            endDate: this.formatDateForInput(new Date(data.endDate))
+            // Format the converted Date objects for the datetime-local input
+            startDate: this.formatDateForInput(startDate),
+            endDate: this.formatDateForInput(endDate)
           };
         },
         error: (error: HttpErrorResponse) => {
@@ -56,12 +62,12 @@ discount: DiscountDTO = {
     this.errorMessage = null;
     this.successMessage = null;
 
-    // Convert string dates back to ISO format for backend
-    // Ensure minOrderAmount and usageLimit are numbers or null/undefined, not empty strings
+    // Convert the form's date strings back to a backend-compatible ISO format
     const discountToSend: DiscountDTO = {
       ...this.discount,
-      startDate: new Date(this.discount.startDate).toISOString(),
-      endDate: new Date(this.discount.endDate).toISOString(),
+      // Format the date string to remove milliseconds and the 'Z'
+      startDate: this.formatDateToBackendString(new Date(this.discount.startDate as string)),
+      endDate: this.formatDateToBackendString(new Date(this.discount.endDate as string)),
       minOrderAmount: this.discount.minOrderAmount === null || this.discount.minOrderAmount === undefined ? undefined : Number(this.discount.minOrderAmount),
       usageLimit: this.discount.usageLimit === null || this.discount.usageLimit === undefined ? undefined : Number(this.discount.usageLimit)
     };
@@ -99,5 +105,22 @@ discount: DiscountDTO = {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  // NEW HELPER: Formats a Date object into a string compatible with a Java LocalDateTime
+  // This removes the milliseconds and the 'Z' (UTC designator)
+  private formatDateToBackendString(date: Date): string {
+    const isoString = date.toISOString();
+    return isoString.substring(0, isoString.indexOf('.'));
+  }
+
+  // Parses a date array ([year, month, day, hour, minute]) into a Date object.
+  private parseDateArray(dateArray: number[]): Date {
+    const year = dateArray[0];
+    const month = dateArray[1] - 1; // Subtract 1 for 0-indexed month
+    const day = dateArray[2];
+    const hour = dateArray[3];
+    const minute = dateArray[4];
+    return new Date(year, month, day, hour, minute);
   }
 }

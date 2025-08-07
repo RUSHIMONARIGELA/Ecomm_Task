@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class CategoryService {
-  private baseUrl = 'http://localhost:8080/api/categories';
+  private baseUrl = 'http://localhost:8081/api/categories';
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);

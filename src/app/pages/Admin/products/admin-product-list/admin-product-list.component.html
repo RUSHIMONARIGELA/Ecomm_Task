@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <div class="card shadow-sm rounded-3">
     <div class="card-header bg-dark text-white py-3">
-      <h3 class="mb-0">Manage Products </h3>
+      <h3 class="mb-0">Manage Products</h3>
     </div>
     <div class="card-body p-4">
 
@@ -15,21 +15,34 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="successMessage = ''"></button>
       </div>
 
-      <div class="d-flex">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <button class="btn btn-primary me-2" routerLink="/admin/products/create">
+            <i data-lucide="upload" class="me-2 icon-small"></i>Add Single Product
+          </button>
+          <button class="btn btn-primary" routerLink="/admin/products/bulk-upload">
+            <i data-lucide="upload" class="me-2 icon-small"></i>Bulk Upload Products (CSV)
+          </button>
+        </div>
 
-        <button class="btn btn-primary" routerLink="/admin/products/create">
-          <i data-lucide="upload" class="me-2 icon-small"></i>Add Single Product
-        </button>
-
-        <!-- FIXED: Changed routerLink to navigate to the bulk upload form -->
-        <button class="btn btn-primary" routerLink="/admin/products/bulk-upload">
-          <i data-lucide="upload" class="me-2 icon-small"></i>Bulk Upload Products (CSV)
-        </button>
-        <!-- Optional: Add a separate button for single product add if needed -->
-        <!-- <button class="btn btn-outline-primary ms-2" routerLink="/admin/products/add-single">Add Single Product</button> -->
+        <!-- UPDATED: Search Bar for Type-Ahead -->
+        <div class="input-group" style="max-width: 300px;">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by product name..."
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onSearch()"
+          >
+          <!-- The search button is now optional for type-ahead, but can be kept for clarity -->
+          <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+            Search
+          </button>
+        </div>
+        <!-- END UPDATED: Search Bar -->
       </div>
 
-      <div *ngIf="products.length > 0; else noProducts">
+      <div *ngIf="paginatedProducts.length > 0; else noProducts"> <!-- Changed to paginatedProducts for accurate empty state -->
         <div class="table-responsive">
           <table class="table table-hover align-middle">
             <thead>

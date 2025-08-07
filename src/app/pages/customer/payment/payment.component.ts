@@ -139,7 +139,8 @@ export class PaymentComponent {
       .createRazorpayOrder(
         this.order.totalAmount,
         'INR',
-        this.order.id.toString()
+        this.order.id.toString(),
+        this.order.id
       )
       .subscribe({
         next: (razorpayOrder: RazorpayOrderResponseDTO) => {

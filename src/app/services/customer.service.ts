@@ -8,7 +8,7 @@ import { CustomerDTO, ProfileDTO, UserDetailsDTO } from '../models/customer-mode
   providedIn: 'root',
 })
 export class CustomerService {
-  private baseUrl = 'http://localhost:8080/api/customers';
+  private baseUrl = 'http://localhost:8081/api/customers';
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);
