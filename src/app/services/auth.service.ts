@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'; // NEW: Import HttpResponse
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
@@ -58,7 +58,6 @@ export class AuthService {
 
   constructor() {}
 
-  // FIX: Changed return type to include HttpResponse
   login(credentials: { username: string; password: string }): Observable<HttpResponse<AuthResponse | TwoFactorRequiredResponse>> {
     return this.http.post<AuthResponse | TwoFactorRequiredResponse>(`${this.API_URL}/login`, credentials, { observe: 'response' }).pipe(
       tap(response => {

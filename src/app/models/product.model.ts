@@ -4,7 +4,7 @@ export interface ProductDTO {
   description: string;
   images: string[];
   price: number;
-  categoryId: number; 
-  categoryName: string; 
+  categoryId?: number; 
+  categoryName?: string; 
   stockQuantity: number;
 }

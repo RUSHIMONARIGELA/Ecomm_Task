@@ -9,6 +9,7 @@ import { PaymentService } from '../../../services/payment.service';
 import { AuthService } from '../../../services/auth.service';
 import { RazorpayOrderResponseDTO } from '../../../models/razorpay-models';
 import { PaymentDTO } from '../../../models/payment-models';
+import Swal from 'sweetalert2';
 
 declare var Razorpay: any;
 
@@ -45,12 +46,18 @@ export class PaymentComponent {
         this.orderId = +id;
         this.loadOrderDetails(this.orderId);
       } else {
-        this.orderError = 'Order ID not provided. Cannot proceed to payment.';
+        Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Order ID not provided. Cannot proceed to payment.",
+ 
+});
+        // this.orderError = 'Order ID not provided. Cannot proceed to payment.';
         this.loadingOrder = false;
         console.error(
           'PaymentComponent: No orderId found in route parameters.'
         );
-        this.router.navigate(['/cart']); // Changed from /home/cart
+        this.router.navigate(['/cart']); 
       }
     });
   }
@@ -63,33 +70,53 @@ export class PaymentComponent {
       next: (data: OrderDTO) => {
         this.order = data;
         this.loadingOrder = false;
-        console.log(
-          'PaymentComponent: Order details loaded successfully:',
-          this.order
-        );
+        // console.log(
+        //   'PaymentComponent: Order details loaded successfully:',
+        //   this.order
+        // );
 
         const currentCustomerId = this.authService.getCurrentUserId();
         const userRoles = this.authService.getUserRoles();
         const isAdmin = userRoles.includes('ROLE_ADMIN');
 
         if (this.order.customerId !== currentCustomerId && !isAdmin) {
-          this.orderError = 'You do not have permission to view this order.';
+          Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "You do not have permission to view this order.",
+});
+          // this.orderError = 'You do not have permission to view this order.';
           this.order = null;
-          this.router.navigate(['/orders']); // Changed from /home/orders
+          this.router.navigate(['/orders']); 
         } else if (this.order.status === 'PAID') {
           this.paymentSuccessMessage = 'This order has already been paid.';
           this.processingPayment = false;
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.orderError = 'Failed to load order details. Please try again.';
+        Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Failed to load order details. Please try again.",
+});
+        // this.orderError = 'Failed to load order details. Please try again.';
         this.loadingOrder = false;
         console.error('PaymentComponent: Error fetching order details:', error);
         if (error.status === 404) {
-          this.orderError = 'Order not found for the provided ID.';
+          Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Order not found for the provided ID..",
+});
+          // this.orderError = 'Order not found for the provided ID.';
         } else if (error.status === 403) {
-          this.orderError =
-            'Access denied to this order. You might not be the owner or an administrator.';
+          Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Access denied to this order. You might not be the owner or an administrator.",
+});
+          // this.orderError =
+          //   'Access denied to this order. You might not be the owner or an administrator.';
         } else if (error.error && error.error.message) {
           this.orderError = `Failed to load order: ${error.error.message}`;
         }
@@ -97,7 +124,6 @@ export class PaymentComponent {
     });
   }
 
-  // NEW: Method to calculate subtotal of order items
   getOrderSubtotal(): number {
     if (!this.order || !this.order.orderItems) {
       return 0;
@@ -248,7 +274,7 @@ export class PaymentComponent {
             payment
           );
           setTimeout(() => {
-            this.router.navigate(['/home/orders', this.orderId]); // Changed from /home/orders
+            this.router.navigate(['/home/orders', this.orderId]);
           }, 3000);
         },
         error: (error: HttpErrorResponse) => {

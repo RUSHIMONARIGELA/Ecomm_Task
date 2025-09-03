@@ -1,14 +1,20 @@
+// src/app/services/product.service.ts
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'; 
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ProductDTO } from '../models/product.model';
+import { Review } from '../models/review.model';
 
-interface BulkUploadResultDTO {
-  totalProcessed: number;
-  addedCount: number;
-  skippedCount: number;
-  message: string;
+// Interface to match the data structure returned by the Elasticsearch backend
+interface ProductElasticsearch {
+  id: string;
+  name: string;
+  description: string;
+  images: string[];
+  price: number;
+  category: string;
+  stockQuantity: number;
 }
 
 @Injectable({
@@ -17,6 +23,7 @@ interface BulkUploadResultDTO {
 export class ProductService {
   
   private baseUrl = 'http://localhost:8081/api/products';
+  private reviewUrl = 'http://localhost:8081/api/reviews';
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
@@ -38,7 +45,7 @@ export class ProductService {
   }
 
   getProductById(id: number): Observable<ProductDTO> {
-    return this.http.get<ProductDTO>(`${this.baseUrl}/${id}` );
+    return this.http.get<ProductDTO>(`${this.baseUrl}/${id}`);
   }
 
   createProduct(product: ProductDTO): Observable<ProductDTO> {
@@ -64,15 +71,42 @@ export class ProductService {
     );
   }
 
-
-   // UPDATED: Explicitly set responseType to 'text'
   uploadProductsCsv(formData: FormData): Observable<string> {
     return this.http.post(`${this.baseUrl}/upload-csv`, formData, { responseType: 'text' });
   }
 
   creareMultipleProducts(products: ProductDTO[]): Observable<ProductDTO[]> {
     const headers=this.getAuthHeaders();
-    return this.http.post<ProductDTO[]>(`${this.baseUrl}/batch`, products,{headers});
+    return this.http.post<ProductDTO[]>(`${this.baseUrl}/batch`, products, {headers});
   }
 
+  
+  searchProducts(query: string): Observable<ProductDTO[]> {
+    let params = new HttpParams().set('query', query);
+    
+    return this.http.get<ProductElasticsearch[]>(`${this.baseUrl}/search`, { params }).pipe(
+      map(elasticProducts => elasticProducts.map(this.mapElasticToDTO))
+    );
+  }
+
+  private mapElasticToDTO(elasticProduct: ProductElasticsearch): ProductDTO {
+    return {
+      id: elasticProduct.id ? Number(elasticProduct.id) : undefined,
+      name: elasticProduct.name,
+      description: elasticProduct.description,
+      images: elasticProduct.images,
+      price: elasticProduct.price,
+      stockQuantity: elasticProduct.stockQuantity,
+      categoryName: elasticProduct.category,
+    };
+  }
+  
+  getReviewsForProduct(productId: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.reviewUrl}/products/${productId}`);
+  }
+
+  submitReview(review: Review): Observable<Review> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<Review>(this.reviewUrl, review, { headers });
+  }
 }

@@ -54,4 +54,7 @@ export class CustomerLayoutComponent {
       console.warn('Cannot view product details: Product ID is undefined.');
     }
   }
+   navigateTo(url: string): void {
+    this.router.navigate([url]);
+  }
 }

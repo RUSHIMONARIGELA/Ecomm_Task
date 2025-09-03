@@ -1,16 +1,13 @@
-/* General container padding and background */
 .container {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-/* Card styling for consistent look */
 .card {
-  border: none; /* Remove default card border if shadow is enough */
-  margin-bottom: 20px; /* Space between cards */
+  border: none; 
+  margin-bottom: 20px;
 }
 
-/* Card header styling */
 .card-header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   font-weight: bold;
@@ -20,76 +17,71 @@
   margin-bottom: 0;
 }
 
-/* Table styling for cart items */
 .table-responsive {
   margin-top: 15px;
   margin-bottom: 15px;
 }
 
 .table th, .table td {
-  vertical-align: middle; /* Vertically align content in table cells */
-  padding: 12px; /* Add more padding for readability */
+  vertical-align: middle; 
+  padding: 12px; 
 }
 
 .table thead th {
-  background-color: #f8f9fa; /* Light background for table header */
+  background-color: #f8f9fa; 
   border-bottom: 2px solid #dee2e6;
 }
 
-/* Image thumbnail in cart */
 .img-thumbnail {
-  border-radius: 0.5rem; /* Slightly rounded corners */
+  border-radius: 0.5rem; 
 }
 
-/* Quantity input group adjustments */
 .input-group-sm .form-control {
-  height: calc(1.8125rem + 2px); /* Match button height */
+  height: calc(1.8125rem + 2px); 
 }
 
-/* Coupon section styling */
 .card.shadow-sm .card-header.bg-dark {
-  background-color: #343a40 !important; /* Ensure dark background */
+  background-color: #343a40 !important; 
   color: #fff;
 }
 
 .card.shadow-sm .card-header.bg-info {
-  background-color: #17a2b8 !important; /* Ensure info background */
+  background-color: #17a2b8 !important; 
   color: #fff;
 }
 
-/* Available Coupons list styling */
+
 .list-group-item {
-  border-color: rgba(0, 0, 0, 0.05); /* Lighter border for list items */
+  border-color: rgba(0, 0, 0, 0.05); 
 }
 
 .list-group-item:last-child {
-  border-bottom: none; /* No bottom border for the last item */
+  border-bottom: none; 
 }
 
-/* Specific styling for coupon details */
 .list-group-item small {
-  display: block; /* Ensure small text breaks line */
-  color: #6c757d; /* Muted color for details */
+  display: block; 
+  color: #6c757d; 
   margin-top: 4px;
 }
 
-/* Button styling within coupon list */
+
 .list-group-item .btn-sm {
-  min-width: 75px; /* Ensure buttons have consistent width */
+  min-width: 75px;
   text-align: center;
 }
 
-/* Alert messages for success/error */
+
 .alert {
   margin-bottom: 1rem;
 }
 
-/* Spinner styling */
+
 .spinner-border {
-  vertical-align: -0.125em; /* Align spinner vertically */
+  vertical-align: -0.125em; 
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 767.98px) {
   .card-body {
     padding: 15px;
@@ -99,12 +91,12 @@
     font-size: 0.875rem;
   }
   .input-group-sm {
-    width: 100% !important; /* Full width for quantity on small screens */
+    width: 100% !important; 
   }
   .input-group-sm .btn {
-    flex-shrink: 0; /* Prevent buttons from shrinking too much */
+    flex-shrink: 0; 
   }
   .d-grid.gap-2 {
-    gap: 10px !important; /* Adjust gap for smaller screens */
+    gap: 10px !important; 
   }
 }

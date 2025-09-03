@@ -13,10 +13,9 @@ import { DiscountDTO, DiscountService } from '../../../services/discount.service
   styleUrl: './discount-form.component.css'
 })
 export class DiscountFormComponent implements OnInit {
-  // Initialize with formatted strings for the HTML input
   discount: DiscountDTO = {
     code: '',
-    type: 'PERCENTAGE', // Default type
+    type: 'PERCENTAGE', 
     value: 0,
     startDate: this.formatDateForInput(new Date()),
     endDate: this.formatDateForInput(new Date(new Date().setFullYear(new Date().getFullYear() + 1))),
@@ -39,13 +38,11 @@ export class DiscountFormComponent implements OnInit {
       this.isEditMode = true;
       this.discountService.getDiscountById(Number(id)).subscribe({
         next: (data: DiscountDTO) => {
-          // Check if the dates are in the array format and convert them
           const startDate = Array.isArray(data.startDate) ? this.parseDateArray(data.startDate) : new Date(data.startDate as string);
           const endDate = Array.isArray(data.endDate) ? this.parseDateArray(data.endDate) : new Date(data.endDate as string);
           
           this.discount = {
             ...data,
-            // Format the converted Date objects for the datetime-local input
             startDate: this.formatDateForInput(startDate),
             endDate: this.formatDateForInput(endDate)
           };
@@ -62,10 +59,8 @@ export class DiscountFormComponent implements OnInit {
     this.errorMessage = null;
     this.successMessage = null;
 
-    // Convert the form's date strings back to a backend-compatible ISO format
     const discountToSend: DiscountDTO = {
       ...this.discount,
-      // Format the date string to remove milliseconds and the 'Z'
       startDate: this.formatDateToBackendString(new Date(this.discount.startDate as string)),
       endDate: this.formatDateToBackendString(new Date(this.discount.endDate as string)),
       minOrderAmount: this.discount.minOrderAmount === null || this.discount.minOrderAmount === undefined ? undefined : Number(this.discount.minOrderAmount),
@@ -97,7 +92,6 @@ export class DiscountFormComponent implements OnInit {
     }
   }
 
-  // Helper to format Date objects into 'YYYY-MM-DDTHH:mm' string for datetime-local input
   private formatDateForInput(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -107,17 +101,15 @@ export class DiscountFormComponent implements OnInit {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
-  // NEW HELPER: Formats a Date object into a string compatible with a Java LocalDateTime
-  // This removes the milliseconds and the 'Z' (UTC designator)
+ 
   private formatDateToBackendString(date: Date): string {
     const isoString = date.toISOString();
     return isoString.substring(0, isoString.indexOf('.'));
   }
 
-  // Parses a date array ([year, month, day, hour, minute]) into a Date object.
   private parseDateArray(dateArray: number[]): Date {
     const year = dateArray[0];
-    const month = dateArray[1] - 1; // Subtract 1 for 0-indexed month
+    const month = dateArray[1] - 1; 
     const day = dateArray[2];
     const hour = dateArray[3];
     const minute = dateArray[4];

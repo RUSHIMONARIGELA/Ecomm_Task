@@ -1,23 +1,22 @@
-import { ProductDTO } from "./product.model"; // Assuming product.model.ts contains ProductDTO
+import { ProductDTO } from "./product.model"; 
 
 export interface OrderItemDTO {
   id?: number;
   productDetails: ProductDTO;
   quantity: number;
-  price: number; // Represents BigDecimal from backend
+  price: number; 
 }
 
 export interface OrderDTO {
   id?: number;
   customerId: number;
-  orderDate: string; // LocalDateTime from backend, string in TS
-  status: string; // String representation of OrderStatus enum
-  totalAmount: number; // Represents BigDecimal from backend
+  orderDate: string; 
+  status: string; 
+  totalAmount: number; 
   orderItems: OrderItemDTO[];
-  shippingAddress: string; // Changed from 'string' to 'number' to match backend DTO, and made optional
- // If you need full address details, you'd define an AddressDTO and use that.
+  shippingAddress: string; 
 
   
-  couponCode?: string; // Optional, as a coupon might not always be applied
-  discountAmount?: number; // Optional, represents BigDecimal from backend
+  couponCode?: string; 
+  discountAmount?: number; 
 }

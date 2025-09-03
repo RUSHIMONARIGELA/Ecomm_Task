@@ -26,6 +26,22 @@
         ></button>
       </div>
 
+      <!-- New alert for invoice download status -->
+      <div
+        *ngIf="invoiceStatus.message"
+        class="alert alert-info alert-dismissible fade show"
+        role="alert"
+      >
+        {{ invoiceStatus.message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+          (click)="invoiceStatus.message = null"
+        ></button>
+      </div>
+
       <div *ngIf="!loadingOrders && !ordersError">
         <div *ngIf="orders && orders.length > 0; else noOrders">
           <div class="accordion" id="ordersAccordion">
@@ -101,10 +117,30 @@
                   </ul>
                   <div class="d-flex justify-content-end mt-3">
                     <button
-                      class="btn btn-outline-primary btn-sm"
+                      class="btn btn-outline-primary btn-sm me-2"
                       (click)="viewOrderDetails(order.id)"
                     >
                       View Full Details
+                    </button>
+                    <!-- New Invoice Download Button -->
+                    <button
+                      class="btn btn-success btn-sm"
+                      [disabled]="invoiceStatus.downloadingId === order.id"
+                      (click)="downloadInvoice(order.id)"
+                    >
+                      <span
+                        *ngIf="invoiceStatus.downloadingId === order.id"
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span *ngIf="invoiceStatus.downloadingId !== order.id">
+                        <i class="bi bi-download me-1"></i>
+                        Download Invoice
+                      </span>
+                      <span *ngIf="invoiceStatus.downloadingId === order.id">
+                        Downloading...
+                      </span>
                     </button>
                   </div>
                 </div>

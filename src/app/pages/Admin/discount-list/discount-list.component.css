@@ -1,17 +1,16 @@
-/* src/app/pages/Admin/admin-discount-list/admin-discount-list.component.css */
 
 .container {
-  max-width: 1200px; /* Adjust max-width as needed for table content */
+  max-width: 1200px; 
 }
 
 h2 {
-  color: #343a40; /* Darker heading color */
+  color: #343a40; 
   font-weight: 600;
 }
 
 .d-flex.justify-content-between.align-items-center.mb-4 {
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e9ecef; /* Subtle separator below header */
+  border-bottom: 1px solid #e9ecef;
 }
 
 .btn-primary {
@@ -26,7 +25,7 @@ h2 {
 .btn-primary:hover {
   background-color: #0056b3;
   border-color: #0056b3;
-  transform: translateY(-1px); /* Slight lift effect on hover */
+  transform: translateY(-1px); 
 }
 
 .alert {
@@ -35,25 +34,25 @@ h2 {
 }
 
 .table-responsive {
-  margin-top: 1.5rem; /* Spacing above the table */
-  border: 1px solid #dee2e6; /* Light border around the table */
-  border-radius: 0.5rem; /* Rounded corners for the table container */
-  overflow-x: auto; /* Ensure horizontal scrolling on small screens */
+  margin-top: 1.5rem;
+  border: 1px solid #dee2e6; 
+  border-radius: 0.5rem;
+  overflow-x: auto; 
 }
 
 .table {
-  margin-bottom: 0; /* Remove default table margin */
-  border-collapse: separate; /* Required for border-radius on table */
+  margin-bottom: 0; 
+  border-collapse: separate; 
   border-spacing: 0;
 }
 
 .table thead th {
-  background-color: #343a40; /* Dark header background */
+  background-color: #343a40; 
   color: white;
   border-bottom: 2px solid #dee2e6;
   font-weight: 600;
   padding: 0.75rem 1rem;
-  white-space: nowrap; /* Prevent header text wrapping */
+  white-space: nowrap; 
 }
 
 .table tbody tr {
@@ -61,16 +60,15 @@ h2 {
 }
 
 .table tbody tr:hover {
-  background-color: #f8f9fa; /* Light hover effect for rows */
+  background-color: #f8f9fa; 
 }
 
 .table tbody td {
   padding: 0.75rem 1rem;
   border-top: 1px solid #dee2e6;
-  white-space: nowrap; /* Prevent cell content wrapping if possible */
+  white-space: nowrap; 
 }
 
-/* Specific styling for the last row of the table to ensure rounded corners */
 .table tbody tr:last-child td:first-child {
   border-bottom-left-radius: 0.5rem;
 }
@@ -133,9 +131,8 @@ h2 {
   border-radius: 0.5rem;
 }
 
-/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .table-responsive {
-    border-radius: 0; /* Remove rounded corners on small screens for full width */
+    border-radius: 0; 
   }
 }

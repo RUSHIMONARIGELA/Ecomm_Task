@@ -43,8 +43,8 @@ discounts: DiscountDTO[] = [];
         next: () => {
           this.successMessage = 'Discount deleted successfully!';
           this.errorMessage = null;
-          this.loadDiscounts(); // Reload list after deletion
-          setTimeout(() => this.successMessage = null, 3000); // Clear message after 3 seconds
+          this.loadDiscounts();
+          setTimeout(() => this.successMessage = null, 3000); 
         },
         error: (error: HttpErrorResponse) => {
           console.error('Error deleting discount:', error);

@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core'; // Added OnInit
+import { Component, inject, OnInit } from '@angular/core'; 
 import { FormsModule } from '@angular/forms';
 import { CategoryDTO } from '../../../models/category-models';
 import { ProductService } from '../../../services/product.service';
 import { CategoryService } from '../../../services/category.service';
 import { Router } from '@angular/router';
 
-// Removed BulkUploadResultDTO interface as backend now returns string
 
 @Component({
   selector: 'app-admin-product-bulk-upload',
@@ -19,9 +18,9 @@ import { Router } from '@angular/router';
   templateUrl: './admin-product-bulk-upload.component.html',
   styleUrl: './admin-product-bulk-upload.component.css'
 })
-export class AdminProductBulkUploadComponent implements OnInit { // Implemented OnInit
+export class AdminProductBulkUploadComponent implements OnInit { 
   selectedFile: File | null = null;
-  loading = false; // Renamed from 'uploading' for consistency with common loading patterns
+  loading = false; 
   errorMessage: string | null = null;
   successMessage: string | null = null;
   categories: CategoryDTO[] = [];
@@ -30,7 +29,7 @@ export class AdminProductBulkUploadComponent implements OnInit { // Implemented 
   private categoryService = inject(CategoryService);
   private router = inject(Router);
 
-  ngOnInit(): void { // Corrected typo from ngOnInIt to ngOnInit
+  ngOnInit(): void { 
     this.fetchCategories();
   }
 
@@ -41,8 +40,8 @@ export class AdminProductBulkUploadComponent implements OnInit { // Implemented 
           this.categories = data;
         },
         error: (error: HttpErrorResponse) => {
-          console.error('Error fetching categories for bulk upload:', error); // Changed to console.error
-          this.errorMessage = 'Failed to load categories. Check console for details.'; // More user-friendly message
+          console.error('Error fetching categories for bulk upload:', error); 
+          this.errorMessage = 'Failed to load categories. Check console for details.'; 
         }
       }
     );
@@ -65,7 +64,7 @@ export class AdminProductBulkUploadComponent implements OnInit { // Implemented 
       return;
     }
     if (this.selectedFile.type !== 'text/csv' && !this.selectedFile.name.endsWith('.csv')) {
-      this.errorMessage = 'Invalid file type. Please select a CSV File.'; // Removed extra dots
+      this.errorMessage = 'Invalid file type. Please select a CSV File.'; 
       this.selectedFile = null;
       return;
     }
@@ -77,13 +76,11 @@ export class AdminProductBulkUploadComponent implements OnInit { // Implemented 
     const formData = new FormData();
     formData.append('file', this.selectedFile, this.selectedFile.name);
 
-    // Backend endpoint now returns a string
     this.productService.uploadProductsCsv(formData).subscribe({
-      next: (response: string) => { // Expecting a string response
-        this.successMessage = response; // Directly use the string message
+      next: (response: string) => { 
+        this.successMessage = response; 
         this.loading = false;
         this.selectedFile = null;
-        // Removed alert() as per instructions
         setTimeout(() => {
           this.router.navigate(['/admin/products']);
         }, 3000);
@@ -92,7 +89,6 @@ export class AdminProductBulkUploadComponent implements OnInit { // Implemented 
         this.loading = false;
         console.error('Bulk upload failed', error);
 
-        // Adjusted error handling to expect a string message from backend
         if (error.error && typeof error.error === 'string') {
           this.errorMessage = `Upload failed: ${error.error}`;
         } else if (error.error && error.error.message) {

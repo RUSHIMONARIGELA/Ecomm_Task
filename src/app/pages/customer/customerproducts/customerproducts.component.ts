@@ -1,6 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, DecimalPipe, SlicePipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; // Required for [(ngModel)]
 
@@ -18,15 +18,17 @@ import { ProductDTO } from '../../../models/product.model';
   standalone: true,
   imports: [
     CommonModule,
-    
+    RouterModule,
     HttpClientModule,
-    FormsModule, // Ensure FormsModule is imported for ngModel
+    FormsModule, 
     
   ],
   templateUrl: './customerproducts.component.html',
   styleUrls: ['./customerproducts.component.css']
 })
 export class CustomerproductsComponent implements OnInit {
+
+  @ViewChild('productCarousel') productCarousel!: ElementRef;
 
   username : string | null = null;
   products: ProductDTO[] = [];
@@ -68,9 +70,9 @@ export class CustomerproductsComponent implements OnInit {
 
     productsObservable.subscribe({
       next: (data: ProductDTO[]) => {
-        this.originalProducts = [...data]; // Store a copy of the fetched data
-        this.products = [...data]; // Initialize products with fetched data
-        this.sortProducts(); // Apply current sort after loading
+        this.originalProducts = [...data]; 
+        this.products = [...data]; 
+        this.sortProducts(); 
         this.loading = false;
       },
       error: (err: HttpErrorResponse) => {
@@ -99,15 +101,12 @@ export class CustomerproductsComponent implements OnInit {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = parseInt(selectElement.value, 10);
     this.selectedCategoryId = isNaN(selectedValue) ? null : selectedValue;
-    this.loadProducts(this.selectedCategoryId); // Reload products based on new selection
-    this.currentSortOption = 'default'; // Reset sort option when category changes
+    this.loadProducts(this.selectedCategoryId); 
+    this.currentSortOption = 'default'; 
   }
 
-  // NEW: Method to sort products
   sortProducts(): void {
-    // Ensure we're sorting the currently displayed products, which might be filtered by category
-    const productsToSort = [...this.products]; // Create a mutable copy
-
+    const productsToSort = [...this.products]; 
     switch (this.currentSortOption) {
       case 'nameAsc':
         productsToSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -123,7 +122,7 @@ export class CustomerproductsComponent implements OnInit {
         break;
       case 'default':
       default:
-        
+        // No sort needed, leave the order as is
         break;
     }
     this.products = productsToSort; 
@@ -173,5 +172,21 @@ export class CustomerproductsComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * Scrolls the product carousel to the right.
+   */
+  scrollRight(): void {
+    const element = this.productCarousel.nativeElement;
+    element.scrollBy({ left: element.offsetWidth, behavior: 'smooth' });
+  }
+
+  /**
+   * Scrolls the product carousel to the left.
+   */
+  scrollLeft(): void {
+    const element = this.productCarousel.nativeElement;
+    element.scrollBy({ left: -element.offsetWidth, behavior: 'smooth' });
   }
 }

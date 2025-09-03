@@ -5,21 +5,20 @@ import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-// Import your models
 import { CartDTO, CartItemDTO } from '../../../models/cart-models';
-import { OrderDTO } from '../../../models/order-models'; // Assuming this path is correct
-import { DiscountDTO } from '../../../models/discount-models'; // Import DiscountDTO
+import { OrderDTO } from '../../../models/order-models';
+import { DiscountDTO } from '../../../models/discount-models';
 
-// Import your services
 import { CartService } from '../../../services/CartService';
 import { AuthService } from '../../../services/auth.service';
 import { CartUpdateService } from '../../../services/cart-update.service';
 import { OrderService } from '../../../services/order.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customer-cart',
   standalone: true,
-  
+
   imports: [
     CommonModule,
     RouterLink,
@@ -34,17 +33,16 @@ export class CartComponent implements OnInit, OnDestroy {
   cart: CartDTO | null = null;
   loadingCart = true;
   cartError: string | null = null;
-  submitting = false; // Used for various actions like quantity update, remove, clear, and coupon apply/remove
-  processingCheckout = false; // Specific for checkout button
+  submitting = false;
+  processingCheckout = false;
 
-  couponCode: string = ''; // ngModel for manual coupon input
+  couponCode: string = '';
   couponError: string | null = null;
   successMessage: string | null = null;
 
-  // New properties for available coupons display
-  availableCoupons: DiscountDTO[] = []; // List of coupons fetched from backend
-  loadingCoupons = true; // Loading state for available coupons
-  couponsError: string | null = null; // Error message for available coupons fetch
+  availableCoupons: DiscountDTO[] = [];
+  loadingCoupons = true;
+  couponsError: string | null = null;
 
   private cartUpdateSubscription: Subscription | undefined;
 
@@ -58,12 +56,14 @@ export class CartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadCart();
-    this.loadAvailableCoupons(); // Load available coupons on component initialization
+    this.loadAvailableCoupons();
     this.cartUpdateSubscription = this.cartUpdateService.cartChanged$.subscribe(
       () => {
-        console.log('Cart updated notification received. Reloading cart and coupons...');
+        console.log(
+          'Cart updated notification received. Reloading cart and coupons...'
+        );
         this.loadCart();
-        this.loadAvailableCoupons(); // Reload coupons as cart total might affect applicability
+        this.loadAvailableCoupons();
       }
     );
   }
@@ -87,15 +87,16 @@ export class CartComponent implements OnInit, OnDestroy {
           this.cart = data;
           this.loadingCart = false;
 
-          // LOG FOR DEBUGGING: Check the values from the backend
-          console.log('Cart loaded successfully. Subtotal (totalPrice):', this.cart.totalPrice);
-          console.log('Final Total (totalAmount):', this.cart.totalAmount);
+          // console.log(
+          //   'Cart loaded successfully. Subtotal (totalPrice):',
+          //   this.cart.totalPrice
+          // );
+          // console.log('Final Total (totalAmount):', this.cart.totalAmount);
 
-          // If a coupon is already applied, pre-fill the input field
           if (this.cart.couponCode) {
             this.couponCode = this.cart.couponCode;
           } else {
-            this.couponCode = ''; // Clear if no coupon is applied
+            this.couponCode = '';
           }
         },
         error: (error: HttpErrorResponse) => {
@@ -103,7 +104,8 @@ export class CartComponent implements OnInit, OnDestroy {
           this.loadingCart = false;
           console.error('CustomerCartComponent: Error fetching cart:', error);
           if (error.status === 404) {
-            this.cartError = 'Cart not found. It might be created on first item addition.';
+            this.cartError =
+              'Cart not found. It might be created on first item addition.';
           } else if (error.error && error.error.message) {
             this.cartError = `Failed to load cart: ${error.error.message}`;
           }
@@ -112,32 +114,35 @@ export class CartComponent implements OnInit, OnDestroy {
     } else {
       this.cartError = 'Customer ID not available. Please log in.';
       this.loadingCart = false;
-      console.warn('CustomerCartComponent: No customer ID found from AuthService. Cannot load cart.');
+      console.warn(
+        'CustomerCartComponent: No customer ID found from AuthService. Cannot load cart.'
+      );
       this.router.navigate(['/login']);
     }
   }
 
-  /**
-   * Loads available coupons for the current customer.
-   * This method calls the CartService to fetch coupons from the backend.
-   */
   loadAvailableCoupons(): void {
     this.loadingCoupons = true;
     this.couponsError = null;
     const customerId = this.authService.getCurrentUserId();
 
     if (customerId) {
-      // Calling CartService to get available coupons
       this.cartService.getAvailableCoupons(customerId).subscribe({
         next: (data: DiscountDTO[]) => {
           this.availableCoupons = data;
           this.loadingCoupons = false;
-          console.log('CustomerCartComponent: Available coupons loaded:', this.availableCoupons);
+          // console.log(
+          //   'CustomerCartComponent: Available coupons loaded:',
+          //   this.availableCoupons
+          // );
         },
         error: (error: HttpErrorResponse) => {
           this.couponsError = 'Failed to load available coupons.';
           this.loadingCoupons = false;
-          console.error('CustomerCartComponent: Error fetching available coupons:', error);
+          console.error(
+            'CustomerCartComponent: Error fetching available coupons:',
+            error
+          );
         },
       });
     } else {
@@ -195,7 +200,7 @@ export class CartComponent implements OnInit, OnDestroy {
           this.cart = data;
           this.submitting = false;
           console.log('Quantity updated successfully:', data);
-          this.cartUpdateService.notifyCartChanged(); // Notifies other components (e.g., header cart count)
+          this.cartUpdateService.notifyCartChanged();
         },
         error: (error: HttpErrorResponse) => {
           this.cartError = 'Failed to update quantity. Please try again.';
@@ -217,6 +222,14 @@ export class CartComponent implements OnInit, OnDestroy {
       });
   }
 
+  private swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger',
+    },
+    buttonsStyling: false,
+  });
+
   removeItem(productId: number | undefined): void {
     if (productId === undefined || !this.cart || !this.cart.customerId) {
       console.error(
@@ -226,34 +239,55 @@ export class CartComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // IMPORTANT: Replace this with a custom modal/dialog for user confirmation.
-    // Do NOT use window.confirm() in production Angular apps for better UX and control.
-    if (!window.confirm('Are you sure you want to remove this item from your cart?')) {
-      return;
-    }
+    this.swalWithBootstrapButtons
+      .fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, remove it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.cartError = null;
+          this.couponError = null;
+          this.successMessage = null;
 
-    this.submitting = true;
-    this.cartError = null;
-    this.couponError = null;
-    this.successMessage = null;
-
-    this.cartService
-      .removeProductFromCart(this.cart.customerId, productId)
-      .subscribe({
-        next: (data: CartDTO) => {
-          this.cart = data;
-          this.submitting = false;
-          console.log('Item removed successfully:', data);
-          this.cartUpdateService.notifyCartChanged();
-        },
-        error: (error: HttpErrorResponse) => {
-          this.cartError = 'Failed to remove item. Please try again.';
-          this.submitting = false;
-          console.error('CustomerCartComponent: Error removing item:', error);
-          if (error.error && error.error.message) {
-            this.cartError = `Failed to remove item: ${error.error.message}`;
-          }
-        },
+          this.cartService
+            .removeProductFromCart(this.cart!.customerId!, productId)
+            .subscribe({
+              next: (data: CartDTO) => {
+                this.cart = data;
+                this.submitting = false;
+                console.log('Item removed successfully:', data);
+                this.cartUpdateService.notifyCartChanged();
+                this.swalWithBootstrapButtons.fire({
+                  title: 'Removed!',
+                  text: 'Your item has been removed from the cart.',
+                  icon: 'success',
+                });
+              },
+              error: (error: HttpErrorResponse) => {
+                this.cartError = 'Failed to remove item. Please try again.';
+                this.submitting = false;
+                console.error(
+                  'CustomerCartComponent: Error removing item:',
+                  error
+                );
+                if (error.error && error.error.message) {
+                  this.cartError = `Failed to remove item: ${error.error.message}`;
+                }
+              },
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          this.swalWithBootstrapButtons.fire({
+            title: 'Cancelled',
+            text: 'Your item is safe :)',
+            icon: 'error',
+          });
+        }
       });
   }
 
@@ -264,38 +298,50 @@ export class CartComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // IMPORTANT: Replace this with a custom modal/dialog for user confirmation.
-    if (!window.confirm('Are you sure you want to clear your entire cart?')) {
-      return;
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Clear it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.submitting = true;
+        this.cartError = null;
+        this.couponError = null;
+        this.successMessage = null;
 
-    this.submitting = true;
-    this.cartError = null;
-    this.couponError = null;
-    this.successMessage = null;
-
-    this.cartService.clearCart(this.cart.customerId).subscribe({
-      next: () => {
-        if (this.cart) {
-          this.cart.cartItems = [];
-          this.cart.totalAmount = 0;
-          this.cart.totalPrice = 0; // Reset totalPrice too
-          this.cart.couponCode = undefined;
-          this.cart.discountAmount = undefined;
-        }
-        this.submitting = false;
-        this.couponCode = '';
-        console.log('Cart cleared successfully.');
-        this.cartUpdateService.notifyCartChanged();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.cartError = 'Failed to clear cart. Please try again.';
-        this.submitting = false;
-        console.error('CustomerCartComponent: Error clearing cart:', error);
-        if (error.error && error.error.message) {
-          this.cartError = `Failed to clear cart: ${error.error.message}`;
-        }
-      },
+        this.cartService.clearCart(this.cart!.customerId!).subscribe({
+          next: () => {
+            if (this.cart) {
+              this.cart.cartItems = [];
+              this.cart.totalAmount = 0;
+              this.cart.totalPrice = 0;
+              this.cart.couponCode = undefined;
+              this.cart.discountAmount = undefined;
+            }
+            this.submitting = false;
+            this.couponCode = '';
+            console.log('Cart cleared successfully.');
+            this.cartUpdateService.notifyCartChanged();
+            Swal.fire({
+              title: 'Cleared!',
+              text: 'Your cart has been cleared.',
+              icon: 'success',
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            this.cartError = 'Failed to clear cart. Please try again.';
+            this.submitting = false;
+            console.error('CustomerCartComponent: Error clearing cart:', error);
+            if (error.error && error.error.message) {
+              this.cartError = `Failed to clear cart: ${error.error.message}`;
+            }
+          },
+        });
+      }
     });
   }
 
@@ -324,15 +370,12 @@ export class CartComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Assuming your backend's createOrderFromCart will use the current state of the cart
-    // including any applied discounts.
     this.orderService.createOrderFromCart(customerId).subscribe({
       next: (order: OrderDTO) => {
         console.log('Order created successfully from cart:', order);
         this.processingCheckout = false;
         this.cartUpdateService.notifyCartChanged();
 
-        // Navigate to a checkout page that handles Razorpay payment based on the order ID
         this.router.navigate(['/home/checkout', order.id]);
       },
       error: (error: HttpErrorResponse) => {
@@ -379,7 +422,6 @@ export class CartComponent implements OnInit, OnDestroy {
     return this.cart.totalPrice ?? 0;
   }
 
-  
   applyCoupon(code?: string): void {
     const couponToApply = code || this.couponCode.trim();
 
@@ -395,29 +437,35 @@ export class CartComponent implements OnInit, OnDestroy {
     this.couponError = null;
     this.cartError = null;
     this.successMessage = null;
-    this.submitting = true; // Use submitting for coupon application too
+    this.submitting = true;
 
-    this.cartService.applyCouponToCart(this.cart.customerId, couponToApply).subscribe({
-      next: (data: CartDTO) => {
-        this.cart = data;
-        this.couponError = null;
-        this.successMessage = 'Coupon applied successfully!';
-        this.submitting = false;
-        this.cartUpdateService.notifyCartChanged();
-        this.couponCode = this.cart.couponCode || ''; // Update input with applied code
-      },
-      error: (error: HttpErrorResponse) => {
-        this.submitting = false;
-        console.error('Error applying coupon:', error);
-        this.couponError = error.error?.message || 'Failed to apply coupon. Please check the code and try again.';
-        this.successMessage = null;
-      }
-    });
+    this.cartService
+      .applyCouponToCart(this.cart.customerId, couponToApply)
+      .subscribe({
+        next: (data: CartDTO) => {
+          this.cart = data;
+          this.couponError = null;
+
+          Swal.fire({
+            title: 'Good job!',
+            text: 'Coupon applied successfully!',
+            icon: 'success',
+          });
+          this.submitting = false;
+          this.cartUpdateService.notifyCartChanged();
+          this.couponCode = this.cart.couponCode || '';
+        },
+        error: (error: HttpErrorResponse) => {
+          this.submitting = false;
+          console.error('Error applying coupon:', error);
+          this.couponError =
+            error.error?.message ||
+            'Failed to apply coupon. Please check the code and try again.';
+          this.successMessage = null;
+        },
+      });
   }
 
-  /**
-   * Removes the currently applied coupon from the cart.
-   */
   removeCoupon(): void {
     if (!this.cart || !this.cart.customerId) {
       this.couponError = 'Cart not loaded or customer ID missing.';
@@ -426,13 +474,29 @@ export class CartComponent implements OnInit, OnDestroy {
 
     this.couponError = null;
     this.cartError = null;
-    this.successMessage = null;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, remove it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Removed!',
+          text: 'Your coupon has been removed.',
+          icon: 'success',
+        });
+      }
+    });
     this.submitting = true;
 
     this.cartService.removeCouponFromCart(this.cart.customerId).subscribe({
       next: (data: CartDTO) => {
         this.cart = data;
-        this.couponCode = ''; // Clear the input field
+        this.couponCode = '';
         this.couponError = null;
         this.successMessage = 'Coupon removed successfully!';
         this.submitting = false;
@@ -443,7 +507,7 @@ export class CartComponent implements OnInit, OnDestroy {
         console.error('Error removing coupon:', error);
         this.couponError = error.error?.message || 'Failed to remove coupon.';
         this.successMessage = null;
-      }
+      },
     });
   }
 }

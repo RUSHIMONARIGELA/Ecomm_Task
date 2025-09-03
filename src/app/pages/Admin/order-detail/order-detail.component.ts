@@ -79,10 +79,10 @@ export class OrderDetailComponent {
 
     this.orderService.updateOrder(this.orderId, this.order).subscribe({
       next: (updatedOrder: OrderDTO) => {
-        this.order = updatedOrder; // Update local order with response
+        this.order = updatedOrder; 
         this.submitting = false;
         console.log('Order updated successfully:', updatedOrder);
-        this.router.navigate(['/admin/orders']); // Redirect back to order list
+        this.router.navigate(['/admin/orders']); 
       },
       error: (err: HttpErrorResponse) => {
         this.error = 'Failed to update order.';

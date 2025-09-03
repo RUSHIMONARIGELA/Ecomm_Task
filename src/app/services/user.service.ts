@@ -36,11 +36,9 @@ export class UserService {
     return this.http.get<UserDetailsDTO>(`${this.API_URL}/${userId}`, { headers });
   }
 
-  // FIX: Modified the request body to match backend's expected Map structure
   updateUserRoles(userId: number, roles: string[]): Observable<UserDetailsDTO> {
     const headers = this.getAuthHeaders();
-    // Wrap the roles array in an object with the key "roles"
-    const requestBody = { roles: roles }; // This is the change!
+    const requestBody = { roles: roles }; 
     return this.http.put<UserDetailsDTO>(`${this.API_URL}/${userId}/role`, requestBody, { headers });
   }
 

@@ -1,17 +1,14 @@
-/* General container styling */
 .container.mt-4 {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
 
-/* Card Styling */
 .card.shadow-sm {
   border-radius: 0.75rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
-/* Card Header */
 .card-header.bg-dark {
   background-color: #343a40 !important;
   color: #fff;
@@ -25,12 +22,10 @@
   margin-bottom: 0;
 }
 
-/* Card Body */
 .card-body.p-4 {
   padding: 2rem !important;
 }
 
-/* Section Headings */
 h5.text-primary {
   color: #007bff !important;
   font-weight: 600;
@@ -39,7 +34,6 @@ h5.text-primary {
   padding-bottom: 0.5rem;
 }
 
-/* Text hints and code blocks */
 .text-muted {
   font-size: 0.9rem;
   line-height: 1.6;
@@ -48,7 +42,7 @@ h5.text-primary {
 code {
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   font-size: 0.875em;
-  color: #e83e8c; /* Pinkish color for code */
+  color: #e83e8c; 
   word-break: break-all;
 }
 
@@ -66,7 +60,6 @@ code {
   vertical-align: middle;
 }
 
-/* File Input */
 .input-group .form-control[type="file"] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -86,7 +79,6 @@ code {
   background-color: #dee2e6;
 }
 
-/* Buttons */
 .btn-primary.btn-lg {
   background-color: #007bff;
   border-color: #007bff;
@@ -118,14 +110,12 @@ code {
   box-shadow: none;
 }
 
-/* Spinner */
 .spinner-border-sm {
   width: 1rem;
   height: 1rem;
   border-width: 0.15em;
 }
 
-/* Alert messages */
 .alert {
   border-radius: 0.5rem;
   margin-bottom: 1.5rem;
@@ -149,7 +139,6 @@ code {
   font-size: 1rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .card-body.p-4 {
     padding: 1.5rem !important;

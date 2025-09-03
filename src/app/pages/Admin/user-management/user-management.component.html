@@ -62,7 +62,7 @@
   </div>
 </div>
 
-<!-- Role Management Modal -->
+
 <div class="modal" [class.show]="showRoleModal" [style.display]="showRoleModal ? 'block' : 'none'" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -80,7 +80,7 @@
           </p>
           <hr>
           <h6>Select New Roles:</h6>
-          <div class="form-check" *ngFor="let roleWithoutPrefix of availableRoles"> <!-- Renamed loop variable -->
+          <div class="form-check" *ngFor="let roleWithoutPrefix of availableRoles">
             <input
               class="form-check-input"
               type="checkbox"
@@ -107,5 +107,4 @@
   </div>
 </div>
 
-<!-- Modal Backdrop -->
 <div class="modal-backdrop fade" [class.show]="showRoleModal" *ngIf="showRoleModal"></div>

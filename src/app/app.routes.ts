@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { HomeComponent } from './pages/customer/home/home.component';
-import { authGuard } from './guard/auth.guard'; // Ensure this path is correct
+import { authGuard } from './guard/auth.guard'; 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AdminProductFormComponent } from './pages/Admin/products/admin-product-form/admin-product-form.component';
 import { AdminProductListComponent } from './pages/Admin/products/admin-product-list/admin-product-list.component';
@@ -26,6 +26,8 @@ import { AdminProductBulkUploadComponent } from './pages/Admin/admin-product-bul
 import { DiscountListComponent } from './pages/Admin/discount-list/discount-list.component';
 import { DiscountFormComponent } from './pages/Admin/discount-form/discount-form.component';
 import { UserManagementComponent } from './pages/Admin/user-management/user-management.component'; // Keep this import
+import { ProductDetailsComponent } from './pages/customer/product-details/product-details.component';
+import { ProductReviewComponent } from './pages/customer/product-review/product-review.component';
 
 export const routes: Routes = [
 
@@ -47,7 +49,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [authGuard],
     
-    data: { expectedRole: 'ADMIN' }, // 'SUPER_ADMIN' will also be allowed due to role hierarchy in authGuard
+    data: { expectedRole: 'ADMIN' }, 
     children: [
       { path: '', component: DashboardComponent },
       { path: 'products', component: AdminProductListComponent },
@@ -74,11 +76,13 @@ export const routes: Routes = [
     data: { expectedRole: 'CUSTOMER' },
     children: [
       { path: '', component: CustomerproductsComponent },
+      { path: 'products/:id', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'orders/:orderId', component: OrdersComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'checkout/:orderId', component: PaymentComponent },
+      {path: 'review', component:ProductReviewComponent}
     ],
   },
 

@@ -1,29 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, AfterViewInit } from '@angular/core'; // Added OnInit, AfterViewInit
+import { Component, inject, OnInit, AfterViewInit } from '@angular/core'; 
 import { FormsModule } from '@angular/forms';
-import { UserDetailsDTO } from '../../../models/customer-models'; // Correct path assumed
-import { UserService } from '../../../services/user.service'; // Correct path assumed
-import { AuthService } from '../../../services/auth.service'; // Correct path assumed
+import { UserDetailsDTO } from '../../../models/customer-models'; 
+import { UserService } from '../../../services/user.service'; 
+import { AuthService } from '../../../services/auth.service'; 
 
-declare const lucide: any; // Declare lucide globally
+declare const lucide: any; 
 
 @Component({
   selector: 'app-user-management',
-  standalone: true, // Assuming standalone
+  standalone: true, 
   imports: [CommonModule, FormsModule],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.css'
 })
-export class UserManagementComponent { // Implement OnInit, AfterViewInit
+export class UserManagementComponent { 
 users: UserDetailsDTO[] = [];
   loading: boolean = true;
   error: string | null = null;
 
   selectedUser: UserDetailsDTO | null = null;
-  // availableRoles should reflect the raw role names without "ROLE_" prefix
-  // as they are used for display and checkbox values.
+
   availableRoles: string[] = ['CUSTOMER', 'ADMIN', 'SUPER_ADMIN'];
-  selectedRoles: string[] = []; // This will now store roles WITH the "ROLE_" prefix
+  selectedRoles: string[] = []; 
 
   showRoleModal: boolean = false;
   currentUserId: number | null = null;
@@ -72,12 +71,11 @@ users: UserDetailsDTO[] = [];
       return;
     }
     this.selectedUser = { ...user };
-    // Initialize selectedRoles with the full role names (e.g., "ROLE_CUSTOMER")
-    // from the user object, as they come from the backend.
+
     this.selectedRoles = this.selectedUser.roles || [];
     this.showRoleModal = true;
     console.log('UserManagementComponent: Modal opened for user:', this.selectedUser.username);
-    console.log('UserManagementComponent: Initial selectedRoles in modal:', this.selectedRoles); // NEW DEBUG
+    console.log('UserManagementComponent: Initial selectedRoles in modal:', this.selectedRoles); 
   }
 
   closeRoleModal(): void {
@@ -88,9 +86,9 @@ users: UserDetailsDTO[] = [];
     console.log('UserManagementComponent: Modal closed.');
   }
 
-  onRoleChange(roleWithoutPrefix: string, event: Event): void { // Renamed parameter for clarity
+  onRoleChange(roleWithoutPrefix: string, event: Event): void { 
     const isChecked = (event.target as HTMLInputElement).checked;
-    const fullRoleName = `ROLE_${roleWithoutPrefix}`; // Construct the full role name
+    const fullRoleName = `ROLE_${roleWithoutPrefix}`; 
 
     if (isChecked) {
       if (!this.selectedRoles.includes(fullRoleName)) {
@@ -110,8 +108,7 @@ users: UserDetailsDTO[] = [];
     }
 
     this.error = null;
-    // FIX: Send selectedRoles directly as they already contain "ROLE_" prefix
-    const rolesToSend = this.selectedRoles; // No map needed here!
+    const rolesToSend = this.selectedRoles; 
 
     console.log('UserManagementComponent: Attempting to update roles for user ID:', this.selectedUser.id, 'with roles:', rolesToSend);
 

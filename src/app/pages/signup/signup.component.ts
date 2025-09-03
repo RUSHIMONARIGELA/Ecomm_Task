@@ -6,6 +6,7 @@ import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { CustomerService } from '../../services/customer.service';
 import { CustomerDTO } from '../../models/customer-models';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -126,9 +127,15 @@ export class SignupComponent {
       .registerFullCustomer(this.customerRegistration)
       .subscribe({
         next: (response) => {
-          this.successMessage = 'Registration successful! You can now log in.';
-          console.log('Full signup successful:', response);
-          alert("Registration successful! You can now log in.");
+
+          // this.successMessage = 'Registration successful! You can now log in.';
+          // console.log('Full signup successful:', response);
+          Swal.fire({
+  title: "Good job!",
+  text: "Registration successful! You can now login..",
+  icon: "success"
+});
+          // alert("Registration successful! You can now log in.");
           this.loading = false;
           this.router.navigate(['/login']);
         },

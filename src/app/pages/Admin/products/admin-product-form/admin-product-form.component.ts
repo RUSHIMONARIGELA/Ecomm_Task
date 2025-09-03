@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'; // Added OnInit
+import { Component, inject, OnInit } from '@angular/core'; 
 import {
   FormBuilder,
   FormGroup,
@@ -13,23 +13,21 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { CategoryService } from '../../../../services/category.service';
-import { CategoryDTO } from '../../../../models/category-models'; // Correct import for CategoryDTO
+import { CategoryDTO } from '../../../../models/category-models'; 
 import { ProductDTO } from '../../../../models/product.model';
-// Import ProductDTO
 
 @Component({
   selector: 'app-admin-product-form',
-  standalone: true, // Mark as standalone
+  standalone: true, 
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule, // Keep FormsModule if you mix template-driven with reactive or use ngModel directly
+    FormsModule, 
   ],
   templateUrl: './admin-product-form.component.html',
   styleUrl: './admin-product-form.component.css',
 })
 export class AdminProductFormComponent implements OnInit {
-  // Implement OnInit
 
   productForm!: FormGroup;
   isEditMode = false;
@@ -37,7 +35,7 @@ export class AdminProductFormComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   submitting = false;
-  categories: CategoryDTO[] = []; // Correctly typed as CategoryDTO[]
+  categories: CategoryDTO[] = []; 
 
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
@@ -150,7 +148,6 @@ export class AdminProductFormComponent implements OnInit {
             error.error &&
             typeof error.error === 'string'
           ) {
-            // Backend might send plain string for bad request
             this.errorMessage = `Failed to update product: ${error.error}`;
           } else if (error.error && error.error.message) {
             this.errorMessage = `Failed to update product: ${error.error.message}`;
@@ -175,7 +172,6 @@ export class AdminProductFormComponent implements OnInit {
             error.error &&
             typeof error.error === 'string'
           ) {
-            // Backend might send plain string for bad request
             this.errorMessage = `Failed to create product: ${error.error}`;
           } else if (error.error && error.error.message) {
             this.errorMessage = `Failed to create product: ${error.error.message}`;

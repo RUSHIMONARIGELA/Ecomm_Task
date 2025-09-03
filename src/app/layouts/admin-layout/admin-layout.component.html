@@ -67,7 +67,6 @@
             </a>
           </li>
 
-          <!-- NEW: Super Admin Specific Link -->
           <li class="nav-item" *ngIf="isSuperAdmin">
             <a
               class="nav-link"
@@ -132,7 +131,7 @@
               aria-expanded="false"
             >
               <i data-lucide="user-circle" class="me-1 icon-small"></i>
-              Welcome, {{ currentUsername }} ({{ currentUserRole }}) <!-- DYNAMIC USER INFO -->
+              Welcome, {{ currentUsername }} ({{ currentUserRole }}) 
             </a>
             <ul
               class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
@@ -152,12 +151,10 @@
     </div>
   </nav>
 
-  <!-- Router Outlet for Admin Child Routes -->
   <div class="container my-4 flex-grow-1">
     <router-outlet></router-outlet>
   </div>
 
-  <!-- Admin Footer -->
   <footer class="bg-dark text-white text-center p-3 mt-auto">
     <p class="mb-0">&copy; 2025 E-commerce Admin. All rights reserved.</p>
   </footer>

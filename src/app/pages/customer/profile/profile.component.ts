@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { CustomerService } from '../../../services/customer.service';
 import { ProfileDTO } from '../../../models/customer-models';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -68,11 +69,17 @@ export class ProfileComponent implements OnInit {
               },
             ];
           }
-          this.successMessage = 'Existing profile loaded.';
+          Swal.fire("Existing profile loaded..");
+          // this.successMessage = 'Existing profile loaded.';
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 404) {
-            this.errorMessage = 'No existing profile found. Please create one.';
+            Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "No existing profile found. Please create one.",
+});
+            // this.errorMessage = 'No existing profile found. Please create one.';
             if (
               !this.profile.addresses ||
               this.profile.addresses.length === 0
@@ -89,7 +96,12 @@ export class ProfileComponent implements OnInit {
               ];
             }
           } else {
-            this.errorMessage = 'Failed to load profile. Please try again.';
+            Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Failed to load profile. Pleasetry again.",
+});
+            // this.errorMessage = 'Failed to load profile. Please try again.';
             console.error('Error loading profile:', error);
           }
         },
@@ -102,7 +114,12 @@ export class ProfileComponent implements OnInit {
     this.successMessage = null;
 
     if (!this.customerId) {
-      this.errorMessage = 'Customer ID is missing. Cannot save profile.';
+      Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Customer ID is mising. Cannot save profile.",
+});
+      // this.errorMessage = 'Customer ID is missing. Cannot save profile.';
       return;
     }
 
@@ -128,7 +145,12 @@ export class ProfileComponent implements OnInit {
       .createOrUpdateCustomerProfile(this.customerId, this.profile)
       .subscribe({
         next: (response) => {
-          this.successMessage = 'Profile and address saved successfully!';
+          Swal.fire({
+  title: "Good job!",
+  text: "Profile and address saved successfully!",
+  icon: "success"
+});
+          // this.successMessage = 'Profile and address saved successfully!';
           this.loading = false;
           console.log('Profile saved:', response);
           this.router.navigate(['/home']);
@@ -137,9 +159,16 @@ export class ProfileComponent implements OnInit {
           this.loading = false;
           console.error('Failed to save profile:', error);
           if (error.error && error.error.message) {
+
             this.errorMessage = `Failed to save profile: ${error.error.message}`;
           } else {
-            this.errorMessage = 'Failed to save profile. Please try again.';
+            Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Failed to save profile.please try again.",
+});
+            
+            // this.errorMessage = 'Failed to save profile. Please try again.';
           }
         },
       });
@@ -160,7 +189,12 @@ export class ProfileComponent implements OnInit {
     if (this.profile.addresses.length > 1) {
       this.profile.addresses.splice(index, 1);
     } else {
-      this.errorMessage = 'At least one address is required.';
+      // this.errorMessage = 'At least one address is required.';
+      Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "At least one address is required!",
+});
     }
   }
 }

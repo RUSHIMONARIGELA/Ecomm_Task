@@ -1,0 +1,86 @@
+/* General body and container styling */
+body {
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Card and image styling */
+.card {
+  border: none;
+  border-radius: 1rem;
+}
+
+.img-fluid {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Product image container for button positioning */
+.position-relative {
+  height: auto;
+  min-height: 400px;
+}
+
+/* Image navigation buttons */
+.btn-light {
+  border-color: #dee2e6;
+  color: #6c757d;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-light:hover {
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+  color: #495057;
+  transform: scale(1.05);
+}
+
+.btn-light:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Thumbnail styling */
+.img-thumbnail {
+  border-radius: 0.5rem;
+  border: 3px solid transparent;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.img-thumbnail:hover {
+  border-color: #adb5bd;
+}
+
+/* Active thumbnail border */
+.img-thumbnail.border-primary {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Product details section styling */
+.text-primary {
+  color: #0d6efd !important;
+}
+
+.text-success {
+  color: #198754 !important;
+}
+
+.badge {
+  font-size: 0.8em;
+  padding: 0.5em 0.8em;
+  border-radius: 1rem;
+}
+
+.form-control {
+  border-radius: 0.5rem;
+}
+
+.btn-primary {
+  border-radius: 0.75rem;
+}

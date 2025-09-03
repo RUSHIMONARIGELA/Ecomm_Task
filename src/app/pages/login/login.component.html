@@ -15,12 +15,14 @@
         <button class="btn btn-primary" type="submit">Login</button>
         <br>
         <br>
-        <p style="color: black;">Didn't Have an account? <a routerLink="/signup">Register now</a></p>
+        <p class="text-dark">
+          Don't have an account?
+          <a [routerLink]="['/signup']">Register now</a>
+        </p>
         <div class="text-danger mt-2">{{ error }}</div>
       </form>
     </div>
 
-    <!-- 2FA Verification Form -->
     <div *ngIf="twoFactorAuthRequired">
       <h2>Two-Factor Authentication</h2>
       <div class="alert alert-info" *ngIf="twoFactorMessage">{{ twoFactorMessage }}</div>

@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { CustomerDTO, ProfileDTO, UserDetailsDTO } from '../models/customer-models'; // NEW: Import UserDTO
-
+import { CustomerDTO, ProfileDTO, UserDetailsDTO } from '../models/customer-models'; 
 @Injectable({
   providedIn: 'root',
 })
@@ -29,10 +28,9 @@ export class CustomerService {
     return this.http.post(`${this.baseUrl}/register`, customerDto);
   }
 
-  // FIX: Changed return type from CustomerDTO to UserDTO
-  getCustomerByUsername(username: string): Observable<UserDetailsDTO> { // FIX: Changed userName to username for consistency
+  getCustomerByUsername(username: string): Observable<UserDetailsDTO> { 
     const headers = this.getAuthHeaders();
-    return this.http.get<UserDetailsDTO>(`${this.baseUrl}/username/${username}`, { // FIX: Expecting UserDTO
+    return this.http.get<UserDetailsDTO>(`${this.baseUrl}/username/${username}`, { 
       headers,
     });
   }

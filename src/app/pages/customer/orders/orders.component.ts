@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 import { AuthService } from '../../../services/auth.service';
 
@@ -16,13 +16,19 @@ import { OrderDTO } from '../../../models/order-models';
   styleUrls: ['./orders.component.css'],
 })
 export class OrdersComponent implements OnInit {
-  orders: OrderDTO[] = [];
+orders: OrderDTO[] = [];
   loadingOrders = true;
   ordersError: string | null = null;
+  
+  invoiceStatus = {
+    downloadingId: null as number | null,
+    message: null as string | null
+  };
 
   private orderService = inject(OrderService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private http = inject(HttpClient); 
 
   constructor() {}
 
@@ -70,23 +76,52 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  /**
-   * Helper function to safely convert a date string or array into a Date object.
-   * This handles the specific array format coming from the backend without @JsonFormat.
-   * @param dateInput The date value received from the backend (string or array).
-   * @returns A new Date object or null if the input is invalid.
-   */
   transformDate(dateInput: any): Date | null {
     if (typeof dateInput === 'string') {
-      // If the backend is sending a proper string (after the fix), this will work
       return new Date(dateInput);
     } else if (Array.isArray(dateInput) && dateInput.length >= 3) {
-      // If the backend is still sending the array, convert it manually
-      // The array format is [year, month, day, hour, minute, second, nanosecond]
-      // Note: Month in JavaScript is 0-indexed, so we subtract 1.
       return new Date(dateInput[0], dateInput[1] - 1, dateInput[2], dateInput[3], dateInput[4], dateInput[5]);
     }
     console.warn('Invalid date format received:', dateInput);
     return null;
+  }
+  
+  downloadInvoice(orderId: number | undefined): void {
+    if (orderId === undefined) {
+      this.invoiceStatus.message = 'Error: Cannot download invoice, order ID is missing.';
+      console.error('Download invoice failed: order ID is undefined.');
+      return;
+    }
+
+    this.invoiceStatus.downloadingId = orderId;
+    this.invoiceStatus.message = `Downloading invoice for Order #${orderId}...`;
+    const authToken = this.authService.getToken(); 
+    
+    
+    this.http.get(`http://localhost:8081/api/invoices/generate/${orderId}`, {
+      responseType: 'blob', 
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    }).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `invoice-order-${orderId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url); 
+        
+        this.invoiceStatus.downloadingId = null;
+        this.invoiceStatus.message = `Invoice for Order #${orderId} downloaded successfully.`;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.invoiceStatus.downloadingId = null;
+        this.invoiceStatus.message = `Failed to download invoice: ${err.statusText || 'An unknown error occurred'}`;
+        console.error('Failed to download invoice', err);
+      }
+    });
   }
 }

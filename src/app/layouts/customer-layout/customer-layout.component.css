@@ -1,25 +1,73 @@
+/*
+  This CSS file provides custom styling to enhance the Bootstrap layout
+  of the customer-facing pages. It improves the look of the cards,
+  buttons, and overall color scheme.
+*/
 
-html, body {
-  height: 100%;
-}
-.d-flex.flex-column.min-vh-100 {
-  min-height: 100vh;
+/* General Body and Font Styling */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa; /* Light gray background */
+  color: #343a40; /* Dark gray text color */
 }
 
-header {
-  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x600/007bff/ffffff?text=E-commerce+Banner'); 
-  background-size: cover;
-  background-position: center;
+/* Navbar Enhancements */
+.navbar-brand {
+  font-weight: 700 !important;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #0056b3 !important; /* A slightly darker blue on hover */
+}
+
+/* Featured Products Section */
+h2 {
+  color: #2c3e50; /* A dark, professional blue-gray */
+  font-weight: 600;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+/* Add a simple underline effect to the heading */
+h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #007bff; /* Primary blue color */
+  margin: 10px auto 0;
+  border-radius: 5px;
+}
+
+/* Card Styling for Products */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none; /* Remove default bootstrap border */
+  border-radius: 1rem !important;
+  overflow: hidden; /* Ensure rounded corners on images */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .card-img-top {
-  border-bottom: 1px solid #eee;
+  object-fit: cover;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  transition: transform 0.3s ease;
 }
 
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
 
 .card-title {
-  margin-bottom: 0.5rem;
-  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50 !important;
 }
 
 .card-text {
@@ -27,7 +75,37 @@ header {
   line-height: 1.4;
 }
 
+.fs-5.fw-bold.text-success {
+  font-weight: 700 !important;
+}
+
+.btn-outline-primary {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #212529 !important; /* Darker than default dark */
+  color: #f8f9fa !important;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #adb5bd !important;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #fff !important;
+  text-decoration: underline;
+}
+
+/* Other small tweaks */
 .spinner-border {
-  vertical-align: middle;
-  margin-right: 8px;
+  width: 3rem;
+  height: 3rem;
 }

@@ -42,7 +42,6 @@ export class PaymentService {
     );
   }
 
-  // FIX: Added internalOrderId as a parameter and included it in the request body
   createRazorpayOrder(
     amount: number,
     currency: string,
