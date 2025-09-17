@@ -2,7 +2,7 @@ import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core'
 import { CommonModule, DecimalPipe, SlicePipe } from '@angular/common';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; // Required for [(ngModel)]
+import { FormsModule } from '@angular/forms'; 
 
 
 import { CategoryDTO } from '../../../models/category-models';
@@ -30,6 +30,7 @@ export class CustomerproductsComponent implements OnInit {
 
   @ViewChild('productCarousel') productCarousel!: ElementRef;
 
+  
   username : string | null = null;
   products: ProductDTO[] = [];
   originalProducts: ProductDTO[] = [];
@@ -122,7 +123,6 @@ export class CustomerproductsComponent implements OnInit {
         break;
       case 'default':
       default:
-        // No sort needed, leave the order as is
         break;
     }
     this.products = productsToSort; 
@@ -174,17 +174,11 @@ export class CustomerproductsComponent implements OnInit {
     });
   }
 
-  /**
-   * Scrolls the product carousel to the right.
-   */
   scrollRight(): void {
     const element = this.productCarousel.nativeElement;
     element.scrollBy({ left: element.offsetWidth, behavior: 'smooth' });
   }
 
-  /**
-   * Scrolls the product carousel to the left.
-   */
   scrollLeft(): void {
     const element = this.productCarousel.nativeElement;
     element.scrollBy({ left: -element.offsetWidth, behavior: 'smooth' });

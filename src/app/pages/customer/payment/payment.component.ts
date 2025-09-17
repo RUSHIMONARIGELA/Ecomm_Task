@@ -70,10 +70,10 @@ export class PaymentComponent {
       next: (data: OrderDTO) => {
         this.order = data;
         this.loadingOrder = false;
-        // console.log(
-        //   'PaymentComponent: Order details loaded successfully:',
-        //   this.order
-        // );
+        console.log(
+          'PaymentComponent: Order details loaded successfully:',
+          this.order
+        );
 
         const currentCustomerId = this.authService.getCurrentUserId();
         const userRoles = this.authService.getUserRoles();
@@ -163,7 +163,7 @@ export class PaymentComponent {
 
     this.paymentService
       .createRazorpayOrder(
-        this.order.totalAmount,
+        Math.round(this.order.totalAmount * 100), // <-- Convert to paise
         'INR',
         this.order.id.toString(),
         this.order.id
@@ -206,7 +206,7 @@ export class PaymentComponent {
     const customerEmail = this.authService.getCurrentUserEmail();
 
     const options = {
-      key: 'rzp_test_Y4uo7eqttsVY76',
+      key: 'rzp_test_RFNLCCDDkhQcUC',
       amount: razorpayOrder.amount,
       currency: razorpayOrder.currency,
       name: 'E-commerce App',

@@ -137,7 +137,12 @@ export class CartComponent implements OnInit, OnDestroy {
           // );
         },
         error: (error: HttpErrorResponse) => {
-          this.couponsError = 'Failed to load available coupons.';
+          // this.couponsError = 'Failed to load available coupons.';
+          Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Failed to load available coupons!",
+});
           this.loadingCoupons = false;
           console.error(
             'CustomerCartComponent: Error fetching available coupons:',
@@ -146,7 +151,13 @@ export class CartComponent implements OnInit, OnDestroy {
         },
       });
     } else {
-      this.couponsError = 'Customer ID not available. Cannot load coupons.';
+      // this.couponsError = 'Customer ID not available. Cannot load coupons.';
+     Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Customer ID not available. Cannot load coupons!",
+});
+
       this.loadingCoupons = false;
     }
   }
@@ -165,7 +176,14 @@ export class CartComponent implements OnInit, OnDestroy {
       this.updateItemQuantity(item.productDetails.id, newQuantity, oldQuantity);
     } else {
       console.error('Product ID is undefined for quantity change.');
-      this.cartError = 'Error: Product ID missing for quantity update.';
+      // this.cartError = 'Error: Product ID missing for quantity update.';
+
+      Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Product ID missing for quantity update!",
+});
+      
     }
   }
 
@@ -178,7 +196,12 @@ export class CartComponent implements OnInit, OnDestroy {
       console.error(
         'Cannot update item: Product ID or Customer ID is missing.'
       );
-      this.cartError = 'Error updating item: Missing ID.';
+      // this.cartError = 'Error updating item: Missing ID.';
+       Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Error updating item: Missing ID!",
+});
       const itemToRevert = this.cart?.cartItems.find(
         (i) => i.productDetails?.id === productId
       );
@@ -203,7 +226,12 @@ export class CartComponent implements OnInit, OnDestroy {
           this.cartUpdateService.notifyCartChanged();
         },
         error: (error: HttpErrorResponse) => {
-          this.cartError = 'Failed to update quantity. Please try again.';
+          // this.cartError = 'The quantiy should not be more than stock quantity.';
+          Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "The quantiy should not be more than stock quantity!",
+});
           this.submitting = false;
           console.error(
             'CustomerCartComponent: Error updating quantity:',
@@ -235,7 +263,12 @@ export class CartComponent implements OnInit, OnDestroy {
       console.error(
         'Cannot remove item: Product ID or Customer ID is missing.'
       );
-      this.cartError = 'Error removing item: Missing ID.';
+      // this.cartError = 'Error removing item: Missing ID.';
+      Swal.fire({
+        icon:"error",
+        title:"oops..",
+        text:"Error removing item: Missing ID!"
+      });
       return;
     }
 
@@ -270,7 +303,12 @@ export class CartComponent implements OnInit, OnDestroy {
                 });
               },
               error: (error: HttpErrorResponse) => {
-                this.cartError = 'Failed to remove item. Please try again.';
+               Swal.fire({
+                icon:"error",
+                title:"ooops...",
+                text:"Failed to remove item. Please try again."
+               });
+                // this.cartError = 'Failed to remove item. Please try again.';
                 this.submitting = false;
                 console.error(
                   'CustomerCartComponent: Error removing item:',

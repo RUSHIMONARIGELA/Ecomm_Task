@@ -1,126 +1,255 @@
+/* ================================
+    Container Styling
+================================= */
 .reviews-container {
-  font-family: 'Arial', sans-serif;
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    margin-top: 2rem;
+    padding: 1.5rem 5vw; 
+    max-width: 1000px; 
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .reviews-container h3 {
-  color: #333;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 4vw, 2rem); 
 }
 
+/* ================================
+    Review Form Styling
+================================= */
 .review-form {
-  padding: 1rem;
-  background-color: #fff;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 
 .review-form h4 {
-  margin-bottom: 1rem;
-  color: #555;
+    margin-bottom: 1rem;
+    color: #555;
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem); 
 }
 
+/* ================================
+    Star Rating Styling
+================================= */
 .rating-stars {
-  font-size: 1.5rem;
-  color: #ccc;
-  cursor: pointer;
-  margin-bottom: 1rem;
+    font-size: clamp(1.2rem, 3vw, 2rem); 
+    display: flex;
+    gap: clamp(0.1rem, 0.5vw, 0.5rem); 
+    margin-bottom: 1rem;
 }
+
 
 .rating-stars .star {
-  transition: color 0.2s ease-in-out;
+    color: #e0e0e0; 
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
 }
 
-.rating-stars .star.filled,
+
+.rating-stars .star.filled {
+    color: #ffc107; 
+}
+
+
 .rating-stars .star:hover,
-.rating-stars .star:hover ~ .star {
-  color: #ffc107; /* Gold color for filled stars */
+.rating-stars .star:hover ~ .star { 
+    color: #ffdd57; 
 }
 
+
+.rating-stars:hover .star {
+  color: #ffdd57; 
+}
+.rating-stars .star:hover ~ .star {
+  color: #e0e0e0; 
+}
+.rating-stars .star.filled {
+    color: #ffc107; 
+}
+
+.rating-stars:not(:hover) .star.filled {
+    color: #ffc107;
+}
+
+
+.rating-stars .star {
+    color: #e0e0e0; 
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.rating-stars .star.filled {
+    color: #ffc107; 
+}
+
+
+.rating-stars .star {
+    color: #e0e0e0; /* Graded out / Empty */
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.rating-stars .star.filled {
+    color: #ffc107; /* Filled / Highlighted */
+}
+
+.rating-stars .star:hover {
+    color: #ffdd57; /* Lighter gold on hover for a single star */
+}
+
+.review-rating .star {
+    color: #e0e0e0; /* Graded out / Empty */
+}
+
+.review-rating .star.filled {
+    color: #ffc107; /* Filled / Highlighted */
+}
+
+/* ================================
+    Form Inputs
+================================= */
 .form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-size: clamp(0.9rem, 2.5vw, 1rem); /* Responsive font size */
 }
 
 .form-group textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
-  font-family: inherit;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: clamp(0.9rem, 2.5vw, 1rem); /* Responsive font size */
 }
 
+/* ================================
+    Submit Button
+================================= */
 .submit-button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: clamp(0.9rem, 2.5vw, 1rem); /* Responsive font size */
+    transition: background-color 0.2s;
+    width: 100%; /* Full width on small screens */
+    max-width: 200px; /* Limit width on larger screens */
+    margin-top: 1rem;
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 
+/* ================================
+    Review List Styling
+================================= */
 .review-list {
-  padding: 0;
-  list-style: none;
+    padding: 0;
+    list-style: none;
 }
 
 .review-item {
-  background-color: #fff;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 
 .review-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column; /* Stack on small screens */
+    align-items: flex-start; /* Align items to start when stacked */
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
 }
 
+/* For the review list display, these stars are not interactive */
 .review-rating {
-  font-size: 1.2rem;
-  color: #ffc107;
+    font-size: clamp(1rem, 2.8vw, 1.2rem); /* Responsive font size */
+    color: #ffc107; /* Already gold, but we ensure filled status is handled by .filled */
+    margin-bottom: 0.25rem; /* Space when stacked */
 }
 
 .review-user {
-  font-weight: bold;
-  color: #333;
+    font-weight: bold;
+    color: #333;
+    font-size: clamp(0.9rem, 2.5vw, 1rem); /* Responsive font size */
 }
 
 .review-date {
-  font-size: 0.8rem;
-  color: #999;
-  text-align: right;
-  margin-top: 0.5rem;
+    font-size: clamp(0.7rem, 2vw, 0.8rem); /* Responsive font size */
+    color: #999;
+    text-align: left; /* Align left when stacked */
+    margin-top: 0.5rem;
 }
 
 .review-text p {
-  margin: 0;
-  color: #444;
-  line-height: 1.5;
+    margin: 0;
+    color: #444;
+    line-height: 1.5;
+    font-size: clamp(0.9rem, 2.5vw, 1rem); /* Responsive font size */
 }
 
+
 .no-reviews {
-  text-align: center;
-  color: #777;
-  font-style: italic;
-  padding: 2rem;
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    padding: 2rem;
+    font-size: clamp(1rem, 3vw, 1.1rem); /* Responsive font size */
+}
+
+/* Media Queries for finer control on specific breakpoints */
+
+/* Tablets and larger phones */
+@media (min-width: 481px) and (max-width: 768px) {
+    .reviews-container {
+        padding: 1.5rem 3vw;
+    }
+    .review-header {
+        flex-direction: row; /* Keep side-by-side on tablets */
+        align-items: center;
+    }
+    .review-rating {
+        margin-bottom: 0;
+    }
+    .review-date {
+        text-align: right;
+    }
+    .submit-button {
+        width: auto; /* Auto width on tablets */
+        max-width: none;
+    }
+}
+
+/* Larger screens - reset some elements to original behavior */
+@media (min-width: 769px) {
+    .review-header {
+        flex-direction: row;
+        align-items: center;
+    }
+    .review-rating {
+        margin-bottom: 0;
+    }
+    .review-date {
+        text-align: right;
+    }
 }

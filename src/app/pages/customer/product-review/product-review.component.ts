@@ -13,8 +13,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class ProductReviewComponent {
 
-
-@Input() productId!: number;
+  @Input() productId!: number;
 
   reviews: Review[] = [];
   newReview: Review = {
@@ -33,6 +32,7 @@ export class ProductReviewComponent {
     if (this.productId) {
       this.loadReviews();
     }
+    this.newReview.username = this.authservice.getCurrentUsername() ?? 'Guest';
   }
 
   loadReviews(): void {
@@ -52,7 +52,8 @@ export class ProductReviewComponent {
       this.productService.submitReview(this.newReview).subscribe(
         (response) => {
           console.log('Review submitted successfully', response);
-          this.reviews.push(response); // Add the new review to the list
+          this.reviews.push(response);
+          // Add the new review to the list
           this.resetForm();
         },
         (error) => {
@@ -67,11 +68,12 @@ export class ProductReviewComponent {
       productId: this.productId,
       rating: 0,
       reviewText: '',
-      username: this.authservice.getCurrentUsername() ?? 'Guest' // Use the actual username or fallback to 'Guest'
+      username: this.authservice.getCurrentUsername() ?? 'Guest'
     };
   }
 
   setRating(rating: number): void {
-    this.newReview.rating = rating;
+    this.newReview.rating = Number(rating);
+    console.log('Selected Rating:', this.newReview.rating);
   }
 }

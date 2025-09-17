@@ -19,9 +19,9 @@ export class AdminProductListComponent {
   currentPage = 1;
   pageSize = 5;
   totalPages = 1;
-  errorMessage: string | null = null; // Changed to null for consistency
-  successMessage: string | null = null; // Changed to null for consistency
-  submitting = false; // FIXED: Added submitting property
+  errorMessage: string | null = null; 
+  successMessage: string | null = null; 
+  submitting = false; 
 
   private productService = inject(ProductService);
   private router = inject(Router);
@@ -90,19 +90,18 @@ export class AdminProductListComponent {
       return;
     }
 
-    // IMPORTANT: Do NOT use confirm(). Use a custom modal for user confirmation.
-    // For now, I'll keep it as is, but this should be replaced.
+    
     if (confirm('Are you sure you want to delete this product?')) {
-      this.submitting = true; // Set submitting to true
+      this.submitting = true; 
       this.productService.deleteProduct(id).subscribe({
         next: () => {
           this.successMessage = 'Product deleted successfully!';
-          this.loadProducts(); // Reload products to reflect deletion
-          this.submitting = false; // Reset submitting
+          this.loadProducts(); 
+          this.submitting = false; 
         },
         error: (error: HttpErrorResponse) => {
           this.errorMessage = 'Failed to delete product.';
-          this.submitting = false; // Reset submitting
+          this.submitting = false; 
           console.error('Error deleting product:', error);
           if (error.error && error.error.message) {
             this.errorMessage = `Failed to delete product: ${error.error.message}`;
@@ -112,9 +111,8 @@ export class AdminProductListComponent {
     }
   }
 
-  // This method is no longer used directly by a button in the HTML due to new separate buttons
-  // But keeping it for potential future use or if you adapt it for single product creation.
+  
   navigateToCreate(): void {
-    this.router.navigate(['/admin/products/create']); // Navigates to single product creation form
+    this.router.navigate(['/admin/products/create']); 
   }
 }

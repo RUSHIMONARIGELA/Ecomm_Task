@@ -1,86 +1,63 @@
-/* General body and container styling */
-body {
-  background-color: #f8f9fa;
-  color: #343a40;
+/* Base Styles */
+:root {
+  --bs-body-bg: #f8f9fa;
+  --bs-primary: #4a5568;
+  --bs-success: #22c55e;
+  --bs-text-muted: #6b7280;
 }
 
-.container {
-  max-width: 1200px;
-}
-
-/* Card and image styling */
+/* Card */
 .card {
-  border: none;
-  border-radius: 1rem;
+  border-radius: 1rem !important;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08) !important;
 }
 
-.img-fluid {
-  transition: transform 0.3s ease-in-out;
+/* Buttons */
+.btn-white {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+  transition: all 0.2s;
 }
-
-/* Product image container for button positioning */
-.position-relative {
-  height: auto;
-  min-height: 400px;
-}
-
-/* Image navigation buttons */
-.btn-light {
-  border-color: #dee2e6;
-  color: #6c757d;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.btn-light:hover {
-  background-color: #e2e6ea;
-  border-color: #dae0e5;
-  color: #495057;
+.btn-white:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
   transform: scale(1.05);
 }
-
-.btn-light:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* Thumbnail styling */
-.img-thumbnail {
-  border-radius: 0.5rem;
-  border: 3px solid transparent;
-  transition: border-color 0.2s ease-in-out;
-}
-
-.img-thumbnail:hover {
-  border-color: #adb5bd;
-}
-
-/* Active thumbnail border */
-.img-thumbnail.border-primary {
-  border-color: #0d6efd !important;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-}
-
-/* Product details section styling */
-.text-primary {
-  color: #0d6efd !important;
-}
-
-.text-success {
-  color: #198754 !important;
-}
-
-.badge {
-  font-size: 0.8em;
-  padding: 0.5em 0.8em;
-  border-radius: 1rem;
-}
-
-.form-control {
-  border-radius: 0.5rem;
-}
-
 .btn-primary {
-  border-radius: 0.75rem;
+  background: #3b82f6;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* Thumbnails */
+.img-thumbnail {
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+.img-thumbnail:hover {
+  border-color: #e5e7eb;
+}
+.img-thumbnail.border-primary {
+  border-color: #3b82f6 !important;
+}
+
+/* Input */
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vh-50 {
+    height: 30vh;
+  }
+  .card {
+    margin-top: 2rem;
+  }
 }

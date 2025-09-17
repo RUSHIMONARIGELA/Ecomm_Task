@@ -70,7 +70,6 @@ export class ProfileComponent implements OnInit {
             ];
           }
           Swal.fire("Existing profile loaded..");
-          // this.successMessage = 'Existing profile loaded.';
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 404) {
@@ -79,7 +78,6 @@ export class ProfileComponent implements OnInit {
   title: "Oops...",
   text: "No existing profile found. Please create one.",
 });
-            // this.errorMessage = 'No existing profile found. Please create one.';
             if (
               !this.profile.addresses ||
               this.profile.addresses.length === 0
@@ -101,7 +99,6 @@ export class ProfileComponent implements OnInit {
   title: "Oops...",
   text: "Failed to load profile. Pleasetry again.",
 });
-            // this.errorMessage = 'Failed to load profile. Please try again.';
             console.error('Error loading profile:', error);
           }
         },
@@ -119,7 +116,6 @@ export class ProfileComponent implements OnInit {
   title: "Oops...",
   text: "Customer ID is mising. Cannot save profile.",
 });
-      // this.errorMessage = 'Customer ID is missing. Cannot save profile.';
       return;
     }
 
@@ -150,7 +146,6 @@ export class ProfileComponent implements OnInit {
   text: "Profile and address saved successfully!",
   icon: "success"
 });
-          // this.successMessage = 'Profile and address saved successfully!';
           this.loading = false;
           console.log('Profile saved:', response);
           this.router.navigate(['/home']);
@@ -168,7 +163,6 @@ export class ProfileComponent implements OnInit {
   text: "Failed to save profile.please try again.",
 });
             
-            // this.errorMessage = 'Failed to save profile. Please try again.';
           }
         },
       });
@@ -189,7 +183,6 @@ export class ProfileComponent implements OnInit {
     if (this.profile.addresses.length > 1) {
       this.profile.addresses.splice(index, 1);
     } else {
-      // this.errorMessage = 'At least one address is required.';
       Swal.fire({
   icon: "error",
   title: "Oops...",

@@ -122,8 +122,9 @@
                     >
                       View Full Details
                     </button>
-                    <!-- New Invoice Download Button -->
+                    <!-- Show Download Invoice button only if status is PAID or DELIVERED -->
                     <button
+                      *ngIf="order.status === 'PAID' || order.status === 'DELIVERED'"
                       class="btn btn-success btn-sm"
                       [disabled]="invoiceStatus.downloadingId === order.id"
                       (click)="downloadInvoice(order.id)"

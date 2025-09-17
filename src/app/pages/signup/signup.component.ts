@@ -128,14 +128,11 @@ export class SignupComponent {
       .subscribe({
         next: (response) => {
 
-          // this.successMessage = 'Registration successful! You can now log in.';
-          // console.log('Full signup successful:', response);
           Swal.fire({
   title: "Good job!",
   text: "Registration successful! You can now login..",
   icon: "success"
 });
-          // alert("Registration successful! You can now log in.");
           this.loading = false;
           this.router.navigate(['/login']);
         },

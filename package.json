@@ -20,6 +20,7 @@
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@popperjs/core": "^2.11.8",
     "@sweetalert2/ngx-sweetalert2": "^14.0.0",
+    "@zxing/ngx-scanner": "^20.0.0",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
     "rxjs": "~7.8.0",
